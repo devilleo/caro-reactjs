@@ -1,4 +1,5 @@
-import { changeTurn } from "./actions/index";
+import { changeTurn, stopGame, draw } from "./actions/index";
+import { IS_PLAYING, TURN } from "./actions/actionType";
 
 const isOver = (arr, index, value) => {
   let count = 1;
@@ -243,10 +244,20 @@ export default store => next => action => {
       const { square } = store.getState();
       if (square[action.id] === 0) {
         store.dispatch(changeTurn());
-        if (isOver(square, action.id, action.turn ? 1 : 2))
-          console.log("game over");
+        const arrDraw = isOver(square, action.id, action.turn ? 1 : 2);
+        if (arrDraw) {
+          store.dispatch(draw(arrDraw, action.turn));
+          store.dispatch(stopGame());
+        }
+        else
         next(action);
       }
+      break;
+    }
+    case IS_PLAYING.START: {
+      store.dispatch({ type: "RESET_SQUARE" });
+      store.dispatch({ type: TURN.RESET });
+      next(action);
       break;
     }
     default:

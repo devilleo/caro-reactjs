@@ -15,7 +15,7 @@ const Square = ({ onClick, id, value }) => {
       onClick={onClick}
       id={id}
       className={`square btn btn-sm ${valueSquare[value][1]}`}
-      style={{ color: value === 1 ? "red" : "blue" }}
+      style={{ color: (value === 1 || value === 3) ? "red" : "blue" }}
     >
       {valueSquare[value][0]}
     </button>

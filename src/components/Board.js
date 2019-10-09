@@ -1,12 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Square from "./Square";
 import "../App.css";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 const Board = props => {
-  const { square, turn, toggleSquare } = props;
-  console.log(props);
+  const { square, turn, isPlaying, toggleSquare, clickRestartGame } = props;
   let arrFather = [];
   for (let i = 0; i < 20; i += 1) {
     let arr = [];
@@ -31,7 +29,7 @@ const Board = props => {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-md-8 board-area">
+        <div id={isPlaying ? '' : 'disabledbutton'} className="col-md-8 board-area">
           <div className="board">{arrFather}</div>
         </div>
         <div className="col-md-4" id="toolbar">
@@ -40,10 +38,11 @@ const Board = props => {
             <h1>Caro VN</h1>
           </div>
           <div>
-            <div>Lượt chơi: </div>
+            {isPlaying? <h2>Lượt chơi: {turn? "X":"O"}</h2>: <h2>{!turn? "X win":"O win"}</h2>}
+            
           </div>
           <br />
-          <button type="button" className="btn btn-success">
+          <button type="button" className="btn btn-success" onClick={()=>clickRestartGame()}>
             Chơi lại
           </button>
         </div>

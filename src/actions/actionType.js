@@ -1,4 +1,9 @@
 export const TURN = {
-  CHANGE: "chane",
-  SET: "ghhg"
+  CHANGE: "change",
+  RESET: "reset"
+};
+
+export const IS_PLAYING = {
+  STOP: "stop",
+  START: "start"
 };

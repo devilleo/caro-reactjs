@@ -55,10 +55,6 @@ class Board extends React.Component {
     callbackFromParent(this.state, true, whoNextVarForPassing,newHistory);
     const arrTemp = this.isOver(index, newArr[index]);
     if (arrTemp !== false) {
-      // arrTemp.forEach((i)=>{
-      //   newArr[arrTemp[i]] = whoNext? 3:4;
-      //   console.log(i);
-      // })
       for(let j=0; j<arrTemp.length; j+=1){
         newArr[arrTemp[j]] = whoNext? 3:4;
       }
