@@ -22,3 +22,8 @@ export const draw = (arrDraw, turn) => ({
   arrDraw,
   turn
 })
+
+export const toggleHistory = (idHistory) => ({
+  type: "TOGGLE_HISTORY",
+  idHistory,
+})

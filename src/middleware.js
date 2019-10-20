@@ -238,6 +238,7 @@ const isOver = (arr, index, value) => {
   if (count > 5) return indexDrawArrs;
   return false;
 };
+
 export default store => next => action => {
   switch (action.type) {
     case "TOGGLE_SQUARE": {
@@ -247,6 +248,7 @@ export default store => next => action => {
         const arrDraw = isOver(square, action.id, action.turn ? 1 : 2);
         if (arrDraw) {
           store.dispatch(draw(arrDraw, action.turn));
+          store.dispatch({ type: "THE_LAST_UPDATE_IN_HISTORY_BEFORE_END_GAME" })
           store.dispatch(stopGame());
         }
         else
@@ -257,9 +259,29 @@ export default store => next => action => {
     case IS_PLAYING.START: {
       store.dispatch({ type: "RESET_SQUARE" });
       store.dispatch({ type: TURN.RESET });
+      store.dispatch({ type: "RESET_HISTORY"});
       next(action);
       break;
     }
+    case "TOGGLE_HISTORY": {
+      const {history} = store.getState();
+      const historyForChange = history[0][action.idHistory][0].slice();
+      // console.log(action.idHistory)
+      // console.log(historyForChange)
+      store.dispatch({
+        type: "BACK_TO_HISTORY",
+        historyForChange
+      })
+
+      const turn = !history[0][action.idHistory][1];
+      store.dispatch({
+        type: "TURN_IN_HISTORY",
+        turn
+      })
+      next(action)
+      break;
+    }
+
     default:
       next(action);
   }

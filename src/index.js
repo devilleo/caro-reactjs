@@ -17,13 +17,13 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import rootReducer from "./reducers";
 import middleware from "./middleware";
-import Board from "./containers/ShowBoard";
+import Game from "./containers/ShowGame";
 
 const store = createStore(rootReducer, applyMiddleware(middleware));
 
 render(
   <Provider store={store}>
-    <Board />
+    <Game />
   </Provider>,
   document.getElementById("root")
 );

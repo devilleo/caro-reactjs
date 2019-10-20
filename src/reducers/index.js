@@ -1,8 +1,9 @@
 import { combineReducers } from "redux";
-import { square, turn, isPlaying } from "./allReducers";
+import { square, turn, isPlaying, history } from "./allReducers";
 
 export default combineReducers({
   square,
   turn,
-  isPlaying
+  isPlaying,
+  history
 });
