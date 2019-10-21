@@ -1,4 +1,4 @@
-import { TURN, IS_PLAYING } from "./actionType";
+import { TURN, IS_PLAYING, HISTORY_SORT } from "./actionType";
 export const toggleSquare = (id, turn) => ({
   type: "TOGGLE_SQUARE",
   id,
@@ -8,6 +8,10 @@ export const toggleSquare = (id, turn) => ({
 export const changeTurn = () => ({
   type: TURN.CHANGE
 });
+
+export const changeSortHistory = () => ({
+    type: HISTORY_SORT.CHANGE
+})
 
 export const stopGame = () => ({
   type: IS_PLAYING.STOP

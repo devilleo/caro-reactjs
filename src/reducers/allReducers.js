@@ -1,4 +1,4 @@
-import { TURN, IS_PLAYING } from "../actions/actionType";
+import { TURN, IS_PLAYING, HISTORY_SORT } from "../actions/actionType";
 
 export const square = (state = Array(400).fill(0), action) => {
   switch (action.type) {
@@ -28,20 +28,30 @@ export const square = (state = Array(400).fill(0), action) => {
 };
 
 export const turn = (state = true, action) => {
-  switch (action.type) {
-    case TURN.CHANGE: {
-      return !state;
+    switch (action.type) {
+        case TURN.CHANGE: {
+        return !state;
+        }
+        case TURN.RESET: {
+        return true
+        }
+        case "TURN_IN_HISTORY":{
+        return action.turn
+        }
+        default:
+        return state;
     }
-    case TURN.RESET: {
-      return true
-    }
-    case "TURN_IN_HISTORY":{
-      return action.turn
-    }
-    default:
-      return state;
-  }
 };
+
+export const sortTypeHistory = (state = true, action) => {
+    switch (action.type) {
+        case HISTORY_SORT.CHANGE: {
+            return !state;
+        }
+        default: 
+            return state;
+    }
+}
 
 export const isPlaying = (state = true, action) => {
   switch (action.type) {

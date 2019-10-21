@@ -96,7 +96,8 @@
 .list-group-history{
   max-height: 250px !important;
   margin-bottom: 10px !important;
-  overflow:scroll !important;
+  overflow-y:scroll !important;
+  overflow-x: hidden !important;
 }
 
 ul.kha {
