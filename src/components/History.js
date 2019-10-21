@@ -10,7 +10,7 @@ const History = ({props}) => {
   for (let i = 0; i < history[0].length; i += 1) {
     toadoX = history[0][i][2] % 20;
     toadoY = parseInt(history[0][i][2] / 20, 10);
-    const element = [<li key={i}>
+    const element = (<li key={i}>
         <button
           className={
             i===history[2] ? 'list-group-item btn-in-li active' : 'list-group-item btn-in-li'
@@ -22,7 +22,7 @@ const History = ({props}) => {
         >
           Lượt {i + 1}: [{toadoY},{toadoX}]
         </button>
-      </li>]
+      </li>);
     if (sortTypeHistory)
         arr.push(
         element
