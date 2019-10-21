@@ -74,7 +74,7 @@ export const history = (state = [ [], Array(400).fill(0), 0], action) => {
       let newHistory = [stateClone[1].slice(),action.turn,action.id];
       stateClone[0].push(newHistory);
       stateClone[2] = stateClone[0].length - 1;
-      console.log(newHistory[0])
+    //   console.log(newHistory[0])
       return stateClone;
     }
     case "TOGGLE_HISTORY":{
@@ -89,7 +89,10 @@ export const history = (state = [ [], Array(400).fill(0), 0], action) => {
     }
     case "THE_LAST_UPDATE_IN_HISTORY_BEFORE_END_GAME":{
       let stateClone = state.slice();
-      stateClone[1][action.id] = action.turn? 1:2;
+      stateClone[1][action.id] = action.turn? 3:4;
+      action.arrDraw.forEach(element => {
+        stateClone[1][element] = action.turn? 3:4;
+      });
       let newHistory = [stateClone[1].slice(),action.turn,action.id];
       stateClone[0].push(newHistory);
       stateClone[2] = stateClone[0].length - 1;
