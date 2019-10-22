@@ -18,12 +18,12 @@ import { createStore, applyMiddleware } from "redux";
 import rootReducer from "./reducers";
 import middleware from "./middleware";
 import ShowGame from "./containers/ShowGame";
-
+import App from './components/App'
 const store = createStore(rootReducer, applyMiddleware(middleware));
 
 render(
   <Provider store={store}>
-    <ShowGame />
+    <App />
   </Provider>,
   document.getElementById("root")
 );
