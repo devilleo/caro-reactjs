@@ -13,7 +13,7 @@ import {
 import Login from './LoginComponent/Login'
 import Register from './RegisterComponent/Register'
 import Homepage from './HomepageComponent/Homepage'
-
+import ShowGame from '../containers/ShowGame'
 
 const App = props => {
     return (
@@ -30,6 +30,9 @@ const App = props => {
                         <li>
                             <Link to="/register">Register</Link>
                         </li>
+                        <li>
+                            <Link to="/game">Play game</Link>
+                        </li>
                     </ul>
                 </nav>
 
@@ -41,6 +44,9 @@ const App = props => {
                     </Route>
                     <Route path="/register">
                         <Register props={props}/>
+                    </Route>
+                    <Route path="/game">
+                        <ShowGame props={props}/>
                     </Route>
                      <Route path="/">
                         <Homepage props={props}/>
