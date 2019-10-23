@@ -1,7 +1,13 @@
-import React from 'react';
+import React from "react";
+import {Button} from "react-bootstrap";
 
 function Homepage() {
-    return <h2>Homepage</h2>;
+  return (
+    <div>
+      <h3>Chào xxxxxxx</h3>
+      <Button variant="secondary">Đăng xuất</Button>
+    </div>
+  );
 }
 
 export default Homepage;

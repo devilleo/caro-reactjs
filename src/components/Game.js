@@ -1,6 +1,4 @@
 import React from "react";
-import "../App.css";
-import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import Board from "./Board";
 import Toolbar from "./Toolbar"
 

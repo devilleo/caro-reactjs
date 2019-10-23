@@ -1,4 +1,8 @@
 import React from "react";
+
+import "../App.css";
+import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
 import {
     BrowserRouter as Router,
     Switch,
@@ -9,6 +13,7 @@ import {
 import Login from './LoginComponent/Login'
 import Register from './RegisterComponent/Register'
 import Homepage from './HomepageComponent/Homepage'
+
 
 export default function App() {
     return (
