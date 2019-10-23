@@ -40,7 +40,7 @@ const App = props => {
                         <Login props={props}/>
                     </Route>
                     <Route path="/register">
-                        <Register />
+                        <Register props={props}/>
                     </Route>
                      <Route path="/">
                         <Homepage props={props}/>

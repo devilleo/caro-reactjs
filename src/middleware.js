@@ -4,7 +4,12 @@ import {
   setLoginSuccess,
   setLoginError
 } from "./actions/login_actions";
-import { IS_PLAYING, TURN, LOGIN } from "./actions/actionType";
+import {
+  setRegisterPending,
+  setRegisterSuccess,
+  setRegisterError
+} from "./actions/register_action";
+import { IS_PLAYING, TURN, LOGIN, REGISTER } from "./actions/actionType";
 import { removeState } from "./localStorage/localStorage";
 
 // condition for stop a game
@@ -251,6 +256,11 @@ const isOver = (arr, index, value) => {
 
 // }
 
+function validateEmail(email) {
+  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
+}
+
 export default store => next => action => {
   switch (action.type) {
     case "TOGGLE_SQUARE": {
@@ -358,6 +368,62 @@ export default store => next => action => {
       store.dispatch(setLoginSuccess(false));
       removeState();
       next(action);
+      break;
+    }
+    case REGISTER.SUBMIT: {
+      store.dispatch(setRegisterPending(true));
+      store.dispatch(setRegisterSuccess(false));
+      store.dispatch(setRegisterError(null));
+      const { register } = store.getState();
+      // console.log(register)
+      if(!validateEmail(register.email)){
+        store.dispatch(setRegisterError(new Error("Email is not valid.")))
+        store.dispatch(setRegisterPending(false))
+        store.dispatch(setRegisterSuccess(false))
+        return;
+      }
+      if (register.password !== register.passwordConfirm)
+      {
+        store.dispatch(setRegisterError(new Error("Password Confirm doesn't match.")))
+        store.dispatch(setRegisterPending(false))
+        store.dispatch(setRegisterSuccess(false))
+        return;
+      }
+      if (register.password.length < 6)
+      {
+        store.dispatch(setRegisterError(new Error("Password must be more than 6 characters.")))
+        store.dispatch(setRegisterPending(false))
+        store.dispatch(setRegisterSuccess(false))
+        return;
+      }
+      setTimeout(() => {
+        fetch("https://restful-api-nodejs-1612278.herokuapp.com/users/register", {
+          method: "POST",
+          headers: new Headers({
+            "Content-Type": "application/x-www-form-urlencoded" // <-- Specifying the Content-Type
+          }),
+          body: "email=" + register.email + "&password=" + register.password
+          // mode: "no-cors"
+        })
+          .then(response => response.json())
+          .then(response => {
+            store.dispatch(setRegisterPending(false));
+            if (response.message !== "Failed to create new User, Email has been registed before.") {
+              store.dispatch(setRegisterSuccess(true));
+              console.log("register success")
+              store.dispatch(setRegisterError(null))
+              next(action)
+            } else {
+              console.log(response.message)
+              var error = response.message
+              store.dispatch(setRegisterError(new Error(error)));
+              store.dispatch({
+                type: "REGISTER_FAILED"
+              })
+            };
+          })
+          .catch(error => {});
+      }, 1000);
       break;
     }
     default:

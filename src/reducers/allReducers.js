@@ -3,7 +3,9 @@ import {
   IS_PLAYING,
   HISTORY_SORT,
   LOGIN_STATE,
-  LOGIN
+  LOGIN,
+  REGISTER_STATE,
+  REGISTER
 } from "../actions/actionType";
 
 export const square = (state = Array(400).fill(0), action) => {
@@ -188,6 +190,60 @@ export const login_state = (
         loginError: action.isLoginError
       });
 
+    default:
+      return state;
+  }
+};
+
+export const register = (
+  state = { email: "", password: "", passwordConfirm: ""},
+  action
+) => {
+  switch (action.type) {
+    case REGISTER.EMAIL_REGISTER_ONCHANGE: {
+      return Object.assign({}, state, { email: action.email });
+    }
+    case REGISTER.PASSWORD_REGISTER_ONCHANGE: {
+      return Object.assign({}, state, { password: action.password });
+    }
+    case REGISTER.PASSWORD_CONFIRM_REGISTER_ONCHANGE: {
+      return Object.assign({}, state, { passwordConfirm: action.passwordConfirm });
+    }
+    case REGISTER.SUBMIT: {
+      console.log("Register Successful");
+      return { email: "", password: "", passwordConfirm: ""};
+    }
+    case "REGISTER_FAILED": {
+      return state;
+    }
+
+    default:
+      return state;
+  }
+};
+
+export const register_state = (
+  state = {
+    isRegisterSuccess: false,
+    isRegisterPending: false,
+    registernError: null
+  },
+  action
+) => {
+  switch (action.type) {
+    case REGISTER_STATE.PENDING: {
+      return Object.assign({}, state, {
+        isRegisterPending: action.isRegisterPending
+      });
+    }
+    case REGISTER_STATE.SUCCESS:
+      return Object.assign({}, state, {
+        isRegisterSuccess: action.isRegisterSuccess
+      });
+    case REGISTER_STATE.ERROR:
+      return Object.assign({}, state, {
+        registerError: action.isRegisterError
+      })
     default:
       return state;
   }
