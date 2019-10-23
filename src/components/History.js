@@ -5,7 +5,6 @@ const History = ({props}) => {
   let toadoX = 0;
   let toadoY = 0;
   const { history, toggleHistory, sortTypeHistory } = props;
-  console.log(sortTypeHistory)
 
   for (let i = 0; i < history[0].length; i += 1) {
     toadoX = history[0][i][2] % 20;

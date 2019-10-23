@@ -17,13 +17,27 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import rootReducer from "./reducers";
 import middleware from "./middleware";
+import thunk from "redux-thunk";
+import { loadState, saveState } from "./localStorage/localStorage";
 // import ShowGame from "./containers/ShowGame";
-import App from './components/App'
-const store = createStore(rootReducer, applyMiddleware(middleware));
+// import App from './components/App'
+import AppContainer from "./containers/AppContainer";
+
+const persistedState = loadState();
+
+const store = createStore(
+  rootReducer,
+  persistedState,
+  applyMiddleware(middleware, thunk)
+);
+
+store.subscribe(() => {
+  saveState(store.getState());
+})
 
 render(
   <Provider store={store}>
-    <App />
+    <AppContainer />
   </Provider>,
   document.getElementById("root")
 );

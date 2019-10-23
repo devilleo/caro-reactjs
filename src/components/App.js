@@ -15,7 +15,7 @@ import Register from './RegisterComponent/Register'
 import Homepage from './HomepageComponent/Homepage'
 
 
-export default function App() {
+const App = props => {
     return (
         <Router>
             <div>
@@ -37,17 +37,19 @@ export default function App() {
             renders the first one that matches the current URL. */}
                 <Switch>
                     <Route path="/login">
-                        <Login />
+                        <Login props={props}/>
                     </Route>
                     <Route path="/register">
                         <Register />
                     </Route>
                      <Route path="/">
-                        <Homepage />
+                        <Homepage props={props}/>
                     </Route>
                 </Switch>
             </div>
         </Router>
     );
 }
+
+export default App;
 

@@ -1,6 +1,13 @@
 import { changeTurn, stopGame, draw } from "./actions/index";
-import { IS_PLAYING, TURN } from "./actions/actionType";
+import {
+  setLoginPending,
+  setLoginSuccess,
+  setLoginError
+} from "./actions/login_actions";
+import { IS_PLAYING, TURN, LOGIN } from "./actions/actionType";
+import { removeState } from "./localStorage/localStorage";
 
+// condition for stop a game
 const isOver = (arr, index, value) => {
   let count = 1;
   let increase = index;
@@ -239,6 +246,11 @@ const isOver = (arr, index, value) => {
   return false;
 };
 
+// api login
+// function callLoginApi(email, password, callback) {
+
+// }
+
 export default store => next => action => {
   switch (action.type) {
     case "TOGGLE_SQUARE": {
@@ -247,7 +259,6 @@ export default store => next => action => {
         store.dispatch(changeTurn());
         const arrDraw = isOver(square, action.id, action.turn ? 1 : 2);
         if (arrDraw) {
-            console.log("action id middle: ",action.id)
           store.dispatch(draw(arrDraw, action.turn));
           store.dispatch({
             type: "THE_LAST_UPDATE_IN_HISTORY_BEFORE_END_GAME",
@@ -287,6 +298,68 @@ export default store => next => action => {
       break;
     }
 
+    case LOGIN.SUBMIT: {
+      store.dispatch(setLoginPending(true));
+      store.dispatch(setLoginSuccess(false));
+      store.dispatch(setLoginError(null));
+      const { login } = store.getState();
+      // callLoginApi(login.email, login.password, (error, response) => {
+      //   store.dispatch(setLoginPending(false));
+      //   console.log(error)
+      //   if (!error) {
+      //     console.log("vao day")
+      //     store.dispatch(setLoginSuccess(true));
+      //     store.dispatch({
+      //       type: "Login_Success",
+      //       email: login.email,
+      //       token: response.token
+      //     });
+      //     next(action);
+      //   } else {
+      //     console.log("log in loi mat roi huhu")
+      //     store.dispatch(setLoginError(error));
+      //   }
+      // });
+      setTimeout(() => {
+        fetch("https://restful-api-nodejs-1612278.herokuapp.com/users/login", {
+          method: "POST",
+          headers: new Headers({
+            "Content-Type": "application/x-www-form-urlencoded" // <-- Specifying the Content-Type
+          }),
+          body: "email=" + login.email + "&password=" + login.password
+          // mode: "no-cors"
+        })
+          .then(response => response.json())
+          .then(response => {
+            store.dispatch(setLoginPending(false));
+            if (response.message !== "Login failed") {
+              store.dispatch(setLoginSuccess(true));
+              store.dispatch({
+                type: "LOGIN_SUCCESS",
+                email: login.email,
+                token: response.token
+              });
+              console.log("Login success");
+
+              console.log(store.getState());
+            } else {
+              console.log(response.message)
+              store.dispatch(setLoginError(new Error("Invalid email or password")));
+              store.dispatch({
+                type: "LOGIN_FAILED"
+              })
+            };
+          })
+          .catch(error => {});
+      }, 3000);
+      break;
+    }
+    case "LOG_OUT": {
+      store.dispatch(setLoginSuccess(false));
+      removeState();
+      next(action);
+      break;
+    }
     default:
       next(action);
   }
