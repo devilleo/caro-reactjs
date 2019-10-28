@@ -37,3 +37,12 @@ export const REGISTER = {
   PASSWORD_REGISTER_ONCHANGE: "Password_Register_Onchange",
   PASSWORD_CONFIRM_REGISTER_ONCHANGE: "Password_Confirm_Register_Onchange",
 }
+
+export const LOGIN_MODAL = {
+    OPEN: "Login_Modal_Open",
+    CLOSE: "Login_Modal_Close",
+}
+
+export const HANDLE_CLICK = {
+    LOG_OUT: "Log out action"
+}

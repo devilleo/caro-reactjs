@@ -2,15 +2,16 @@ import { changeTurn, stopGame, draw } from "./actions/index";
 import {
   setLoginPending,
   setLoginSuccess,
-  setLoginError
+  setLoginError,
+  LoginModalClose
 } from "./actions/login_actions";
 import {
   setRegisterPending,
   setRegisterSuccess,
   setRegisterError
 } from "./actions/register_action";
-import { IS_PLAYING, TURN, LOGIN, REGISTER } from "./actions/actionType";
-import { removeState } from "./localStorage/localStorage";
+import { IS_PLAYING, TURN, LOGIN, REGISTER, HANDLE_CLICK } from "./actions/actionType";
+// import { removeState } from "./localStorage/localStorage";
 
 // condition for stop a game
 const isOver = (arr, index, value) => {
@@ -255,8 +256,8 @@ const isOver = (arr, index, value) => {
 // function callLoginApi(email, password, callback) {
 
 // }
-
 function validateEmail(email) {
+  // eslint-disable-next-line 
   var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(email);
 }
@@ -313,23 +314,12 @@ export default store => next => action => {
       store.dispatch(setLoginSuccess(false));
       store.dispatch(setLoginError(null));
       const { login } = store.getState();
-      // callLoginApi(login.email, login.password, (error, response) => {
-      //   store.dispatch(setLoginPending(false));
-      //   console.log(error)
-      //   if (!error) {
-      //     console.log("vao day")
-      //     store.dispatch(setLoginSuccess(true));
-      //     store.dispatch({
-      //       type: "Login_Success",
-      //       email: login.email,
-      //       token: response.token
-      //     });
-      //     next(action);
-      //   } else {
-      //     console.log("log in loi mat roi huhu")
-      //     store.dispatch(setLoginError(error));
-      //   }
-      // });
+      if(!validateEmail(login.email)){
+        store.dispatch(setLoginError(new Error("Email is not valid.")))
+        store.dispatch(setLoginPending(false))
+        store.dispatch(setLoginSuccess(false))
+        return;
+      }
       setTimeout(() => {
         fetch("https://restful-api-nodejs-1612278.herokuapp.com/users/login", {
           method: "POST",
@@ -342,19 +332,19 @@ export default store => next => action => {
           .then(response => response.json())
           .then(response => {
             store.dispatch(setLoginPending(false));
-            if (response.message !== "Login failed") {
+            console.log(response)
+            if (response.user !== false) {
               store.dispatch(setLoginSuccess(true));
               store.dispatch({
                 type: "LOGIN_SUCCESS",
                 email: login.email,
                 token: response.token
               });
+              store.dispatch(LoginModalClose())
               console.log("Login success");
-
               console.log(store.getState());
             } else {
-              console.log(response.message)
-              store.dispatch(setLoginError(new Error("Invalid email or password")));
+              store.dispatch(setLoginError(new Error("Incorrect email or password.")));
               store.dispatch({
                 type: "LOGIN_FAILED"
               })
@@ -364,9 +354,9 @@ export default store => next => action => {
       }, 3000);
       break;
     }
-    case "LOG_OUT": {
+    case HANDLE_CLICK.LOG_OUT: {
       store.dispatch(setLoginSuccess(false));
-      removeState();
+    //   removeState();
       next(action);
       break;
     }
