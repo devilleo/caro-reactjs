@@ -3,6 +3,9 @@ import React from "react";
 import "../App.css";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
+import Navbar from 'react-bootstrap/Navbar'
+import Nav from 'react-bootstrap/Nav'
+import NavDropdown from 'react-bootstrap/NavDropdown'
 import {
     BrowserRouter as Router,
     Switch,
@@ -18,24 +21,26 @@ import ShowGame from '../containers/ShowGame'
 const App = props => {
     return (
         <Router>
+            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+            <Navbar.Brand>Caro Game By Kha</Navbar.Brand>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+                <Nav className="mr-auto">
+                <Nav.Link><Link to="/">Homepage</Link></Nav.Link>
+                <NavDropdown title="Game" id="collasible-nav-dropdown">
+                    <NavDropdown.Item><Link to="/game">Play 2vs2 offline</Link></NavDropdown.Item>
+                    <NavDropdown.Item><Link to="">Play online</Link></NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item><Link to="/game">Fight for AI</Link></NavDropdown.Item>
+                </NavDropdown>
+                </Nav>
+                <Nav>
+                <Nav.Link><Link to="/login">Login</Link></Nav.Link>
+                <Nav.Link><Link to="/register">Register</Link></Nav.Link>
+                </Nav>
+            </Navbar.Collapse>
+            </Navbar>
             <div>
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to="/">Homepage</Link>
-                        </li>
-                        <li>
-                            <Link to="/login">Login</Link>
-                        </li>
-                        <li>
-                            <Link to="/register">Register</Link>
-                        </li>
-                        <li>
-                            <Link to="/game">Play game</Link>
-                        </li>
-                    </ul>
-                </nav>
-
                 {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
                 <Switch>
