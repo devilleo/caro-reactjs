@@ -215,6 +215,16 @@ export const login_state = (
             loginError: null
         };
     }
+    case LOGIN.EMAIL_ONCHANGE: {
+      return Object.assign({},state,{
+        loginError:null
+      })
+    }
+    case LOGIN.PASSWORD_ONCHANGE: {
+      return Object.assign({},state,{
+        loginError:null
+      })
+    }
     default:
       return state;
   }

@@ -110,3 +110,19 @@ ul.kha > li {
 .btn-in-li{
   width: 100%;
 }
+
+/* login modal area */
+.loginModal{
+  background-image: url('./img/background-login.jpg');
+  background-size: cover;
+}
+.loginForm{
+  margin: 10%;
+}
+
+.imgGoogle, .imgFacebook{
+  height: 35%;
+  width: 35%;
+  /* max-width: 100%;
+  max-height: 100%; */
+}

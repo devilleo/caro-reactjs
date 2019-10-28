@@ -262,6 +262,11 @@ function validateEmail(email) {
   return re.test(email);
 }
 
+function validatePassword(password){
+  if (password.length < 6) return "the password must be more then 6 characters."
+  return "";
+}
+
 export default store => next => action => {
   switch (action.type) {
     case "TOGGLE_SQUARE": {
@@ -320,6 +325,13 @@ export default store => next => action => {
         store.dispatch(setLoginSuccess(false))
         return;
       }
+      var validatePassLogin = validatePassword(login.password)
+      if(validatePassLogin !== ""){
+        store.dispatch(setLoginError(new Error(validatePassLogin)))
+        store.dispatch(setLoginPending(false))
+        store.dispatch(setLoginSuccess(false))
+        return;
+      }
       setTimeout(() => {
         fetch("https://restful-api-nodejs-1612278.herokuapp.com/users/login", {
           method: "POST",
@@ -372,16 +384,16 @@ export default store => next => action => {
         store.dispatch(setRegisterSuccess(false))
         return;
       }
-      if (register.password !== register.passwordConfirm)
-      {
-        store.dispatch(setRegisterError(new Error("Password Confirm doesn't match.")))
+      var validatePassRegister = validatePassword(register.password)
+      if (validatePassRegister!==""){
+        store.dispatch(setRegisterError(new Error(validatePassRegister)))
         store.dispatch(setRegisterPending(false))
         store.dispatch(setRegisterSuccess(false))
         return;
       }
-      if (register.password.length < 6)
+      if (register.password !== register.passwordConfirm)
       {
-        store.dispatch(setRegisterError(new Error("Password must be more than 6 characters.")))
+        store.dispatch(setRegisterError(new Error("Password Confirm doesn't match.")))
         store.dispatch(setRegisterPending(false))
         store.dispatch(setRegisterSuccess(false))
         return;
