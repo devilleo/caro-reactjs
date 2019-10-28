@@ -9,6 +9,7 @@ const mapStateToProps = state => ({
   login_state: state.login_state,
   register: state.register,
   register_state: state.register_state,
+  login_modal: state.login_modal,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -20,8 +21,8 @@ const mapDispatchToProps = dispatch => ({
   emailRegisterOnchange: (email) => dispatch(emailRegisterOnchange(email)),
   passwordRegisterOnchange: (password) => dispatch(passwordRegisterOnchange(password)),
   passwordConfirmRegisterOnchange: (passwordConfirm) => dispatch(passwordConfirmRegisterOnchange(passwordConfirm)),
-  LoginModalOpen: () => dispatch(LoginModalOpen),
-  LoginModalClose: () => dispatch(LoginModalClose),
+  LoginModalOpen: () => dispatch(LoginModalOpen()),
+  LoginModalClose: () => dispatch(LoginModalClose()),
 });
 
 export default connect(

@@ -19,6 +19,7 @@ import Homepage from './HomepageComponent/Homepage'
 import ShowGame from '../containers/ShowGame'
 
 const App = props => {
+    const {LoginModalOpen} = props
     return (
         <Router>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -29,17 +30,18 @@ const App = props => {
                         <Nav.Link as={Link} to="/">Homepage</Nav.Link>
                         <NavDropdown title="Game" id="collasible-nav-dropdown">
                             <NavDropdown.Item as={Link} to="/game">Play 1vs1 offline</NavDropdown.Item>
-                            <NavDropdown.Item href="/">Play 1vs1 online</NavDropdown.Item>
+                            <NavDropdown.Item>Play 1vs1 online</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item href="/">Fight for AI</NavDropdown.Item>
+                            <NavDropdown.Item>Fight for AI</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                     <Nav>
-                        <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                        <Nav.Link onClick={() => LoginModalOpen()}>Login</Nav.Link>
                         <Nav.Link as={Link} to="/register">Register</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
+            <Login props={props}></Login>
             <div>
                 {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
