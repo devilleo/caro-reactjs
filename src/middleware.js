@@ -333,7 +333,7 @@ export default store => next => action => {
           .then(response => {
             store.dispatch(setLoginPending(false));
             console.log(response)
-            if (response.message !== "Incorrect email or password.") {
+            if (response.user !== false) {
               store.dispatch(setLoginSuccess(true));
               store.dispatch({
                 type: "LOGIN_SUCCESS",
@@ -344,8 +344,7 @@ export default store => next => action => {
               console.log("Login success");
               console.log(store.getState());
             } else {
-              var error = response.message
-              store.dispatch(setLoginError(error));
+              store.dispatch(setLoginError(new Error("Incorrect email or password.")));
               store.dispatch({
                 type: "LOGIN_FAILED"
               })
