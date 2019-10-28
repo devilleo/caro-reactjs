@@ -4,7 +4,6 @@ import { Button, Form, Modal } from "react-bootstrap";
 const Login = ({ props }) => {
     const { login, login_state, emailOnchange, passwordOnchange, loginSubmit } = props;
     const {login_modal, LoginModalClose} = props
-    console.log(login_modal.isOpen)
     return (
         <Modal
             show={login_modal.isOpen}

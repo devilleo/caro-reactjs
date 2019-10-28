@@ -313,23 +313,12 @@ export default store => next => action => {
       store.dispatch(setLoginSuccess(false));
       store.dispatch(setLoginError(null));
       const { login } = store.getState();
-      // callLoginApi(login.email, login.password, (error, response) => {
-      //   store.dispatch(setLoginPending(false));
-      //   console.log(error)
-      //   if (!error) {
-      //     console.log("vao day")
-      //     store.dispatch(setLoginSuccess(true));
-      //     store.dispatch({
-      //       type: "Login_Success",
-      //       email: login.email,
-      //       token: response.token
-      //     });
-      //     next(action);
-      //   } else {
-      //     console.log("log in loi mat roi huhu")
-      //     store.dispatch(setLoginError(error));
-      //   }
-      // });
+      if(!validateEmail(login.email)){
+        store.dispatch(setLoginError(new Error("Email is not valid.")))
+        store.dispatch(setLoginPending(false))
+        store.dispatch(setLoginSuccess(false))
+        return;
+      }
       setTimeout(() => {
         fetch("https://restful-api-nodejs-1612278.herokuapp.com/users/login", {
           method: "POST",
@@ -342,7 +331,8 @@ export default store => next => action => {
           .then(response => response.json())
           .then(response => {
             store.dispatch(setLoginPending(false));
-            if (response.message !== "Login failed") {
+            console.log(response)
+            if (response.message !== "Incorrect email or password.") {
               store.dispatch(setLoginSuccess(true));
               store.dispatch({
                 type: "LOGIN_SUCCESS",
@@ -350,11 +340,10 @@ export default store => next => action => {
                 token: response.token
               });
               console.log("Login success");
-
               console.log(store.getState());
             } else {
-              console.log(response.message)
-              store.dispatch(setLoginError(new Error("Invalid email or password")));
+              var error = response.message
+              store.dispatch(setLoginError(error));
               store.dispatch({
                 type: "LOGIN_FAILED"
               })

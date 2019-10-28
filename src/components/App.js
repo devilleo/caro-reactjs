@@ -19,7 +19,7 @@ import Homepage from './HomepageComponent/Homepage'
 import ShowGame from '../containers/ShowGame'
 
 const App = props => {
-    const {LoginModalOpen} = props
+    const {userInfo, LoginModalOpen, logOut} = props
     return (
         <Router>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -36,8 +36,11 @@ const App = props => {
                         </NavDropdown>
                     </Nav>
                     <Nav>
-                        <Nav.Link onClick={() => LoginModalOpen()}>Login</Nav.Link>
-                        <Nav.Link as={Link} to="/register">Register</Nav.Link>
+                        <Nav.Link hidden={userInfo.email!==""} onClick={() => LoginModalOpen()}>Login</Nav.Link>
+                        <Nav.Link hidden={userInfo.email!==""} as={Link} to="/register">Register</Nav.Link>
+                        <NavDropdown hidden={userInfo.email===""} title={userInfo.email} id="collasible-nav-dropdown">
+                            <NavDropdown.Item onClick={()=> logOut()}>Log out</NavDropdown.Item>
+                        </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
@@ -46,9 +49,9 @@ const App = props => {
                 {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
                 <Switch>
-                    <Route path="/login">
+                    {/* <Route path="/login">
                         <Login props={props} />
-                    </Route>
+                    </Route> */}
                     <Route path="/register">
                         <Register props={props} />
                     </Route>
