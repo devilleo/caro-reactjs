@@ -6,7 +6,8 @@ import {
   LOGIN,
   REGISTER_STATE,
   REGISTER,
-  LOGIN_MODAL
+  LOGIN_MODAL,
+  HANDLE_CLICK,
 } from "../actions/actionType";
 
 export const square = (state = Array(400).fill(0), action) => {
@@ -31,6 +32,9 @@ export const square = (state = Array(400).fill(0), action) => {
       let newStateChangedByHistory = action.historyForChange.slice();
       return newStateChangedByHistory;
     }
+    case HANDLE_CLICK.LOG_OUT: {
+        return Array(400).fill(0);
+    }
     default:
       return state;
   }
@@ -47,6 +51,9 @@ export const turn = (state = true, action) => {
     case "TURN_IN_HISTORY": {
       return action.turn;
     }
+    case HANDLE_CLICK.LOG_OUT: {
+        return true;
+    }
     default:
       return state;
   }
@@ -56,6 +63,9 @@ export const sortTypeHistory = (state = true, action) => {
   switch (action.type) {
     case HISTORY_SORT.CHANGE: {
       return !state;
+    }
+    case HANDLE_CLICK.LOG_OUT: {
+        return true;
     }
     default:
       return state;
@@ -69,6 +79,9 @@ export const isPlaying = (state = true, action) => {
     }
     case IS_PLAYING.START: {
       return true;
+    }
+    case HANDLE_CLICK.LOG_OUT: {
+        return true;
     }
     default:
       return state;
@@ -117,6 +130,9 @@ export const history = (state = [[], Array(400).fill(0), 0], action) => {
       stateClone[2] = stateClone[0].length - 1;
       return stateClone;
     }
+    case HANDLE_CLICK.LOG_OUT: {
+        return [[], Array(400).fill(0), 0];
+    }
     default:
       return state;
   }
@@ -137,8 +153,7 @@ export const userInfo = (
     case "LOGIN_FAILED":{
       return { email: "", password: "", token: "" };
     }
-    case "LOG_OUT": {
-      console.log("Log out!");
+    case HANDLE_CLICK.LOG_OUT: {
       return { email: "", password: "", token: "" };
     }
     default:
@@ -161,7 +176,9 @@ export const login = (
       console.log("Login Successful");
       return state;
     }
-
+    case HANDLE_CLICK.LOG_OUT: {
+        return { email: "", password: ""};
+    }
     default:
       return state;
   }
@@ -186,11 +203,18 @@ export const login_state = (
         isLoginSuccess: action.isLoginSuccess
       });
 
-    case LOGIN_STATE.ERROR:
+    case LOGIN_STATE.ERROR:{
       return Object.assign({}, state, {
         loginError: action.isLoginError
       });
-
+    }
+    case HANDLE_CLICK.LOG_OUT: {
+        return {
+            isLoginSuccess: false,
+            isLoginPending: false,
+            loginError: null
+        };
+    }
     default:
       return state;
   }
@@ -217,7 +241,9 @@ export const register = (
     case "REGISTER_FAILED": {
       return state;
     }
-
+    case HANDLE_CLICK.LOG_OUT: {
+        return { email: "", password: "", passwordConfirm: ""};
+    }
     default:
       return state;
   }
@@ -241,10 +267,18 @@ export const register_state = (
       return Object.assign({}, state, {
         isRegisterSuccess: action.isRegisterSuccess
       });
-    case REGISTER_STATE.ERROR:
+    case REGISTER_STATE.ERROR:{
       return Object.assign({}, state, {
         registerError: action.isRegisterError
       })
+    }
+    case HANDLE_CLICK.LOG_OUT: {
+        return {
+            isRegisterSuccess: false,
+            isRegisterPending: false,
+            registernError: null
+        };
+    }
     default:
       return state;
   }

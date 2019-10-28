@@ -2,15 +2,16 @@ import { changeTurn, stopGame, draw } from "./actions/index";
 import {
   setLoginPending,
   setLoginSuccess,
-  setLoginError
+  setLoginError,
+  LoginModalClose
 } from "./actions/login_actions";
 import {
   setRegisterPending,
   setRegisterSuccess,
   setRegisterError
 } from "./actions/register_action";
-import { IS_PLAYING, TURN, LOGIN, REGISTER } from "./actions/actionType";
-import { removeState } from "./localStorage/localStorage";
+import { IS_PLAYING, TURN, LOGIN, REGISTER, HANDLE_CLICK } from "./actions/actionType";
+// import { removeState } from "./localStorage/localStorage";
 
 // condition for stop a game
 const isOver = (arr, index, value) => {
@@ -339,6 +340,7 @@ export default store => next => action => {
                 email: login.email,
                 token: response.token
               });
+              store.dispatch(LoginModalClose())
               console.log("Login success");
               console.log(store.getState());
             } else {
@@ -353,9 +355,9 @@ export default store => next => action => {
       }, 3000);
       break;
     }
-    case "LOG_OUT": {
+    case HANDLE_CLICK.LOG_OUT: {
       store.dispatch(setLoginSuccess(false));
-      removeState();
+    //   removeState();
       next(action);
       break;
     }

@@ -42,3 +42,7 @@ export const LOGIN_MODAL = {
     OPEN: "Login_Modal_Open",
     CLOSE: "Login_Modal_Close",
 }
+
+export const HANDLE_CLICK = {
+    LOG_OUT: "Log out action"
+}
