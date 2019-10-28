@@ -3,6 +3,9 @@ import React from "react";
 import "../App.css";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
+import Navbar from 'react-bootstrap/Navbar'
+import Nav from 'react-bootstrap/Nav'
+import NavDropdown from 'react-bootstrap/NavDropdown'
 import {
     BrowserRouter as Router,
     Switch,
@@ -18,38 +21,40 @@ import ShowGame from '../containers/ShowGame'
 const App = props => {
     return (
         <Router>
+            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+                <Navbar.Brand as={Link} to="/">Caro Game</Navbar.Brand>
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Collapse id="responsive-navbar-nav">
+                    <Nav className="mr-auto">
+                        <Nav.Link as={Link} to="/">Homepage</Nav.Link>
+                        <NavDropdown title="Game" id="collasible-nav-dropdown">
+                            <NavDropdown.Item as={Link} to="/game">Play 1vs1 offline</NavDropdown.Item>
+                            <NavDropdown.Item href="/">Play 1vs1 online</NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item href="/">Fight for AI</NavDropdown.Item>
+                        </NavDropdown>
+                    </Nav>
+                    <Nav>
+                        <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                        <Nav.Link as={Link} to="/register">Register</Nav.Link>
+                    </Nav>
+                </Navbar.Collapse>
+            </Navbar>
             <div>
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to="/">Homepage</Link>
-                        </li>
-                        <li>
-                            <Link to="/login">Login</Link>
-                        </li>
-                        <li>
-                            <Link to="/register">Register</Link>
-                        </li>
-                        <li>
-                            <Link to="/game">Play game</Link>
-                        </li>
-                    </ul>
-                </nav>
-
                 {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
                 <Switch>
                     <Route path="/login">
-                        <Login props={props}/>
+                        <Login props={props} />
                     </Route>
                     <Route path="/register">
-                        <Register props={props}/>
+                        <Register props={props} />
                     </Route>
                     <Route path="/game">
-                        <ShowGame props={props}/>
+                        <ShowGame props={props} />
                     </Route>
-                     <Route path="/">
-                        <Homepage props={props}/>
+                    <Route path="/">
+                        <Homepage props={props} />
                     </Route>
                 </Switch>
             </div>
