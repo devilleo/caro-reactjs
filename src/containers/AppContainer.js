@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { loginSubmit, emailOnchange, passwordOnchange, logOut } from "../actions/login_actions";
+import { loginSubmit, emailOnchange, passwordOnchange, logOut, LoginModalOpen, LoginModalClose } from "../actions/login_actions";
 import { registerSubmit, emailRegisterOnchange, passwordRegisterOnchange, passwordConfirmRegisterOnchange } from "../actions/register_action";
 import App from "../components/App";
 
@@ -20,6 +20,8 @@ const mapDispatchToProps = dispatch => ({
   emailRegisterOnchange: (email) => dispatch(emailRegisterOnchange(email)),
   passwordRegisterOnchange: (password) => dispatch(passwordRegisterOnchange(password)),
   passwordConfirmRegisterOnchange: (passwordConfirm) => dispatch(passwordConfirmRegisterOnchange(passwordConfirm)),
+  LoginModalOpen: () => dispatch(LoginModalOpen),
+  LoginModalClose: () => dispatch(LoginModalClose),
 });
 
 export default connect(

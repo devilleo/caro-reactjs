@@ -5,7 +5,8 @@ import {
   LOGIN_STATE,
   LOGIN,
   REGISTER_STATE,
-  REGISTER
+  REGISTER,
+  LOGIN_MODAL
 } from "../actions/actionType";
 
 export const square = (state = Array(400).fill(0), action) => {
@@ -248,3 +249,19 @@ export const register_state = (
       return state;
   }
 };
+
+export const login_modal = (state = {isOpen: false}, action) => {
+    switch (action.type) {
+        case LOGIN_MODAL.OPEN: {
+            return Object.assign({},state,{
+                isOpen: true
+            })
+        }
+        case LOGIN_MODAL.CLOSE: {
+            return Object.assign({},state,{
+                isOpen: false
+            })
+        }
+        default: return state
+    }
+}

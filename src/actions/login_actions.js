@@ -1,4 +1,4 @@
-import {LOGIN_STATE, LOGIN} from './actionType';
+import {LOGIN_STATE, LOGIN, LOGIN_MODAL} from './actionType';
 
 export const setLoginPending = (isLoginPending) => ({
     type: LOGIN_STATE.PENDING,
@@ -31,4 +31,12 @@ export const passwordOnchange = (password) => ({
 
 export const logOut = () => ({
     type: "LOG_OUT"
+})
+
+export const LoginModalOpen = () => ({
+    type: LOGIN_MODAL.OPEN
+})
+
+export const LoginModalClose = () => ({
+    type: LOGIN_MODAL.CLOSE
 })
