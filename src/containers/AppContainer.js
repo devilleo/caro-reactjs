@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { loginSubmit, emailOnchange, passwordOnchange, logOut, LoginModalOpen, LoginModalClose } from "../actions/login_actions";
-import { registerSubmit, emailRegisterOnchange, passwordRegisterOnchange, passwordConfirmRegisterOnchange } from "../actions/register_action";
+import { registerSubmit, emailRegisterOnchange, passwordRegisterOnchange, passwordConfirmRegisterOnchange, RegisterModalOpen, RegisterModalClose } from "../actions/register_action";
 import App from "../components/App";
 
 const mapStateToProps = state => ({
@@ -10,6 +10,7 @@ const mapStateToProps = state => ({
   register: state.register,
   register_state: state.register_state,
   login_modal: state.login_modal,
+  register_modal: state.register_modal,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -23,6 +24,9 @@ const mapDispatchToProps = dispatch => ({
   passwordConfirmRegisterOnchange: (passwordConfirm) => dispatch(passwordConfirmRegisterOnchange(passwordConfirm)),
   LoginModalOpen: () => dispatch(LoginModalOpen()),
   LoginModalClose: () => dispatch(LoginModalClose()),
+  RegisterModalOpen: () => dispatch(RegisterModalOpen()),
+  RegisterModalClose: () => dispatch(RegisterModalClose()),
+
 });
 
 export default connect(

@@ -111,7 +111,7 @@ ul.kha > li {
   width: 100%;
 }
 
-/* login modal area */
+/* login, register modal area */
 .loginModal{
   background-image: url('./img/background-login.jpg');
   background-size: cover;
@@ -133,8 +133,8 @@ ul.kha > li {
   width: 35%;
 }
 
-.btnSocial{
-  border-radius: 20px;
+.btnSocial, .border-radius-2 input,button{
+  border-radius: 20px !important;
 }
 
 button[class="btnSocial"]:hover {
@@ -145,4 +145,10 @@ button[class="btnSocial"]:hover {
 .border-radius-2 div {
   border-radius: 20px !important;
   border-color: lightskyblue;
+}
+
+.loginModal {
+  -webkit-box-shadow: 3px 2px 67px 15px rgba(64,132,168,0.69);
+  -moz-box-shadow: 3px 2px 67px 15px rgba(64,132,168,0.69);
+  box-shadow: 3px 2px 67px 15px rgba(64,132,168,0.69);
 }

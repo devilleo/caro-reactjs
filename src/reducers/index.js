@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { square, turn, isPlaying, history, sortTypeHistory, userInfo, login, login_state, register, register_state, login_modal } from "./allReducers";
+import { square, turn, isPlaying, history, sortTypeHistory, userInfo, login, login_state, register, register_state, login_modal, register_modal } from "./allReducers";
 
 export default combineReducers({
   square,
@@ -12,5 +12,6 @@ export default combineReducers({
   login_state,
   register,
   register_state,
-  login_modal
+  login_modal,
+  register_modal,
 });

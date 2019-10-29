@@ -39,8 +39,13 @@ export const REGISTER = {
 }
 
 export const LOGIN_MODAL = {
-    OPEN: "Login_Modal_Open",
-    CLOSE: "Login_Modal_Close",
+  OPEN: "Login_Modal_Open",
+  CLOSE: "Login_Modal_Close",
+}
+
+export const REGISTER_MODAL = {
+  OPEN: "Register_Modal_Open",
+  CLOSE: "Register_Modal_Close"
 }
 
 export const HANDLE_CLICK = {

@@ -1,4 +1,4 @@
-import {REGISTER_STATE, REGISTER} from './actionType';
+import {REGISTER_STATE, REGISTER, REGISTER_MODAL} from './actionType';
 
 export const setRegisterPending = (isRegisterPending) => ({
     type: REGISTER_STATE.PENDING,
@@ -32,4 +32,12 @@ export const passwordRegisterOnchange = (password) => ({
 export const passwordConfirmRegisterOnchange = (passwordConfirm) => ({
     type: REGISTER.PASSWORD_CONFIRM_REGISTER_ONCHANGE,
     passwordConfirm
+})
+
+export const RegisterModalOpen = () => ({
+    type: REGISTER_MODAL.OPEN
+})
+
+export const RegisterModalClose = () => ({
+    type: REGISTER_MODAL.CLOSE
 })

@@ -17,9 +17,10 @@ import Login from './LoginComponent/Login'
 import Register from './RegisterComponent/Register'
 import Homepage from './HomepageComponent/Homepage'
 import ShowGame from '../containers/ShowGame'
+import Profile from './Profile/Profile'
 
 const App = props => {
-    const {userInfo, LoginModalOpen, logOut} = props
+    const {userInfo, LoginModalOpen, RegisterModalOpen, logOut} = props
     return (
         <Router>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -37,15 +38,16 @@ const App = props => {
                     </Nav>
                     <Nav>
                         <Nav.Link hidden={userInfo.email!==""} onClick={() => LoginModalOpen()}>Login</Nav.Link>
-                        <Nav.Link hidden={userInfo.email!==""} as={Link} to="/register">Register</Nav.Link>
+                        <Nav.Link hidden={userInfo.email!==""} onClick={() => RegisterModalOpen()}>Register</Nav.Link>
                         <NavDropdown hidden={userInfo.email===""} title={userInfo.email} id="collasible-nav-dropdown">
-                            <NavDropdown.Item>Your Information</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/profile">Your Information</NavDropdown.Item>
                             <NavDropdown.Item onClick={()=> logOut()}>Log out</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
             <Login props={props}></Login>
+            <Register props={props}></Register>
             <div>
                 {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
@@ -53,8 +55,11 @@ const App = props => {
                     {/* <Route path="/login">
                         <Login props={props} />
                     </Route> */}
-                    <Route path="/register">
+                    {/* <Route path="/register">
                         <Register props={props} />
+                    </Route> */}
+                    <Route path="/profile">
+                        <Profile props={props}></Profile>
                     </Route>
                     <Route path="/game">
                         <ShowGame props={props} />

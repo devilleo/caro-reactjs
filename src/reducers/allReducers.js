@@ -7,6 +7,7 @@ import {
   REGISTER_STATE,
   REGISTER,
   LOGIN_MODAL,
+  REGISTER_MODAL,
   HANDLE_CLICK,
 } from "../actions/actionType";
 
@@ -215,11 +216,7 @@ export const login_state = (
             loginError: null
         };
     }
-    case LOGIN.EMAIL_ONCHANGE: {
-      return Object.assign({},state,{
-        loginError:null
-      })
-    }
+    case LOGIN.EMAIL_ONCHANGE: 
     case LOGIN.PASSWORD_ONCHANGE: {
       return Object.assign({},state,{
         loginError:null
@@ -263,7 +260,7 @@ export const register_state = (
   state = {
     isRegisterSuccess: false,
     isRegisterPending: false,
-    registernError: null
+    registerError: null
   },
   action
 ) => {
@@ -282,11 +279,18 @@ export const register_state = (
         registerError: action.isRegisterError
       })
     }
+    case REGISTER.EMAIL_REGISTER_ONCHANGE:
+    case  REGISTER.PASSWORD_REGISTER_ONCHANGE:
+    case REGISTER.PASSWORD_CONFIRM_REGISTER_ONCHANGE: {
+      return Object.assign({}, state, {
+        registerError: null
+      })
+    }
     case HANDLE_CLICK.LOG_OUT: {
         return {
             isRegisterSuccess: false,
             isRegisterPending: false,
-            registernError: null
+            registerError: null
         };
     }
     default:
@@ -308,4 +312,20 @@ export const login_modal = (state = {isOpen: false}, action) => {
         }
         default: return state
     }
+}
+
+export const register_modal = (state = {isOpen: false}, action) => {
+  switch (action.type){
+    case REGISTER_MODAL.OPEN: {
+      return Object.assign({}, state, {
+        isOpen: true
+      })
+    }
+    case REGISTER_MODAL.CLOSE: {
+      return Object.assign({}, state,{
+        isOpen: false
+      })
+    }
+    default: return state;
+  }
 }
