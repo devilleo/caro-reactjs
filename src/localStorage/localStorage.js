@@ -21,5 +21,5 @@ export const saveState = state => {
 
 export const removeState = () => {
   localStorage.clear();
-  console.log(loadState());
+  // console.log(loadState());
 };

@@ -152,3 +152,12 @@ button[class="btnSocial"]:hover {
   -moz-box-shadow: 3px 2px 67px 15px rgba(64,132,168,0.69);
   box-shadow: 3px 2px 67px 15px rgba(64,132,168,0.69);
 }
+
+/* profile area */
+.profileArea{
+  background-image: url('./img/background-board.jpg');
+}
+
+.profileArea label,h4 {
+  color: tomato;
+}

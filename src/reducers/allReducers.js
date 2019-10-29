@@ -140,27 +140,56 @@ export const history = (state = [[], Array(400).fill(0), 0], action) => {
 };
 
 export const userInfo = (
-  state = { email: "", password: "", token: "" },
+  state = { email: "", password: "", token: "", firstName: "", lastName: "", address: "", city: "", country: "", aboutMe: "" },
   action
 ) => {
   switch (action.type) {
     case "LOGIN_SUCCESS": {
       // console.log(localStorage)
       return Object.assign({}, state, {
-        email: action.email,
-        token: action.token
+        email: action.user.email,
+        token: action.user.token,
+        firstName: action.user.firstName,
+        lastName: action.user.lastName,
+        address: action.user.address,
+        city: action.user.city,
+        country: action.user.country,
+        aboutMe: action.user.aboutMe
       });
     }
-    case "LOGIN_FAILED":{
-      return { email: "", password: "", token: "" };
-    }
+    case "LOGIN_FAILED":
     case HANDLE_CLICK.LOG_OUT: {
-      return { email: "", password: "", token: "" };
+      return { email: "", password: "", token: "", firstName: "", lastName: "", address: "", city: "", country: "", aboutMe: "" };
     }
     default:
       return state;
   }
 };
+
+export const userInfoForUpdateProfile = (
+  state = { email: "", password: "", token: "", firstName: "", lastName: "", address: "", city: "", country: "", aboutMe: "" },
+  action
+) => {
+  switch (action.type){
+    case "LOGIN_SUCCESS":{
+      return Object.assign({},state,{
+        email: action.user.email,
+        token: action.user.token,
+        firstName: action.user.firstName,
+        lastName: action.user.lastName,
+        address: action.user.address,
+        city: action.user.city,
+        country: action.user.country,
+        aboutMe: action.user.aboutMe
+      })
+    }
+    case "LOGIN_FAILED":
+    case HANDLE_CLICK.LOG_OUT: {
+      return { email: "", password: "", token: "", firstName: "", lastName: "", address: "", city: "", country: "", aboutMe: "" };
+    }
+    default: return state
+  }
+}
 
 export const login = (
   state = { email: "", password: ""},

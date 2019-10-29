@@ -1,7 +1,21 @@
-import { connect } from "react-redux";
-import { loginSubmit, emailOnchange, passwordOnchange, logOut, LoginModalOpen, LoginModalClose } from "../actions/login_actions";
-import { registerSubmit, emailRegisterOnchange, passwordRegisterOnchange, passwordConfirmRegisterOnchange, RegisterModalOpen, RegisterModalClose } from "../actions/register_action";
-import App from "../components/App";
+import { connect } from "react-redux"
+import {
+  loginSubmit,
+  emailOnchange,
+  passwordOnchange,
+  logOut,
+  LoginModalOpen,
+  LoginModalClose
+} from "../actions/login_actions"
+import {
+  registerSubmit,
+  emailRegisterOnchange,
+  passwordRegisterOnchange,
+  passwordConfirmRegisterOnchange,
+  RegisterModalOpen,
+  RegisterModalClose
+} from "../actions/register_action"
+import App from "../components/App"
 
 const mapStateToProps = state => ({
   userInfo: state.userInfo,
@@ -11,25 +25,27 @@ const mapStateToProps = state => ({
   register_state: state.register_state,
   login_modal: state.login_modal,
   register_modal: state.register_modal,
-});
+  userInfoForUpdateProfile: state.userInfoForUpdateProfile,
+})
 
 const mapDispatchToProps = dispatch => ({
   loginSubmit: () => dispatch(loginSubmit()),
-  emailOnchange: (email) => dispatch(emailOnchange(email)),
-  passwordOnchange: (password) => dispatch(passwordOnchange(password)),
+  emailOnchange: email => dispatch(emailOnchange(email)),
+  passwordOnchange: password => dispatch(passwordOnchange(password)),
   logOut: () => dispatch(logOut()),
   registerSubmit: () => dispatch(registerSubmit()),
-  emailRegisterOnchange: (email) => dispatch(emailRegisterOnchange(email)),
-  passwordRegisterOnchange: (password) => dispatch(passwordRegisterOnchange(password)),
-  passwordConfirmRegisterOnchange: (passwordConfirm) => dispatch(passwordConfirmRegisterOnchange(passwordConfirm)),
+  emailRegisterOnchange: email => dispatch(emailRegisterOnchange(email)),
+  passwordRegisterOnchange: password =>
+    dispatch(passwordRegisterOnchange(password)),
+  passwordConfirmRegisterOnchange: passwordConfirm =>
+    dispatch(passwordConfirmRegisterOnchange(passwordConfirm)),
   LoginModalOpen: () => dispatch(LoginModalOpen()),
   LoginModalClose: () => dispatch(LoginModalClose()),
   RegisterModalOpen: () => dispatch(RegisterModalOpen()),
-  RegisterModalClose: () => dispatch(RegisterModalClose()),
-
-});
+  RegisterModalClose: () => dispatch(RegisterModalClose())
+})
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(App);
+)(App)

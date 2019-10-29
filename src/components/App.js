@@ -10,7 +10,8 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
+    Link,
+    Redirect
 } from "react-router-dom";
 
 import Login from './LoginComponent/Login'
@@ -20,7 +21,7 @@ import ShowGame from '../containers/ShowGame'
 import Profile from './Profile/Profile'
 
 const App = props => {
-    const {userInfo, LoginModalOpen, RegisterModalOpen, logOut} = props
+    const {userInfo, LoginModalOpen, RegisterModalOpen, logOut, } = props
     return (
         <Router>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -58,11 +59,11 @@ const App = props => {
                     {/* <Route path="/register">
                         <Register props={props} />
                     </Route> */}
-                    <Route path="/profile">
-                        <Profile props={props}></Profile>
+                    <Route exact path="/profile">
+                        {userInfo.email===""?<Redirect to="/" /> :<Profile props={props}></Profile>}
                     </Route>
                     <Route path="/game">
-                        <ShowGame props={props} />
+                        {userInfo.email===""?<Redirect to="/" /> :<ShowGame props={props} />}
                     </Route>
                     <Route path="/">
                         <Homepage props={props} />

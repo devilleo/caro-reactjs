@@ -1,11 +1,11 @@
 import React from "react"
 
 const Profile = ({ props }) => {
-  const { userInfo } = props
-  console.log(userInfo)
+  const { userInfoForUpdateProfile } = props
+  // console.log(userInfoForUpdateProfile, " and ", userInfo)
   return (
-    <div className="col-md-12">
-      <div className="card" style={{ padding: "5% 10%" }}>
+    <div className="col-md-12" style={{padding:'0px', }}>
+      <div className="card profileArea" style={{ padding: "5% 20%" }}>
         <div className="header">
           <h4 className="title">Your Profile</h4>
           <p className="category"></p>
@@ -40,7 +40,7 @@ const Profile = ({ props }) => {
                     disabled=""
                     type="text"
                     className="form-control"
-                    value={userInfo.email}
+                    value={userInfoForUpdateProfile.email}
                     onChange={() => true}
                   ></input>
                 </div>
@@ -54,7 +54,7 @@ const Profile = ({ props }) => {
                     placeholder="First name"
                     type="text"
                     className="form-control"
-                    value="Mike"
+                    value={userInfoForUpdateProfile.firstName}
                     onChange={() => true}
                   ></input>
                 </div>
@@ -66,7 +66,7 @@ const Profile = ({ props }) => {
                     placeholder="Last name"
                     type="text"
                     className="form-control"
-                    value="Andrew"
+                    value={userInfoForUpdateProfile.lastName}
                     onChange={() => true}
                   ></input>
                 </div>
@@ -80,7 +80,7 @@ const Profile = ({ props }) => {
                     placeholder="Home Adress"
                     type="text"
                     className="form-control"
-                    value="B"
+                    value={userInfoForUpdateProfile.address}
                     onChange={() => true}
                   ></input>
                 </div>
@@ -94,7 +94,7 @@ const Profile = ({ props }) => {
                     placeholder="City"
                     type="text"
                     className="form-control"
-                    value="Mike"
+                    value={userInfoForUpdateProfile.city}
                     onChange={() => true}
                   ></input>
                 </div>
@@ -106,7 +106,7 @@ const Profile = ({ props }) => {
                     placeholder="Country"
                     type="text"
                     className="form-control"
-                    value="Andrew"
+                    value={userInfoForUpdateProfile.country}
                     onChange={() => true}
                   ></input>
                 </div>
@@ -126,8 +126,7 @@ const Profile = ({ props }) => {
                     placeholder="Here can be your description"
                     id="formControlsTextarea"
                     className="form-control"
-                    value="Lamborghini Mercy, Your chick she so thirsty, I'm in that
-                    two seat Lambo."
+                    value={userInfoForUpdateProfile.aboutMe}
                     onChange={() => true}
                   ></textarea>
                 </div>
