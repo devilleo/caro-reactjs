@@ -4,7 +4,7 @@ const Homepage = ({props}) => {
   const {userInfo} = props;
   return (
     <div>
-      <h3>{userInfo.email === ""? "đăng nhập đi!":"Chào "+userInfo.email}</h3>
+      <h3>{userInfo.email === ""? "đăng nhập đi!":(userInfo.firstName===undefined && userInfo.lastName ===undefined)? "Hello No name": "Hello " + userInfo.lastName+" "+userInfo.firstName}</h3>
     </div>
   );
 }

@@ -37,10 +37,10 @@ const App = props => {
                             <NavDropdown.Item>Fight for AI</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
-                    <Nav>
+                    <Nav style={{minWidth:'180px'}}>
                         <Nav.Link hidden={userInfo.email!==""} onClick={() => LoginModalOpen()}>Login</Nav.Link>
                         <Nav.Link hidden={userInfo.email!==""} onClick={() => RegisterModalOpen()}>Register</Nav.Link>
-                        <NavDropdown hidden={userInfo.email===""} title={userInfo.email} id="collasible-nav-dropdown">
+                        <NavDropdown hidden={userInfo.email===""} title={(userInfo.firstName===undefined && userInfo.lastName ===undefined)? "No name": userInfo.lastName+" "+userInfo.firstName} id="collasible-nav-dropdown">
                             <NavDropdown.Item as={Link} to="/profile">Your Information</NavDropdown.Item>
                             <NavDropdown.Item onClick={()=> logOut()}>Log out</NavDropdown.Item>
                         </NavDropdown>

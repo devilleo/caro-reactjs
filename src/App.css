@@ -133,7 +133,7 @@ ul.kha > li {
   width: 35%;
 }
 
-.btnSocial, .border-radius-2 input,button{
+.btnSocial, .border-radius-2 input, .border-radius-2 button{
   border-radius: 20px !important;
 }
 
