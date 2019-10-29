@@ -363,7 +363,7 @@ export default store => next => action => {
             };
           })
           .catch(error => {});
-      }, 3000);
+      }, 1000);
       break;
     }
     case HANDLE_CLICK.LOG_OUT: {

@@ -10,6 +10,7 @@ const Login = ({ props }) => {
             onHide={() => LoginModalClose()}
             aria-labelledby="contained-modal-title-vcenter"
             centered
+            dialogClassName= "border-radius-2"
         >
             {/* <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
@@ -17,7 +18,9 @@ const Login = ({ props }) => {
                 </Modal.Title>
             </Modal.Header> */}
             <Modal.Body className="loginModal">
-                <h3 style={{textAlign:'center'}}>Login</h3>
+                <h3 style={{textAlign:'center'}}>
+                    <img alt="" className="imgLogin" src="login.icon.png"></img>
+                </h3>
                 <Form className="loginForm">
                     <Form.Group controlId="formBasicEmail">
                         {/* <Form.Label>Email address</Form.Label> */}
@@ -40,7 +43,7 @@ const Login = ({ props }) => {
                     <br></br>
                     <div style={{textAlign:'center'}}>
                         <Button style={{width:'100%'}} variant="success" type="button" onClick={loginSubmit}>
-                            Submit
+                            Login
                         </Button>
                     </div>
                     <br></br>
@@ -49,10 +52,10 @@ const Login = ({ props }) => {
                         <label>Or login with</label>
                     </div>
                     <div style={{textAlign:'center'}}>
-                        <button style={{width:'30%', marginRight:'5%', backgroundColor:'#FFFFFF'}} type="button" >
+                        <button className="btnSocial" style={{width:'30%', marginRight:'5%'}} type="button" >
                             <img alt="" src="google.icon.png" className="imgGoogle"></img>
                         </button>
-                        <button style={{width:'30%'}}  type="button" >
+                        <button className="btnSocial" style={{width:'30%'}}  type="button" >
                             <img alt="" src="facebook.icon.png" className="imgFacebook"></img>
                         </button>
                     </div>

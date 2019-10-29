@@ -115,6 +115,7 @@ ul.kha > li {
 .loginModal{
   background-image: url('./img/background-login.jpg');
   background-size: cover;
+  padding: 5% 10% !important;
 }
 .loginForm{
   margin: 10%;
@@ -125,4 +126,23 @@ ul.kha > li {
   width: 35%;
   /* max-width: 100%;
   max-height: 100%; */
+}
+
+.imgLogin{
+  height: 35%;
+  width: 35%;
+}
+
+.btnSocial{
+  border-radius: 20px;
+}
+
+button[class="btnSocial"]:hover {
+  background-color: #4CAF50; /* Green */
+  color: white;
+}
+
+.border-radius-2 div {
+  border-radius: 20px !important;
+  border-color: lightskyblue;
 }

@@ -23,7 +23,7 @@ const App = props => {
     return (
         <Router>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-                <Navbar.Brand as={Link} to="/">Caro Game</Navbar.Brand>
+                <Navbar.Brand as={Link} to="/">Caro VN</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto">
@@ -39,6 +39,7 @@ const App = props => {
                         <Nav.Link hidden={userInfo.email!==""} onClick={() => LoginModalOpen()}>Login</Nav.Link>
                         <Nav.Link hidden={userInfo.email!==""} as={Link} to="/register">Register</Nav.Link>
                         <NavDropdown hidden={userInfo.email===""} title={userInfo.email} id="collasible-nav-dropdown">
+                            <NavDropdown.Item>Your Information</NavDropdown.Item>
                             <NavDropdown.Item onClick={()=> logOut()}>Log out</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
