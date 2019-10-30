@@ -15,6 +15,15 @@ import {
   RegisterModalOpen,
   RegisterModalClose
 } from "../actions/register_action"
+import {
+  updateProfile,
+  firstNameProfileOnchange,
+  lastNameProfileOnchange,
+  addressProfileOnchange,
+  cityProfileOnchange,
+  countryProfileOnchange,
+  aboutMeProfileOnchange
+} from "../actions/userProfile_actions"
 import App from "../components/App"
 
 const mapStateToProps = state => ({
@@ -25,7 +34,7 @@ const mapStateToProps = state => ({
   register_state: state.register_state,
   login_modal: state.login_modal,
   register_modal: state.register_modal,
-  userInfoForUpdateProfile: state.userInfoForUpdateProfile,
+  userInfoForUpdateProfile: state.userInfoForUpdateProfile
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -42,7 +51,14 @@ const mapDispatchToProps = dispatch => ({
   LoginModalOpen: () => dispatch(LoginModalOpen()),
   LoginModalClose: () => dispatch(LoginModalClose()),
   RegisterModalOpen: () => dispatch(RegisterModalOpen()),
-  RegisterModalClose: () => dispatch(RegisterModalClose())
+  RegisterModalClose: () => dispatch(RegisterModalClose()),
+  updateProfile: newProfileInfo => dispatch(updateProfile(newProfileInfo)), 
+  firstNameProfileOnchange: firstName => dispatch(firstNameProfileOnchange(firstName)),
+  lastNameProfileOnchange: lastName => dispatch(lastNameProfileOnchange(lastName)),
+  addressProfileOnchange: address => dispatch(addressProfileOnchange(address)),
+  cityProfileOnchange: city => dispatch(cityProfileOnchange(city)),
+  countryProfileOnchange: country => dispatch(countryProfileOnchange(country)),
+  aboutMeProfileOnchange: aboutMe => dispatch(aboutMeProfileOnchange(aboutMe)),
 })
 
 export default connect(

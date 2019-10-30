@@ -2,7 +2,14 @@ import React from "react"
 
 const Profile = ({ props }) => {
   const { userInfoForUpdateProfile } = props
-  // console.log(userInfoForUpdateProfile, " and ", userInfo)
+  const {firstNameProfileOnchange,
+    lastNameProfileOnchange,
+    addressProfileOnchange,
+    cityProfileOnchange,
+    countryProfileOnchange,
+    aboutMeProfileOnchange} = props
+  
+  console.log(userInfoForUpdateProfile)
   return (
     <div className="col-md-12" style={{padding:'0px', }}>
       <div className="card profileArea" style={{ padding: "5% 20%" }}>
@@ -38,10 +45,10 @@ const Profile = ({ props }) => {
                   <input
                     placeholder="Username"
                     disabled=""
+                    readOnly
                     type="text"
                     className="form-control"
-                    value={userInfoForUpdateProfile.email}
-                    onChange={() => true}
+                    value={userInfoForUpdateProfile.email || ''}
                   ></input>
                 </div>
               </div>
@@ -54,8 +61,8 @@ const Profile = ({ props }) => {
                     placeholder="First name"
                     type="text"
                     className="form-control"
-                    value={userInfoForUpdateProfile.firstName}
-                    onChange={() => true}
+                    value={userInfoForUpdateProfile.firstName || ''}
+                    onChange={(e) => firstNameProfileOnchange(e.target.value)}
                   ></input>
                 </div>
               </div>
@@ -66,8 +73,8 @@ const Profile = ({ props }) => {
                     placeholder="Last name"
                     type="text"
                     className="form-control"
-                    value={userInfoForUpdateProfile.lastName}
-                    onChange={() => true}
+                    value={userInfoForUpdateProfile.lastName || ''}
+                    onChange={(e) => lastNameProfileOnchange(e.target.value)}
                   ></input>
                 </div>
               </div>
@@ -75,13 +82,13 @@ const Profile = ({ props }) => {
             <div className="row">
               <div className="col-md-12">
                 <div className="form-group">
-                  <label className="control-label">Adress</label>
+                  <label className="control-label">Address</label>
                   <input
-                    placeholder="Home Adress"
+                    placeholder="Home Address"
                     type="text"
                     className="form-control"
-                    value={userInfoForUpdateProfile.address}
-                    onChange={() => true}
+                    value={userInfoForUpdateProfile.address || ''}
+                    onChange={(e) => addressProfileOnchange(e.target.value)}
                   ></input>
                 </div>
               </div>
@@ -94,8 +101,8 @@ const Profile = ({ props }) => {
                     placeholder="City"
                     type="text"
                     className="form-control"
-                    value={userInfoForUpdateProfile.city}
-                    onChange={() => true}
+                    value={userInfoForUpdateProfile.city || ''}
+                    onChange={(e) => cityProfileOnchange(e.target.value)}
                   ></input>
                 </div>
               </div>
@@ -106,8 +113,8 @@ const Profile = ({ props }) => {
                     placeholder="Country"
                     type="text"
                     className="form-control"
-                    value={userInfoForUpdateProfile.country}
-                    onChange={() => true}
+                    value={userInfoForUpdateProfile.country || ''}
+                    onChange={(e) => countryProfileOnchange(e.target.value)}
                   ></input>
                 </div>
               </div>
@@ -126,8 +133,8 @@ const Profile = ({ props }) => {
                     placeholder="Here can be your description"
                     id="formControlsTextarea"
                     className="form-control"
-                    value={userInfoForUpdateProfile.aboutMe}
-                    onChange={() => true}
+                    value={userInfoForUpdateProfile.aboutMe || ''}
+                    onChange={e => aboutMeProfileOnchange(e.target.value)}
                   ></textarea>
                 </div>
               </div>

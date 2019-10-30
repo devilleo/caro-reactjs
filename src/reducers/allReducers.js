@@ -9,6 +9,7 @@ import {
   LOGIN_MODAL,
   REGISTER_MODAL,
   HANDLE_CLICK,
+  HANDLE_USER_PROFILE
 } from "../actions/actionType";
 
 export const square = (state = Array(400).fill(0), action) => {
@@ -186,6 +187,36 @@ export const userInfoForUpdateProfile = (
     case "LOGIN_FAILED":
     case HANDLE_CLICK.LOG_OUT: {
       return { email: "", password: "", token: "", firstName: "", lastName: "", address: "", city: "", country: "", aboutMe: "" };
+    }
+    case HANDLE_USER_PROFILE.FIRSTNAME_PROFILE__ONCHANGE:{
+      return Object.assign({},state, {
+        firstName: action.firstName
+      })
+    }
+    case HANDLE_USER_PROFILE.LASTNAME_PROFILE__ONCHANGE:{
+      return Object.assign({},state, {
+        lastName: action.lastName
+      })
+    }
+    case HANDLE_USER_PROFILE.ADDRESS_PROFILE__ONCHANGE:{
+      return Object.assign({},state, {
+        address: action.address
+      })
+    }
+    case HANDLE_USER_PROFILE.CITY_PROFILE__ONCHANGE:{
+      return Object.assign({},state, {
+        city: action.city
+      })
+    }
+    case HANDLE_USER_PROFILE.COUNTRY_PROFILE__ONCHANGE:{
+      return Object.assign({},state, {
+        country: action.country
+      })
+    }
+    case HANDLE_USER_PROFILE.ABOUTME_PROFILE__ONCHANGE:{
+      return Object.assign({},state, {
+        aboutMe: action.aboutMe
+      })
     }
     default: return state
   }
