@@ -12,7 +12,8 @@ import {
   register_state,
   login_modal,
   register_modal,
-  userInfoForUpdateProfile
+  userInfoForUpdateProfile,
+  userInfoForUpdateProfile_state
 } from "./allReducers"
 
 export default combineReducers({
@@ -28,5 +29,6 @@ export default combineReducers({
   register_state,
   login_modal,
   register_modal,
-  userInfoForUpdateProfile
+  userInfoForUpdateProfile,
+  userInfoForUpdateProfile_state
 })

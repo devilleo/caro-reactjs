@@ -1,8 +1,22 @@
-import {HANDLE_USER_PROFILE} from './actionType'
+import {HANDLE_USER_PROFILE, UPDATE_PROFILE_STATE} from './actionType'
 
-export const updateProfile = (newProfileInfo) => ({
+export const setUpdateProfilePending = (isUpdateProfilePending) => ({
+    type: UPDATE_PROFILE_STATE.PENDING,
+    isUpdateProfilePending
+})
+
+export const setUpdateProfileSuccess = (isUpdateProfileSuccess) => ({
+    type: UPDATE_PROFILE_STATE.SUCCESS,
+    isUpdateProfileSuccess,
+})
+
+export const setUpdateProfileError = (isUpdateProfileError) => ({
+    type: UPDATE_PROFILE_STATE.ERROR,
+    isUpdateProfileError,
+})
+
+export const updateProfile = () => ({
     type: HANDLE_USER_PROFILE.UPDATE,
-    newProfileInfo
 })
 
 export const firstNameProfileOnchange = (firstName) => ({
@@ -34,3 +48,4 @@ export const aboutMeProfileOnchange = (aboutMe) => ({
     type: HANDLE_USER_PROFILE.ABOUTME_PROFILE__ONCHANGE,
     aboutMe
 })
+

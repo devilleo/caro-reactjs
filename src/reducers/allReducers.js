@@ -9,7 +9,8 @@ import {
   LOGIN_MODAL,
   REGISTER_MODAL,
   HANDLE_CLICK,
-  HANDLE_USER_PROFILE
+  HANDLE_USER_PROFILE,
+  UPDATE_PROFILE_STATE
 } from "../actions/actionType";
 
 export const square = (state = Array(400).fill(0), action) => {
@@ -141,10 +142,11 @@ export const history = (state = [[], Array(400).fill(0), 0], action) => {
 };
 
 export const userInfo = (
-  state = { email: "", password: "", token: "", firstName: "", lastName: "", address: "", city: "", country: "", aboutMe: "" },
+  state = { email: "", token: "", firstName: "", lastName: "", address: "", city: "", country: "", aboutMe: "" },
   action
 ) => {
   switch (action.type) {
+    case "UPDATE_PROFILE_SUCCESS":
     case "LOGIN_SUCCESS": {
       // console.log(localStorage)
       return Object.assign({}, state, {
@@ -160,7 +162,7 @@ export const userInfo = (
     }
     case "LOGIN_FAILED":
     case HANDLE_CLICK.LOG_OUT: {
-      return { email: "", password: "", token: "", firstName: "", lastName: "", address: "", city: "", country: "", aboutMe: "" };
+      return { email: "", token: "", firstName: "", lastName: "", address: "", city: "", country: "", aboutMe: "" };
     }
     default:
       return state;
@@ -168,14 +170,13 @@ export const userInfo = (
 };
 
 export const userInfoForUpdateProfile = (
-  state = { email: "", password: "", token: "", firstName: "", lastName: "", address: "", city: "", country: "", aboutMe: "" },
+  state = { email: "", token: "", firstName: "", lastName: "", address: "", city: "", country: "", aboutMe: "" },
   action
 ) => {
   switch (action.type){
     case "LOGIN_SUCCESS":{
       return Object.assign({},state,{
         email: action.user.email,
-        token: action.user.token,
         firstName: action.user.firstName,
         lastName: action.user.lastName,
         address: action.user.address,
@@ -186,7 +187,7 @@ export const userInfoForUpdateProfile = (
     }
     case "LOGIN_FAILED":
     case HANDLE_CLICK.LOG_OUT: {
-      return { email: "", password: "", token: "", firstName: "", lastName: "", address: "", city: "", country: "", aboutMe: "" };
+      return { email: "", firstName: "", lastName: "", address: "", city: "", country: "", aboutMe: "" };
     }
     case HANDLE_USER_PROFILE.FIRSTNAME_PROFILE__ONCHANGE:{
       return Object.assign({},state, {
@@ -222,6 +223,47 @@ export const userInfoForUpdateProfile = (
   }
 }
 
+export const userInfoForUpdateProfile_state = (
+  state = {
+    isUpdateProfilePending: false,
+    isUpdateProfileSuccess: false,
+    isUpdateProfileError: null
+  },
+  action
+) => {
+  switch (action.type) {
+    case UPDATE_PROFILE_STATE.PENDING:{
+      return Object.assign({},state, {
+        isUpdateProfilePending: action.isUpdateProfilePending
+      })
+    }
+    case UPDATE_PROFILE_STATE.SUCCESS:{
+      return Object.assign({},state,{
+        isUpdateProfileSuccess: action.isUpdateProfileSuccess
+      })
+    }
+    case UPDATE_PROFILE_STATE.ERROR: {
+      return Object.assign({},state,{
+        isUpdateProfileError: action.isUpdateProfileError
+      })
+    }
+    case HANDLE_USER_PROFILE.FIRSTNAME_PROFILE__ONCHANGE:
+    case HANDLE_USER_PROFILE.LASTNAME_PROFILE__ONCHANGE:
+    case HANDLE_USER_PROFILE.ADDRESS_PROFILE__ONCHANGE:
+    case HANDLE_USER_PROFILE.CITY_PROFILE__ONCHANGE:
+    case HANDLE_USER_PROFILE.COUNTRY_PROFILE__ONCHANGE:
+    case HANDLE_USER_PROFILE.ABOUTME_PROFILE__ONCHANGE:
+    case HANDLE_CLICK.LOG_OUT:{
+      return {
+        isUpdateProfilePending: false,
+        isUpdateProfileSuccess: false,
+        isUpdateProfileError: null
+      }
+    }
+    default: return state;
+  }
+}
+
 export const login = (
   state = { email: "", password: ""},
   action
@@ -237,6 +279,7 @@ export const login = (
       console.log("Login Successful");
       return state;
     }
+    case "LOGIN_SUCCESS":
     case HANDLE_CLICK.LOG_OUT: {
         return { email: "", password: ""};
     }

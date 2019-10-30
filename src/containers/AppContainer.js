@@ -34,7 +34,8 @@ const mapStateToProps = state => ({
   register_state: state.register_state,
   login_modal: state.login_modal,
   register_modal: state.register_modal,
-  userInfoForUpdateProfile: state.userInfoForUpdateProfile
+  userInfoForUpdateProfile: state.userInfoForUpdateProfile,
+  userInfoForUpdateProfile_state: state.userInfoForUpdateProfile_state,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -52,7 +53,7 @@ const mapDispatchToProps = dispatch => ({
   LoginModalClose: () => dispatch(LoginModalClose()),
   RegisterModalOpen: () => dispatch(RegisterModalOpen()),
   RegisterModalClose: () => dispatch(RegisterModalClose()),
-  updateProfile: newProfileInfo => dispatch(updateProfile(newProfileInfo)), 
+  updateProfile: () => dispatch(updateProfile()), 
   firstNameProfileOnchange: firstName => dispatch(firstNameProfileOnchange(firstName)),
   lastNameProfileOnchange: lastName => dispatch(lastNameProfileOnchange(lastName)),
   addressProfileOnchange: address => dispatch(addressProfileOnchange(address)),

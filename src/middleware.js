@@ -1,3 +1,11 @@
+import {
+  IS_PLAYING,
+  TURN,
+  LOGIN,
+  REGISTER,
+  HANDLE_CLICK,
+  HANDLE_USER_PROFILE
+} from "./actions/actionType"
 import { changeTurn, stopGame, draw } from "./actions/index"
 import {
   setLoginPending,
@@ -11,12 +19,10 @@ import {
   setRegisterError
 } from "./actions/register_action"
 import {
-  IS_PLAYING,
-  TURN,
-  LOGIN,
-  REGISTER,
-  HANDLE_CLICK
-} from "./actions/actionType"
+  setUpdateProfilePending,
+  setUpdateProfileSuccess,
+  setUpdateProfileError
+} from "./actions/userProfile_actions"
 // import { removeState } from "./localStorage/localStorage";
 
 // condition for stop a game
@@ -273,6 +279,12 @@ function validatePassword(password) {
   return ""
 }
 
+function validateInputOfProfile(displayName, value){
+  if (value.length < 1 || value === null || value === undefined)
+    return displayName + " doesn't have value. Please input."
+  return ""
+}
+
 export default store => next => action => {
   switch (action.type) {
     case "TOGGLE_SQUARE": {
@@ -350,24 +362,25 @@ export default store => next => action => {
           .then(response => response.json())
           .then(response => {
             store.dispatch(setLoginPending(false))
-            // console.log(response)
+            var token = response.token;
             if (response.user !== false) {
               store.dispatch(setLoginSuccess(true))
-              getUserInfo(response.token).then(response=>{
-                if (response!==false){
+              getUserInfo(response.token).then(response => {
+                if (response !== false) {
                   store.dispatch({
                     type: "LOGIN_SUCCESS",
-                    user: response
+                    user: Object.assign({}, response, {
+                      token: token
+                    })
                   })
                   store.dispatch(LoginModalClose())
                   console.log("Login success")
-                }
-                else {
+                } else {
                   // error of get UserInfo
                   // TODO
                 }
               })
-              
+
               // console.log(store.getState())
             } else {
               store.dispatch(
@@ -452,19 +465,111 @@ export default store => next => action => {
       }, 1)
       break
     }
+    case HANDLE_USER_PROFILE.UPDATE: {
+      console.log("vao day")
+      store.dispatch(setUpdateProfilePending(true))
+      store.dispatch(setUpdateProfileSuccess(false))
+      store.dispatch(setUpdateProfileError(null))
+      const { userInfoForUpdateProfile, userInfo } = store.getState()
+
+      // valid input value before fetching
+      const validateFirstName = validateInputOfProfile("FirstName", userInfoForUpdateProfile.firstName)
+      if (validateFirstName !== ""){
+        store.dispatch(setUpdateProfilePending(false))
+        store.dispatch(setUpdateProfileSuccess(false))
+        store.dispatch(setUpdateProfileError(new Error(validateFirstName)))
+        return
+      }
+      const validateLastName = validateInputOfProfile("LastName", userInfoForUpdateProfile.lastName)
+      if (validateLastName !== ""){
+        store.dispatch(setUpdateProfilePending(false))
+        store.dispatch(setUpdateProfileSuccess(false))
+        store.dispatch(setUpdateProfileError(new Error(validateLastName)))
+        return
+      }
+      const validateAddress = validateInputOfProfile("Address", userInfoForUpdateProfile.address)
+      if (validateAddress !== ""){
+        store.dispatch(setUpdateProfilePending(false))
+        store.dispatch(setUpdateProfileSuccess(false))
+        store.dispatch(setUpdateProfileError(new Error(validateAddress)))
+        return
+      }
+      const validateCity = validateInputOfProfile("City", userInfoForUpdateProfile.city)
+      if (validateCity !== ""){
+        store.dispatch(setUpdateProfilePending(false))
+        store.dispatch(setUpdateProfileSuccess(false))
+        store.dispatch(setUpdateProfileError(new Error(validateCity)))
+        return
+      }
+      const validateCountry = validateInputOfProfile("Country", userInfoForUpdateProfile.country)
+      if (validateCountry !== ""){
+        store.dispatch(setUpdateProfilePending(false))
+        store.dispatch(setUpdateProfileSuccess(false))
+        store.dispatch(setUpdateProfileError(new Error(validateCountry)))
+        return
+      }
+      const validateAboutMe = validateInputOfProfile("About Me", userInfoForUpdateProfile.aboutMe)
+      if (validateAboutMe !== ""){
+        store.dispatch(setUpdateProfilePending(false))
+        store.dispatch(setUpdateProfileSuccess(false))
+        store.dispatch(setUpdateProfileError(new Error(validateAboutMe)))
+        return
+      }
+      // fetching...
+      fetch("https://restful-api-nodejs-1612278.herokuapp.com/me/update", {
+        method: "PUT",
+        headers: new Headers({
+          "Content-Type": "application/x-www-form-urlencoded", // <-- Specifying the Content-Type
+          secret_token: userInfo.token
+        }),
+        body:
+          "firstName=" +
+          userInfoForUpdateProfile.firstName +
+          "&lastName=" +
+          userInfoForUpdateProfile.lastName +
+          "&address=" +
+          userInfoForUpdateProfile.address +
+          "&city=" +
+          userInfoForUpdateProfile.city +
+          "&country=" +
+          userInfoForUpdateProfile.country +
+          "&aboutMe=" +
+          userInfoForUpdateProfile.aboutMe
+        // mode: "no-cors"
+      })
+        .then(response => response.json())
+        .then(response => {
+          store.dispatch(setUpdateProfilePending(false))
+          // console.log(response)
+          if (response.message === "Update complete") {
+            store.dispatch(setUpdateProfileSuccess(true))
+            store.dispatch({
+              type: "UPDATE_PROFILE_SUCCESS",
+              userInfoForUpdateProfile
+            })
+            // console.log(store.getState())
+          } else {
+            store.dispatch(
+              setUpdateProfileError(new Error("Update Profile error."))
+            )
+          }
+        })
+        .catch(error => {})
+      break;
+    }
     default:
       next(action)
   }
 }
 
-const getUserInfo = async (token) => {
+const getUserInfo = async token => {
   var user = false
-  await fetch("https://restful-api-nodejs-1612278.herokuapp.com/me",{
+  await fetch("https://restful-api-nodejs-1612278.herokuapp.com/me", {
     method: "GET",
     headers: new Headers({
       "Content-Type": "application/x-www-form-urlencoded", // <-- Specifying the Content-Type
-      "secret_token": token
-    }),
+      secret_token: token
+    })
     // mode: "no-cors"
   })
     .then(response => response.json())
@@ -472,7 +577,7 @@ const getUserInfo = async (token) => {
       if (response.message === "Get User's Profile success !!!") {
         user = response.user
       } else {
-        return false;
+        return false
       }
     })
     .catch(error => {})

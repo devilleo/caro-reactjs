@@ -1,17 +1,20 @@
 import React from "react"
 
 const Profile = ({ props }) => {
-  const { userInfoForUpdateProfile } = props
-  const {firstNameProfileOnchange,
+  const { userInfoForUpdateProfile, userInfoForUpdateProfile_state, userInfo } = props
+  const {
+    updateProfile,
+    firstNameProfileOnchange,
     lastNameProfileOnchange,
     addressProfileOnchange,
     cityProfileOnchange,
     countryProfileOnchange,
-    aboutMeProfileOnchange} = props
-  
-  console.log(userInfoForUpdateProfile)
+    aboutMeProfileOnchange
+  } = props
+
+  console.log(userInfo)
   return (
-    <div className="col-md-12" style={{padding:'0px', }}>
+    <div className="col-md-12" style={{ padding: "0px" }}>
       <div className="card profileArea" style={{ padding: "5% 20%" }}>
         <div className="header">
           <h4 className="title">Your Profile</h4>
@@ -26,8 +29,8 @@ const Profile = ({ props }) => {
                   maxWidth: "250px",
                   maxHeight: "250px",
                   marginRight: "0px",
-                  display: 'table',
-                  margin: '0 auto'
+                  display: "table",
+                  margin: "0 auto"
                 }}
               >
                 <img
@@ -48,7 +51,7 @@ const Profile = ({ props }) => {
                     readOnly
                     type="text"
                     className="form-control"
-                    value={userInfoForUpdateProfile.email || ''}
+                    value={userInfoForUpdateProfile.email || ""}
                   ></input>
                 </div>
               </div>
@@ -61,8 +64,8 @@ const Profile = ({ props }) => {
                     placeholder="First name"
                     type="text"
                     className="form-control"
-                    value={userInfoForUpdateProfile.firstName || ''}
-                    onChange={(e) => firstNameProfileOnchange(e.target.value)}
+                    value={userInfoForUpdateProfile.firstName || ""}
+                    onChange={e => firstNameProfileOnchange(e.target.value)}
                   ></input>
                 </div>
               </div>
@@ -73,8 +76,8 @@ const Profile = ({ props }) => {
                     placeholder="Last name"
                     type="text"
                     className="form-control"
-                    value={userInfoForUpdateProfile.lastName || ''}
-                    onChange={(e) => lastNameProfileOnchange(e.target.value)}
+                    value={userInfoForUpdateProfile.lastName || ""}
+                    onChange={e => lastNameProfileOnchange(e.target.value)}
                   ></input>
                 </div>
               </div>
@@ -87,8 +90,8 @@ const Profile = ({ props }) => {
                     placeholder="Home Address"
                     type="text"
                     className="form-control"
-                    value={userInfoForUpdateProfile.address || ''}
-                    onChange={(e) => addressProfileOnchange(e.target.value)}
+                    value={userInfoForUpdateProfile.address || ""}
+                    onChange={e => addressProfileOnchange(e.target.value)}
                   ></input>
                 </div>
               </div>
@@ -101,8 +104,8 @@ const Profile = ({ props }) => {
                     placeholder="City"
                     type="text"
                     className="form-control"
-                    value={userInfoForUpdateProfile.city || ''}
-                    onChange={(e) => cityProfileOnchange(e.target.value)}
+                    value={userInfoForUpdateProfile.city || ""}
+                    onChange={e => cityProfileOnchange(e.target.value)}
                   ></input>
                 </div>
               </div>
@@ -113,8 +116,8 @@ const Profile = ({ props }) => {
                     placeholder="Country"
                     type="text"
                     className="form-control"
-                    value={userInfoForUpdateProfile.country || ''}
-                    onChange={(e) => countryProfileOnchange(e.target.value)}
+                    value={userInfoForUpdateProfile.country || ""}
+                    onChange={e => countryProfileOnchange(e.target.value)}
                   ></input>
                 </div>
               </div>
@@ -133,13 +136,29 @@ const Profile = ({ props }) => {
                     placeholder="Here can be your description"
                     id="formControlsTextarea"
                     className="form-control"
-                    value={userInfoForUpdateProfile.aboutMe || ''}
+                    value={userInfoForUpdateProfile.aboutMe || ""}
                     onChange={e => aboutMeProfileOnchange(e.target.value)}
                   ></textarea>
                 </div>
               </div>
             </div>
-            <button type="submit" className="btn-fill pull-right btn btn-info">
+            {userInfoForUpdateProfile_state.isUpdateProfilePending && (
+              <div style={{ color: "red" }}>Please wait...</div>
+            )}
+            {userInfoForUpdateProfile_state.isUpdateProfileSuccess && (
+              <div style={{ color: "red" }}>Success.</div>
+            )}
+            {userInfoForUpdateProfile_state.isUpdateProfileError && (
+              <div style={{ color: "red" }}>
+                {userInfoForUpdateProfile_state.isUpdateProfileError.message}
+              </div>
+            )}
+            <br></br>
+            <button
+              type="button"
+              onClick={updateProfile}
+              className="btn-fill pull-right btn btn-info"
+            >
               Update Profile
             </button>
             <div className="clearfix"></div>
