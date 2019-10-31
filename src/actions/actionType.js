@@ -12,7 +12,22 @@ export const HISTORY_SORT = {
     CHANGE: "ascending_history_list"
 }
 
+// play with AI
+export const TURN_AI = {
+  CHANGE: "change_AI",
+  RESET: "reset_AI"
+};
 
+export const IS_PLAYING_AI = {
+  STOP: "stop_AI",
+  START: "start_AI"
+};
+
+export const HISTORY_SORT_AI = {
+    CHANGE: "ascending_history_list_AI"
+}
+
+// login 
 export const LOGIN_STATE = {
   PENDING: "Login Pending",
   SUCCESS: "Login Success",

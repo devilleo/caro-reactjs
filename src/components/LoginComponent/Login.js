@@ -1,5 +1,17 @@
 import React from "react"
 import { Button, Form, Modal } from "react-bootstrap"
+import { FacebookLoginButton, GoogleLoginButton } from "react-social-login-buttons";
+
+
+// import GoogleLogin from "react-google-login"
+// import FacebookLogin from "react-facebook-login"
+
+// const responseGoogle = (response) => {
+//   console.log(response)
+// }
+// const responseFacebook = (response) => {
+//   console.log(response)
+// }
 
 const Login = ({ props }) => {
   const {
@@ -79,7 +91,7 @@ const Login = ({ props }) => {
             <label>Or login with</label>
           </div>
           <div style={{ textAlign: "center" }}>
-            <button
+            {/* <button
               className="btnSocial"
               style={{ width: "30%", marginRight: "5%" }}
               type="button"
@@ -92,7 +104,13 @@ const Login = ({ props }) => {
               type="button"
             >
               <img alt="" src="facebook.icon.png" className="imgFacebook"></img>
-            </button>
+            </button> */}
+            <GoogleLoginButton onClick={() => alert("Hello")}>
+              <span>Google</span>
+            </GoogleLoginButton>
+            <FacebookLoginButton onClick={() => alert("Hello")}>
+              <span>Facebook</span>
+            </FacebookLoginButton>
           </div>
         </Form>
       </Modal.Body>

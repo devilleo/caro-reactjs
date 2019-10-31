@@ -4,9 +4,12 @@ import {
   LOGIN,
   REGISTER,
   HANDLE_CLICK,
-  HANDLE_USER_PROFILE
+  HANDLE_USER_PROFILE,
+  IS_PLAYING_AI,
+  TURN_AI
 } from "./actions/actionType"
 import { changeTurn, stopGame, draw } from "./actions/index"
+import { changeTurnAI, stopGameAI, drawAI } from "./actions/index"
 import {
   setLoginPending,
   setLoginSuccess,
@@ -279,7 +282,7 @@ function validatePassword(password) {
   return ""
 }
 
-function validateInputOfProfile(displayName, value){
+function validateInputOfProfile(displayName, value) {
   if (value.length < 1 || value === null || value === undefined)
     return displayName + " doesn't have value. Please input."
   return ""
@@ -331,6 +334,52 @@ export default store => next => action => {
       next(action)
       break
     }
+    // play with AI
+    case "TOGGLE_SQUARE_AI": {
+      const { squareAI } = store.getState()
+      if (squareAI[action.id_AI] === 0) {
+        store.dispatch(changeTurnAI())
+        const arrDraw_AI = isOver(squareAI, action.id_AI, action.turn_AI ? 1 : 2)
+        // console.log(action.turn_AI)
+        if (arrDraw_AI) {
+          store.dispatch(drawAI(arrDraw_AI, action.turn_AI))
+          store.dispatch({
+            type: "THE_LAST_UPDATE_IN_HISTORY_BEFORE_END_GAME_AI",
+            id_AI: action.id_AI,
+            turn_AI: action.turn_AI,
+            arrDraw_AI: arrDraw_AI
+          })
+          store.dispatch({ type: "RESET_HISTORY_AI" })
+          store.dispatch(stopGameAI())
+        } else next(action)
+      }
+      break
+    }
+    case IS_PLAYING_AI.START: {
+      store.dispatch({ type: "RESET_SQUARE_AI" })
+      store.dispatch({ type: TURN_AI.RESET })
+      store.dispatch({ type: "RESET_HISTORY_AI" })
+      next(action)
+      break
+    }
+    case "TOGGLE_HISTORY_AI": {
+      const { historyAI } = store.getState()
+      const historyForChange_AI = historyAI[0][action.idHistory_AI][0].slice()
+      // console.log(action.idHistory)
+      // console.log(historyForChange)
+      store.dispatch({
+        type: "BACK_TO_HISTORY",
+        historyForChange_AI
+      })
+
+      const turn_AI = !historyAI[0][action.idHistory_AI][1]
+      store.dispatch({
+        type: "TURN_IN_HISTORY_AI",
+        turn_AI
+      })
+      next(action)
+      break
+    }
 
     case LOGIN.SUBMIT: {
       store.dispatch(setLoginPending(true))
@@ -362,7 +411,7 @@ export default store => next => action => {
           .then(response => response.json())
           .then(response => {
             store.dispatch(setLoginPending(false))
-            var token = response.token;
+            var token = response.token
             if (response.user !== false) {
               store.dispatch(setLoginSuccess(true))
               getUserInfo(response.token).then(response => {
@@ -473,43 +522,61 @@ export default store => next => action => {
       const { userInfoForUpdateProfile, userInfo } = store.getState()
 
       // valid input value before fetching
-      const validateFirstName = validateInputOfProfile("FirstName", userInfoForUpdateProfile.firstName)
-      if (validateFirstName !== ""){
+      const validateFirstName = validateInputOfProfile(
+        "FirstName",
+        userInfoForUpdateProfile.firstName
+      )
+      if (validateFirstName !== "") {
         store.dispatch(setUpdateProfilePending(false))
         store.dispatch(setUpdateProfileSuccess(false))
         store.dispatch(setUpdateProfileError(new Error(validateFirstName)))
         return
       }
-      const validateLastName = validateInputOfProfile("LastName", userInfoForUpdateProfile.lastName)
-      if (validateLastName !== ""){
+      const validateLastName = validateInputOfProfile(
+        "LastName",
+        userInfoForUpdateProfile.lastName
+      )
+      if (validateLastName !== "") {
         store.dispatch(setUpdateProfilePending(false))
         store.dispatch(setUpdateProfileSuccess(false))
         store.dispatch(setUpdateProfileError(new Error(validateLastName)))
         return
       }
-      const validateAddress = validateInputOfProfile("Address", userInfoForUpdateProfile.address)
-      if (validateAddress !== ""){
+      const validateAddress = validateInputOfProfile(
+        "Address",
+        userInfoForUpdateProfile.address
+      )
+      if (validateAddress !== "") {
         store.dispatch(setUpdateProfilePending(false))
         store.dispatch(setUpdateProfileSuccess(false))
         store.dispatch(setUpdateProfileError(new Error(validateAddress)))
         return
       }
-      const validateCity = validateInputOfProfile("City", userInfoForUpdateProfile.city)
-      if (validateCity !== ""){
+      const validateCity = validateInputOfProfile(
+        "City",
+        userInfoForUpdateProfile.city
+      )
+      if (validateCity !== "") {
         store.dispatch(setUpdateProfilePending(false))
         store.dispatch(setUpdateProfileSuccess(false))
         store.dispatch(setUpdateProfileError(new Error(validateCity)))
         return
       }
-      const validateCountry = validateInputOfProfile("Country", userInfoForUpdateProfile.country)
-      if (validateCountry !== ""){
+      const validateCountry = validateInputOfProfile(
+        "Country",
+        userInfoForUpdateProfile.country
+      )
+      if (validateCountry !== "") {
         store.dispatch(setUpdateProfilePending(false))
         store.dispatch(setUpdateProfileSuccess(false))
         store.dispatch(setUpdateProfileError(new Error(validateCountry)))
         return
       }
-      const validateAboutMe = validateInputOfProfile("About Me", userInfoForUpdateProfile.aboutMe)
-      if (validateAboutMe !== ""){
+      const validateAboutMe = validateInputOfProfile(
+        "About Me",
+        userInfoForUpdateProfile.aboutMe
+      )
+      if (validateAboutMe !== "") {
         store.dispatch(setUpdateProfilePending(false))
         store.dispatch(setUpdateProfileSuccess(false))
         store.dispatch(setUpdateProfileError(new Error(validateAboutMe)))
@@ -555,7 +622,7 @@ export default store => next => action => {
           }
         })
         .catch(error => {})
-      break;
+      break
     }
     default:
       next(action)

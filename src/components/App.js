@@ -18,6 +18,7 @@ import Login from './LoginComponent/Login'
 import Register from './RegisterComponent/Register'
 import Homepage from './HomepageComponent/Homepage'
 import ShowGame from '../containers/ShowGame'
+import ShowGameAI from '../containers/ShowGameAI'
 import Profile from './Profile/Profile'
 
 const App = props => {
@@ -34,7 +35,7 @@ const App = props => {
                             <NavDropdown.Item as={Link} to="/game">Play 1vs1 offline</NavDropdown.Item>
                             <NavDropdown.Item>Play 1vs1 online</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item>Fight for AI</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to="/gameAI">Fight for AI</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
                     <Nav style={{minWidth:'180px'}}>
@@ -64,6 +65,9 @@ const App = props => {
                     </Route>
                     <Route path="/game">
                         {userInfo.email===""?<Redirect to="/" /> :<ShowGame props={props} />}
+                    </Route>
+                    <Route path="/gameAI">
+                        {userInfo.email===""?<Redirect to="/" /> :<ShowGameAI props={props} />}
                     </Route>
                     <Route path="/">
                         <Homepage props={props} />

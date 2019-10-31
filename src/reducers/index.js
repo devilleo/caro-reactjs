@@ -15,6 +15,13 @@ import {
   userInfoForUpdateProfile,
   userInfoForUpdateProfile_state
 } from "./allReducers"
+import {
+  squareAI,
+  turnAI,
+  isPlayingAI,
+  historyAI,
+  sortTypeHistoryAI
+} from "./GameAI_Reducers"
 
 export default combineReducers({
   square,
@@ -22,6 +29,11 @@ export default combineReducers({
   isPlaying,
   history,
   sortTypeHistory,
+  squareAI,
+  turnAI,
+  isPlayingAI,
+  historyAI,
+  sortTypeHistoryAI,
   userInfo,
   login,
   login_state,
