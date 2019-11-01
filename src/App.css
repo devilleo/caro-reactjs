@@ -28,6 +28,9 @@
   width: 32px;
   height: 32px;
 }
+/* .square:hover{
+  background-color: yellow;
+} */
 .square.focus{
   background-color: darksalmon !important;
 }
@@ -35,6 +38,10 @@
 .btn-primary{
   border-color: skyblue !important;
   background-color: mintcream  !important;
+}
+
+.btn-primary.square:hover{
+  border-color: darksalmon !important;
 }
 
 .btn.btn-info{
@@ -138,11 +145,6 @@ ul.kha > li {
 
 .btnSocial, .border-radius-2 input, .border-radius-2 button{
   border-radius: 20px !important;
-}
-
-button[class="btnSocial"]:hover {
-  background-color: #4CAF50; /* Green */
-  color: white;
 }
 
 .border-radius-2 div {

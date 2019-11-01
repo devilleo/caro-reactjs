@@ -15,7 +15,7 @@ const SquareAI = ({ onClick, id, value, focus }) => {
       onClick={onClick}
       id={id}
       className={`square btn btn-sm ${valueSquare[value][1]} ${focus===id? 'focus':''}`}
-      style={{ color: (value === 1 || value === 3) ? "red" : "blue" }}
+      style={{ color: (value === 1 || value === 3) ? "blue" : "red"}}
     >
       {valueSquare[value][0]}
     </button>
