@@ -2,7 +2,11 @@ import React from "react";
 import Square from "./Square";
 
 const Board = ({props}) => {
-  const { square, turn, toggleSquare } = props;
+  const { square, turn, toggleSquare, history } = props;
+  var isFocus = -1
+  if (history[0][history[2]]){
+    isFocus = history[0][history[2]][2]
+  }
   let arrFather = [];
   for (let i = 0; i < 20; i += 1) {
     let arr = [];
@@ -11,6 +15,7 @@ const Board = ({props}) => {
       arr.push(
         <Square
           key={index}
+          focus = {isFocus!==-1? isFocus:-1}
           onClick={() => toggleSquare(index, turn)}
           value={square[index]}
           id={index}

@@ -7,7 +7,8 @@ import {
 
 export const squareAI = (state = Array(400).fill(0), action) => {
   switch (action.type) {
-    case "TOGGLE_SQUARE_AI": {
+    case "TOGGLE_SQUARE_AI": 
+    case "TOGGLE_AI_TURN":{
       let stateClone = state.slice()
       stateClone[action.id_AI] = action.turn_AI ? 1 : 2
       return stateClone
@@ -18,7 +19,7 @@ export const squareAI = (state = Array(400).fill(0), action) => {
     }
     case "DRAW_AI": {
       let stateClone = state.slice()
-      console.log(action.arrDraw_AI + " and " + action.turn_AI)
+      // console.log(action.arrDraw_AI + " and " + action.turn_AI)
       action.arrDraw_AI.forEach(element => {
         stateClone[element] = action.turn_AI ? 3 : 4
       })
@@ -45,7 +46,7 @@ export const turnAI = (state = true, action) => {
       return true
     }
     case "TURN_IN_HISTORY_AI": {
-      return action.turn
+      return action.turn_AI
     }
     case HANDLE_CLICK.LOG_OUT: {
       return true
@@ -84,27 +85,28 @@ export const isPlayingAI = (state = true, action) => {
   }
 }
 
-/* one state's element inclues:
-      I.
+/* state historyAI inclues:
+      I. [,,]
         first param: list of history
         second param: turn at that time
         third param: the position was just toggled 
-      II.
+      II. Array(400).fill(0)
         param: the current board
-      III.
-        param: posision in history for focusing item
+      III. 0
+        param: posision in history for focusing item history
   */
 export const historyAI = (state = [[], Array(400).fill(0), 0], action) => {
   switch (action.type) {
-    case "TOGGLE_SQUARE_AI": {
+    case "TOGGLE_SQUARE_AI": 
+    case "TOGGLE_AI_TURN":{
       let stateClone = state.slice()
       stateClone[1][action.id_AI] = action.turn_AI ? 1 : 2
       let newHistory = [stateClone[1].slice(), action.turn_AI, action.id_AI]
       stateClone[0].push(newHistory)
       stateClone[2] = stateClone[0].length - 1
-      //   console.log(newHistory[0])
       return stateClone
     }
+
     case "TOGGLE_HISTORY_AI": {
       const stateClone = state.slice()
       stateClone[1] = []
@@ -124,7 +126,7 @@ export const historyAI = (state = [[], Array(400).fill(0), 0], action) => {
       let newHistory = [stateClone[1].slice(), action.turn_AI, action.id_AI]
       stateClone[0].push(newHistory)
       stateClone[2] = stateClone[0].length - 1
-      console.log(stateClone)
+      // console.log(stateClone)
       return stateClone
     }
     case HANDLE_CLICK.LOG_OUT: {

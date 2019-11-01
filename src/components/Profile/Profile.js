@@ -1,7 +1,7 @@
 import React from "react"
 
 const Profile = ({ props }) => {
-  const { userInfoForUpdateProfile, userInfoForUpdateProfile_state, userInfo } = props
+  const { userInfoForUpdateProfile, userInfoForUpdateProfile_state } = props
   const {
     updateProfile,
     firstNameProfileOnchange,
@@ -12,7 +12,7 @@ const Profile = ({ props }) => {
     aboutMeProfileOnchange
   } = props
 
-  console.log(userInfo)
+  // console.log(userInfo)
   return (
     <div className="col-md-12" style={{ padding: "0px" }}>
       <div className="card profileArea" style={{ padding: "5% 20%" }}>

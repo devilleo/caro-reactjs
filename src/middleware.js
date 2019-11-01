@@ -26,6 +26,7 @@ import {
   setUpdateProfileSuccess,
   setUpdateProfileError
 } from "./actions/userProfile_actions"
+// import { square } from "./reducers/allReducers"
 // import { removeState } from "./localStorage/localStorage";
 
 // condition for stop a game
@@ -336,7 +337,11 @@ export default store => next => action => {
     }
     // play with AI
     case "TOGGLE_SQUARE_AI": {
-      const { squareAI } = store.getState()
+      const { squareAI, turnAI } = store.getState()
+      // if AI still has not toggled
+      if (turnAI === false){
+        return
+      }
       if (squareAI[action.id_AI] === 0) {
         store.dispatch(changeTurnAI())
         const arrDraw_AI = isOver(squareAI, action.id_AI, action.turn_AI ? 1 : 2)
@@ -351,9 +356,50 @@ export default store => next => action => {
           })
           store.dispatch({ type: "RESET_HISTORY_AI" })
           store.dispatch(stopGameAI())
-        } else next(action)
-      }
+        }
+        else {
+          next(action)
+          setTimeout(() => {
+            store.dispatch(
+              {
+                type: "AI_TURN", 
+                turn_AI: !action.turn_AI
+              })
+          }, 1000);
+        }
+      }      
       break
+    }
+    case "AI_TURN":{
+      const { squareAI } = store.getState()
+      var randomPosition = Math.floor(Math.random() * 400);;
+      while (squareAI[randomPosition] !== 0){
+        randomPosition = Math.floor(Math.random() * 400);
+      }
+      if (squareAI[randomPosition] === 0) {
+        store.dispatch(changeTurnAI())
+        const arrDraw_AI = isOver(squareAI, randomPosition, action.turn_AI ? 1 : 2)
+        // console.log(action.turn_AI)
+        if (arrDraw_AI) {
+          store.dispatch(drawAI(arrDraw_AI, action.turn_AI))
+          store.dispatch({
+            type: "THE_LAST_UPDATE_IN_HISTORY_BEFORE_END_GAME_AI",
+            id_AI: action.id_AI,
+            turn_AI: action.turn_AI,
+            arrDraw_AI: arrDraw_AI
+          })
+          store.dispatch({ type: "RESET_HISTORY_AI" })
+          store.dispatch(stopGameAI())
+        }
+        else {
+          store.dispatch({
+            type: "TOGGLE_AI_TURN",
+            id_AI: randomPosition,
+            turn_AI: action.turn_AI
+          })
+        }
+      }
+      break;
     }
     case IS_PLAYING_AI.START: {
       store.dispatch({ type: "RESET_SQUARE_AI" })
@@ -368,7 +414,7 @@ export default store => next => action => {
       // console.log(action.idHistory)
       // console.log(historyForChange)
       store.dispatch({
-        type: "BACK_TO_HISTORY",
+        type: "BACK_TO_HISTORY_AI",
         historyForChange_AI
       })
 
@@ -378,6 +424,14 @@ export default store => next => action => {
         turn_AI
       })
       next(action)
+      if (turn_AI === false){
+        setTimeout(() => {
+          store.dispatch({
+            type: "AI_TURN", 
+            turn_AI: turn_AI
+          })
+        }, 1000);
+      }
       break
     }
 
@@ -515,7 +569,6 @@ export default store => next => action => {
       break
     }
     case HANDLE_USER_PROFILE.UPDATE: {
-      console.log("vao day")
       store.dispatch(setUpdateProfilePending(true))
       store.dispatch(setUpdateProfileSuccess(false))
       store.dispatch(setUpdateProfileError(null))

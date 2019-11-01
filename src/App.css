@@ -28,6 +28,9 @@
   width: 32px;
   height: 32px;
 }
+.square.focus{
+  background-color: darksalmon !important;
+}
 
 .btn-primary{
   border-color: skyblue !important;

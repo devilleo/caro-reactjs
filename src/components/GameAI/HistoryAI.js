@@ -4,11 +4,12 @@ const HistoryAI = ({props}) => {
   const arr = [];
   let toadoX = 0;
   let toadoY = 0;
+  let displayTurn = '';
   const { historyAI, toggleHistoryAI, sortTypeHistoryAI } = props;
-
   for (let i = 0; i < historyAI[0].length; i += 1) {
     toadoX = historyAI[0][i][2] % 20;
     toadoY = parseInt(historyAI[0][i][2] / 20, 10);
+    displayTurn = historyAI[0][i][1]? "X": "O";
     const element = (<li key={i}>
         <button
           className={
@@ -19,7 +20,7 @@ const HistoryAI = ({props}) => {
           onClick= {() => toggleHistoryAI(i)}
           type="button"
         >
-          Lượt {i + 1}: [{toadoY},{toadoX}]
+          Turn {i + 1}, {displayTurn}: [{toadoY},{toadoX}]
         </button>
       </li>);
     if (sortTypeHistoryAI)

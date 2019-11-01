@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Square = ({ onClick, id, value }) => {
+const Square = ({ onClick, id, value, focus }) => {
   const valueSquare = [
     ["", "btn-primary"],
     ["X", "btn-primary"],
@@ -14,7 +14,7 @@ const Square = ({ onClick, id, value }) => {
     <button
       onClick={onClick}
       id={id}
-      className={`square btn btn-sm ${valueSquare[value][1]}`}
+      className={`square btn btn-sm ${valueSquare[value][1]} ${focus===id? 'focus':''}`}
       style={{ color: (value === 1 || value === 3) ? "red" : "blue" }}
     >
       {valueSquare[value][0]}

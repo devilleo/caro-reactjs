@@ -2,7 +2,12 @@ import React from "react";
 import SquareAI from "./SquareAI";
 
 const BoardAI = ({props}) => {
-  const { squareAI, turnAI, toggleSquareAI } = props;
+  const { squareAI, turnAI, toggleSquareAI, historyAI } = props;
+  // console.log(historyAI[0][historyAI[2]]? historyAI[0][historyAI[2]][2]:"")
+  var isFocus = -1
+  if (historyAI[0][historyAI[2]]){
+    isFocus = historyAI[0][historyAI[2]][2]
+  }
   // console.log(squareAI)
   let arrFather = [];
   for (let i = 0; i < 20; i += 1) {
@@ -12,6 +17,7 @@ const BoardAI = ({props}) => {
       arr.push(
         <SquareAI
           key={index}
+          focus = {isFocus!==-1? isFocus:-1}
           onClick={() => toggleSquareAI(index, turnAI)}
           value={squareAI[index]}
           id={index}
