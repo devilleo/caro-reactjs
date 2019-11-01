@@ -284,7 +284,7 @@ function validatePassword(password) {
 }
 
 function validateInputOfProfile(displayName, value) {
-  if (value.length < 1 || value === null || value === undefined)
+  if (value === null || value === undefined || value.length < 1)
     return displayName + " doesn't have value. Please input."
   return ""
 }
