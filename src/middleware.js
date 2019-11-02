@@ -6,7 +6,8 @@ import {
   HANDLE_CLICK,
   HANDLE_USER_PROFILE,
   IS_PLAYING_AI,
-  TURN_AI
+  TURN_AI,
+  CHANGE_PASSWORD,
 } from "./actions/actionType"
 import { changeTurn, stopGame, draw } from "./actions/index"
 import { changeTurnAI, stopGameAI, drawAI } from "./actions/index"
@@ -24,7 +25,10 @@ import {
 import {
   setUpdateProfilePending,
   setUpdateProfileSuccess,
-  setUpdateProfileError
+  setUpdateProfileError,
+  setChangePasswordPending,
+  setChangePasswordSuccess,
+  setChangePasswordError,
 } from "./actions/userProfile_actions"
 // import { square } from "./reducers/allReducers"
 // import { removeState } from "./localStorage/localStorage";
@@ -665,7 +669,7 @@ export default store => next => action => {
             store.dispatch(setUpdateProfileSuccess(true))
             store.dispatch({
               type: "UPDATE_PROFILE_SUCCESS",
-              userInfoForUpdateProfile
+              user: userInfoForUpdateProfile
             })
             // console.log(store.getState())
           } else {
@@ -676,6 +680,70 @@ export default store => next => action => {
         })
         .catch(error => {})
       break
+    }
+    case CHANGE_PASSWORD.SUBMIT: {
+      store.dispatch(setChangePasswordPending(true))
+      store.dispatch(setChangePasswordSuccess(false))
+      store.dispatch(setChangePasswordError(null))
+
+      // validate inputs
+      const {changePassword, userInfo} = store.getState();
+      const validateOldPassword = validatePassword(changePassword.oldPassword)
+      if (validateOldPassword !== ""){
+        store.dispatch(setChangePasswordPending(false))
+        store.dispatch(setChangePasswordSuccess(false))
+        store.dispatch(setChangePasswordError(new Error("(Old password error) " + validateOldPassword)))
+        return
+      }
+      const validateNewPassword = validatePassword(changePassword.newPassword)
+      if (validateNewPassword !== ""){
+        store.dispatch(setChangePasswordPending(false))
+        store.dispatch(setChangePasswordSuccess(false))
+        store.dispatch(setChangePasswordError(new Error("(New password error) " + validateNewPassword)))
+        return
+      }
+      if (changePassword.newPassword !== changePassword.confirmNewPassword) {
+        store.dispatch(
+          setChangePasswordError(new Error("Password Confirm doesn't match."))
+        )
+        store.dispatch(setChangePasswordPending(false))
+        store.dispatch(setChangePasswordSuccess(false))
+        return
+      }
+      // fetching...
+      fetch("https://restful-api-nodejs-1612278.herokuapp.com/me/changePassword", {
+        method: "PUT",
+        headers: new Headers({
+          "Content-Type": "application/x-www-form-urlencoded", // <-- Specifying the Content-Type
+          secret_token: userInfo.token
+        }),
+        body:
+          "oldPassword=" +
+          changePassword.oldPassword +
+          "&newPassword=" +
+          changePassword.newPassword
+        // mode: "no-cors"
+      })
+        .then(response => response.json())
+        .then(response => {
+          store.dispatch(setChangePasswordPending(false))
+          // console.log(response)
+          if (response.message === "Change password complete") {
+            store.dispatch(setChangePasswordSuccess(true))
+            // console.log(store.getState())
+          }
+          else if (response.message === "Old password was wrong") {
+            store.dispatch(setChangePasswordError(new Error(response.message)))
+          }
+          else {
+            store.dispatch(
+              setChangePasswordError(new Error("Change Password error."))
+            )
+          }
+        })
+        .catch(error => {})
+      break
+
     }
     default:
       next(action)

@@ -10,7 +10,10 @@ import {
   REGISTER_MODAL,
   HANDLE_CLICK,
   HANDLE_USER_PROFILE,
-  UPDATE_PROFILE_STATE
+  UPDATE_PROFILE_STATE,
+  CHANGE_PASSWORD_MODAL,
+  CHANGE_PASSWORD,
+  CHANGE_PASSWORD_STATE,
 } from "../actions/actionType";
 
 export const square = (state = Array(400).fill(0), action) => {
@@ -183,6 +186,17 @@ export const userInfoForUpdateProfile = (
         city: action.user.city,
         country: action.user.country,
         aboutMe: action.user.aboutMe
+      })
+    }
+    case HANDLE_USER_PROFILE.REFRESH: {
+      return Object.assign({},state,{
+        email: action.userInfo.email,
+        firstName: action.userInfo.firstName,
+        lastName: action.userInfo.lastName,
+        address: action.userInfo.address,
+        city: action.userInfo.city,
+        country: action.userInfo.country,
+        aboutMe: action.userInfo.aboutMe
       })
     }
     case "LOGIN_FAILED":
@@ -430,5 +444,111 @@ export const register_modal = (state = {isOpen: false}, action) => {
       })
     }
     default: return state;
+  }
+}
+
+export const changePassword_modal = (state = {isOpen: false}, action) => {
+  switch (action.type){
+    case CHANGE_PASSWORD_MODAL.OPEN:{
+      return Object.assign({},state,{
+        isOpen: true,
+      })
+    }
+    case CHANGE_PASSWORD_MODAL.CLOSE:{
+      return Object.assign({},state,{
+        isOpen: false,
+      })
+    }
+    // case CHANGE_PASSWORD_STATE.SUCCESS:{
+    //   if (action.isChangePasswordSuccess === true){
+    //     return Object.assign({}, state, {
+    //       isOpen: false,
+    //     })
+    //   }
+    //   return state
+    // }
+    default: return state
+  }
+}
+
+export const changePassword = (state = {
+  oldPassword: "",
+  newPassword: "",
+  confirmNewPassword: "",
+}, action) => {
+  switch (action.type){
+    case CHANGE_PASSWORD.OLD_PASSWORD_ONCHANGE:{
+      return Object.assign({}, state, {
+        oldPassword: action.oldPassword
+      })
+    }
+    case CHANGE_PASSWORD.NEW_PASSWORD_ONCHANGE:{
+      return Object.assign({}, state, {
+        newPassword: action.newPassword
+      })
+    }
+    case CHANGE_PASSWORD.CONFIRM_NEW_PASSWORD_ONCHANGE:{
+      return Object.assign({}, state, {
+        confirmNewPassword: action.confirmNewPassword
+      })
+    }
+    case CHANGE_PASSWORD_STATE.SUCCESS:{
+      if (action.isChangePasswordSuccess === true){
+        return Object.assign({}, state, {
+          oldPassword: "",
+          newPassword: "",
+          confirmNewPassword: "",
+        })
+      }
+      return state
+    }
+    case HANDLE_CLICK.LOG_OUT:{
+      return Object.assign({}, state, {
+        oldPassword: "",
+        newPassword: "",
+        confirmNewPassword: "",
+      })
+    }
+    default: return state;
+  }
+}
+
+export const changePassword_state = (state = {
+  isChangePasswordPending: false,
+  isChangePasswordSuccess: false,
+  isChangePasswordError: null
+}, action) => {
+  switch (action.type) {
+    case CHANGE_PASSWORD_STATE.PENDING: {
+      return Object.assign({}, state, {
+        isChangePasswordPending: action.isChangePasswordPending
+      });
+    }
+    case CHANGE_PASSWORD_STATE.SUCCESS:
+      return Object.assign({}, state, {
+        isChangePasswordSuccess: action.isChangePasswordSuccess
+      });
+    case CHANGE_PASSWORD_STATE.ERROR:{
+      return Object.assign({}, state, {
+        isChangePasswordError: action.isChangePasswordError
+      })
+    }
+    case CHANGE_PASSWORD.OLD_PASSWORD_ONCHANGE:
+    case  CHANGE_PASSWORD.NEW_PASSWORD_ONCHANGE:
+    case CHANGE_PASSWORD.CONFIRM_NEW_PASSWORD_ONCHANGE: {
+      return Object.assign({}, state, {
+        isChangePasswordError: null
+      })
+    }
+    case CHANGE_PASSWORD_MODAL.CLOSE:
+    case HANDLE_CLICK.LOG_OUT: {
+        return {
+          isChangePasswordSuccess: false,
+          isChangePasswordPending: false,
+          isChangePasswordError: null
+        };
+    }
+    default:
+      return state;
   }
 }

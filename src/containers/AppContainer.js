@@ -17,12 +17,19 @@ import {
 } from "../actions/register_action"
 import {
   updateProfile,
+  refreshProfile,
   firstNameProfileOnchange,
   lastNameProfileOnchange,
   addressProfileOnchange,
   cityProfileOnchange,
   countryProfileOnchange,
-  aboutMeProfileOnchange
+  aboutMeProfileOnchange,
+  changePasswordModalOpen,
+  changePasswordModalClose,
+  oldPasswordOfChangePasswordOnChange,
+  newPasswordOfChangePasswordOnChange,
+  confirmNewPasswordOfChangePasswordOnChange,
+  changePasswordSubmit,
 } from "../actions/userProfile_actions"
 import App from "../components/App"
 
@@ -36,6 +43,9 @@ const mapStateToProps = state => ({
   register_modal: state.register_modal,
   userInfoForUpdateProfile: state.userInfoForUpdateProfile,
   userInfoForUpdateProfile_state: state.userInfoForUpdateProfile_state,
+  changePassword_modal: state.changePassword_modal,
+  changePassword: state.changePassword,
+  changePassword_state: state.changePassword_state
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -53,13 +63,25 @@ const mapDispatchToProps = dispatch => ({
   LoginModalClose: () => dispatch(LoginModalClose()),
   RegisterModalOpen: () => dispatch(RegisterModalOpen()),
   RegisterModalClose: () => dispatch(RegisterModalClose()),
-  updateProfile: () => dispatch(updateProfile()), 
-  firstNameProfileOnchange: firstName => dispatch(firstNameProfileOnchange(firstName)),
-  lastNameProfileOnchange: lastName => dispatch(lastNameProfileOnchange(lastName)),
+  updateProfile: () => dispatch(updateProfile()),
+  refreshProfile: userInfo => dispatch(refreshProfile(userInfo)),
+  firstNameProfileOnchange: firstName =>
+    dispatch(firstNameProfileOnchange(firstName)),
+  lastNameProfileOnchange: lastName =>
+    dispatch(lastNameProfileOnchange(lastName)),
   addressProfileOnchange: address => dispatch(addressProfileOnchange(address)),
   cityProfileOnchange: city => dispatch(cityProfileOnchange(city)),
   countryProfileOnchange: country => dispatch(countryProfileOnchange(country)),
   aboutMeProfileOnchange: aboutMe => dispatch(aboutMeProfileOnchange(aboutMe)),
+  changePasswordModalOpen: () => dispatch(changePasswordModalOpen()),
+  changePasswordModalClose: () => dispatch(changePasswordModalClose()),
+  oldPasswordOfChangePasswordOnChange: oldPassword =>
+    dispatch(oldPasswordOfChangePasswordOnChange(oldPassword)),
+  newPasswordOfChangePasswordOnChange: newPassword =>
+    dispatch(newPasswordOfChangePasswordOnChange(newPassword)),
+  confirmNewPasswordOfChangePasswordOnChange: confirmNewPassword =>
+    dispatch(confirmNewPasswordOfChangePasswordOnChange(confirmNewPassword)),
+  changePasswordSubmit: () => (dispatch(changePasswordSubmit())),
 })
 
 export default connect(

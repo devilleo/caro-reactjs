@@ -1,9 +1,10 @@
 import React from "react"
-
+import ChangePassword from "../ChangePassword/ChangePassword"
 const Profile = ({ props }) => {
-  const { userInfoForUpdateProfile, userInfoForUpdateProfile_state } = props
+  const { userInfoForUpdateProfile, userInfoForUpdateProfile_state, userInfo, changePasswordModalOpen } = props
   const {
     updateProfile,
+    refreshProfile,
     firstNameProfileOnchange,
     lastNameProfileOnchange,
     addressProfileOnchange,
@@ -14,8 +15,8 @@ const Profile = ({ props }) => {
 
   // console.log(userInfo)
   return (
-    <div className="col-md-12" style={{ padding: "0px" }}>
-      <div className="card profileArea" style={{ padding: "5% 20%" }}>
+    <div className="col-md-12 profileArea" style={{ padding: "5% 15%" }}>
+      <div className="card " style={{ padding: "5% 20%" }}>
         <div className="header">
           <h4 className="title">Your Profile</h4>
           <p className="category"></p>
@@ -154,13 +155,39 @@ const Profile = ({ props }) => {
               </div>
             )}
             <br></br>
-            <button
-              type="button"
-              onClick={updateProfile}
-              className="btn-fill pull-right btn btn-info"
-            >
-              Update Profile
-            </button>
+            <div className="row">
+              <div className="col-md-4" style={{textAlign:'center'}}>
+                <button
+                  type="button"
+                  onClick={updateProfile}
+                  className="btn-fill pull-right btn btn-info"
+                >
+                  Update Profile
+                </button>
+              </div>
+              <div className="col-md-4" style={{textAlign:'center'}}>
+                <button
+                  type="button"
+                  onClick={() => refreshProfile(userInfo)}
+                  className="btn-fill pull-right btn btn-info"
+                >
+                  Refresh
+                </button>
+              </div>
+              <div className="col-md-4" style={{textAlign:'center'}}>
+                  <button
+                    type="button"
+                    onClick={() => changePasswordModalOpen()}
+                    className="btn-fill pull-right btn btn-info"
+                  >
+                    Change Password
+                  </button>
+                  <ChangePassword props={props}></ChangePassword>
+              </div>
+              
+              
+            </div>
+            
             <div className="clearfix"></div>
           </form>
           <div className="footer">

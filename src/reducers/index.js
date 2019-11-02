@@ -13,7 +13,10 @@ import {
   login_modal,
   register_modal,
   userInfoForUpdateProfile,
-  userInfoForUpdateProfile_state
+  userInfoForUpdateProfile_state,
+  changePassword_modal,
+  changePassword_state,
+  changePassword
 } from "./allReducers"
 import {
   squareAI,
@@ -42,5 +45,8 @@ export default combineReducers({
   login_modal,
   register_modal,
   userInfoForUpdateProfile,
-  userInfoForUpdateProfile_state
+  userInfoForUpdateProfile_state,
+  changePassword_modal,
+  changePassword_state,
+  changePassword,
 })
