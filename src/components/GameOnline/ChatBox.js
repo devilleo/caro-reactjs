@@ -3,9 +3,9 @@ import "./ChatBox.css"
 
 const ChatBox = ({ props }) => {
   return (
-    <div className="container-fluid chatBoxComponent">
+    <div className="container-fluid">
         {/* <div className="col-md-4 col-xl-3 chat">
-          <div className="card mb-sm-3 mb-md-0 contacts_card">
+          <div className="card cardChatBox mb-sm-3 mb-md-0 contacts_card">
             <div className="card-header">
               <div className="input-group">
                 <input
@@ -109,7 +109,7 @@ const ChatBox = ({ props }) => {
           </div>
         </div> */}
         <div className="chat">
-          <div className="card">
+          <div className="cardChatBox card">
             <div className="card-header msg_head">
               <div className="d-flex bd-highlight">
                 <div className="img_cont">
@@ -250,7 +250,7 @@ const ChatBox = ({ props }) => {
               <div className="input-group">
                 <div className="input-group-append">
                   <span className="input-group-text attach_btn">
-                    <i className="fas fa-paperclip"></i>
+                    <i className="fas"></i>
                   </span>
                 </div>
                 <textarea

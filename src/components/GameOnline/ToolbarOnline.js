@@ -49,7 +49,7 @@ const ToolbarOnline = ({ props }) => {
         )}
       </div>
       <br />
-      {/* <div style={{ marginTop: "10px", marginBottom: "10px" }}>
+      <div style={{ marginTop: "10px", marginBottom: "10px" }}>
         <button
           type="button"
           className="btn btn-success"
@@ -64,7 +64,7 @@ const ToolbarOnline = ({ props }) => {
         >
           Sắp xếp
         </button>
-      </div> */}
+      </div>
 
       {/* <HistoryOnline props={props} /> */}
       <ChatBox props={props}></ChatBox>
