@@ -26,6 +26,14 @@ import {
   sortTypeHistoryAI
 } from "./GameAI_Reducers"
 
+import {
+  squareOnline,
+  turnOnline,
+  isPlayingOnline,
+  historyOnline,
+  sortTypeHistoryOnline
+} from "./GameOnline_Reducers"
+
 export default combineReducers({
   square,
   turn,
@@ -37,6 +45,11 @@ export default combineReducers({
   isPlayingAI,
   historyAI,
   sortTypeHistoryAI,
+  squareOnline,
+  turnOnline,
+  isPlayingOnline,
+  historyOnline,
+  sortTypeHistoryOnline,
   userInfo,
   login,
   login_state,

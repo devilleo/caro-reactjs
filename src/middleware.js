@@ -7,10 +7,13 @@ import {
   HANDLE_USER_PROFILE,
   IS_PLAYING_AI,
   TURN_AI,
+  IS_PLAYING_ONLINE,
+  TURN_ONLINE,
   CHANGE_PASSWORD,
 } from "./actions/actionType"
 import { changeTurn, stopGame, draw } from "./actions/index"
 import { changeTurnAI, stopGameAI, drawAI } from "./actions/index"
+import { changeTurnOnline, stopGameOnline, drawOnline } from "./actions/index"
 import {
   setLoginPending,
   setLoginSuccess,
@@ -433,6 +436,66 @@ export default store => next => action => {
           store.dispatch({
             type: "AI_TURN", 
             turn_AI: turn_AI
+          })
+        }, 1000);
+      }
+      break
+    }
+
+    // play 1vs1 Online
+    case "TOGGLE_SQUARE_ONLINE": {
+      const { squareOnline } = store.getState()
+      console.log("toggled middleware")
+      // if Online still has not toggled
+      if (squareOnline[action.id_ONLINE] === 0) {
+        store.dispatch(changeTurnOnline())
+        const arrDraw_ONLINE = isOver(squareOnline, action.id_ONLINE, action.turn_ONLINE ? 1 : 2)
+        // console.log(action.turn_ONLINE)
+        if (arrDraw_ONLINE) {
+          store.dispatch(drawOnline(arrDraw_ONLINE, action.turn_ONLINE))
+          store.dispatch({
+            type: "THE_LAST_UPDATE_IN_HISTORY_BEFORE_END_GAME_ONLINE",
+            id_ONLINE: action.id_ONLINE,
+            turn_ONLINE: action.turn_ONLINE,
+            arrDraw_ONLINE: arrDraw_ONLINE
+          })
+          store.dispatch({ type: "RESET_HISTORY_ONLINE" })
+          store.dispatch(stopGameOnline())
+        }
+        else {
+          next(action)
+        }
+      }      
+      break
+    }
+    case IS_PLAYING_ONLINE.START: {
+      store.dispatch({ type: "RESET_SQUARE_ONLINE" })
+      store.dispatch({ type: TURN_ONLINE.RESET })
+      store.dispatch({ type: "RESET_HISTORY_ONLINE" })
+      next(action)
+      break
+    }
+    case "TOGGLE_HISTORY_ONLINE": {
+      const { historyOnline } = store.getState()
+      const historyForChange_ONLINE = historyOnline[0][action.idHistory_ONLINE][0].slice()
+      // console.log(action.idHistory)
+      // console.log(historyForChange)
+      store.dispatch({
+        type: "BACK_TO_HISTORY_ONLINE",
+        historyForChange_ONLINE
+      })
+
+      const turn_ONLINE = !historyOnline[0][action.idHistory_ONLINE][1]
+      store.dispatch({
+        type: "TURN_IN_HISTORY_ONLINE",
+        turn_ONLINE
+      })
+      next(action)
+      if (turn_ONLINE === false){
+        setTimeout(() => {
+          store.dispatch({
+            type: "Online_TURN", 
+            turn_ONLINE: turn_ONLINE
           })
         }, 1000);
       }

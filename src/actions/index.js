@@ -1,25 +1,35 @@
-import { TURN, IS_PLAYING, HISTORY_SORT, TURN_AI, IS_PLAYING_AI, HISTORY_SORT_AI } from "./actionType";
+import {
+  TURN,
+  IS_PLAYING,
+  HISTORY_SORT,
+  TURN_AI,
+  IS_PLAYING_AI,
+  HISTORY_SORT_AI,
+  TURN_ONLINE,
+  IS_PLAYING_ONLINE,
+  HISTORY_SORT_ONLINE
+} from "./actionType"
 export const toggleSquare = (id, turn) => ({
   type: "TOGGLE_SQUARE",
   id,
   turn
-});
+})
 
 export const changeTurn = () => ({
   type: TURN.CHANGE
-});
+})
 
 export const changeSortHistory = () => ({
-    type: HISTORY_SORT.CHANGE
+  type: HISTORY_SORT.CHANGE
 })
 
 export const stopGame = () => ({
   type: IS_PLAYING.STOP
-});
+})
 
 export const clickRestartGame = () => ({
   type: IS_PLAYING.START
-});
+})
 
 export const draw = (arrDraw, turn) => ({
   type: "DRAW",
@@ -27,9 +37,9 @@ export const draw = (arrDraw, turn) => ({
   turn
 })
 
-export const toggleHistory = (idHistory) => ({
+export const toggleHistory = idHistory => ({
   type: "TOGGLE_HISTORY",
-  idHistory,
+  idHistory
 })
 
 // actions play with AI.
@@ -37,23 +47,23 @@ export const toggleSquareAI = (id_AI, turn_AI) => ({
   type: "TOGGLE_SQUARE_AI",
   id_AI,
   turn_AI
-});
+})
 
 export const changeTurnAI = () => ({
   type: TURN_AI.CHANGE
-});
+})
 
 export const changeSortHistoryAI = () => ({
-    type: HISTORY_SORT_AI.CHANGE
+  type: HISTORY_SORT_AI.CHANGE
 })
 
 export const stopGameAI = () => ({
   type: IS_PLAYING_AI.STOP
-});
+})
 
 export const clickRestartGameAI = () => ({
   type: IS_PLAYING_AI.START
-});
+})
 
 export const drawAI = (arrDraw_AI, turn_AI) => ({
   type: "DRAW_AI",
@@ -61,7 +71,41 @@ export const drawAI = (arrDraw_AI, turn_AI) => ({
   turn_AI
 })
 
-export const toggleHistoryAI = (idHistory_AI) => ({
+export const toggleHistoryAI = idHistory_AI => ({
   type: "TOGGLE_HISTORY_AI",
-  idHistory_AI,
+  idHistory_AI
+})
+
+// actions play 1vs1 online.
+export const toggleSquareOnline = (id_ONLINE, turn_ONLINE) => ({
+  type: "TOGGLE_SQUARE_ONLINE",
+  id_ONLINE,
+  turn_ONLINE
+})
+
+export const changeTurnOnline = () => ({
+  type: TURN_ONLINE.CHANGE
+})
+
+export const changeSortHistoryOnline = () => ({
+  type: HISTORY_SORT_ONLINE.CHANGE
+})
+
+export const stopGameOnline = () => ({
+  type: IS_PLAYING_ONLINE.STOP
+})
+
+export const clickRestartGameOnline = () => ({
+  type: IS_PLAYING_ONLINE.START
+})
+
+export const drawOnline = (arrDraw_ONLINE, turn_ONLINE) => ({
+  type: "DRAW_ONLINE",
+  arrDraw_ONLINE,
+  turn_ONLINE
+})
+
+export const toggleHistoryOnline = idHistory_ONLINE => ({
+  type: "TOGGLE_HISTORY_ONLINE",
+  idHistory_ONLINE
 })

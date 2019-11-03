@@ -1,0 +1,1 @@
+export const serverSocket = "http://localhost:5000/"

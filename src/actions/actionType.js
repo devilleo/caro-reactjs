@@ -27,6 +27,21 @@ export const HISTORY_SORT_AI = {
     CHANGE: "ascending_history_list_AI"
 }
 
+// play 1vs1 online
+export const TURN_ONLINE = {
+  CHANGE: "change__turn_Online",
+  RESET: "reset_turn_Online"
+};
+
+export const IS_PLAYING_ONLINE = {
+  STOP: "stop_play_Online",
+  START: "start_play_Online"
+};
+
+export const HISTORY_SORT_ONLINE = {
+    CHANGE: "ascending_history_list_Online"
+}
+
 // login 
 export const LOGIN_STATE = {
   PENDING: "Login Pending",
