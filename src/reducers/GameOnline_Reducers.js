@@ -92,6 +92,7 @@ export const squareOnline = (state = Array(400).fill(0), action) => {
       console.log("state clone: ", stateClone)
       return stateClone
     }
+    case "OUT_GAME":
     case "RESET BOARD FOR NEW GAME":{
       return Array(400).fill(0)
     }
@@ -108,6 +109,7 @@ export const findingAGame_state = (state = {isFinding: false, foundAGame: false}
         foundAGame: false
       })
     }
+    case "OUT_GAME":
     case "CANCEL_FINDING_A_GAME":{
       return Object.assign({},state,{
         isFinding: false,
@@ -130,6 +132,7 @@ export const turnOnline = (state = true, action) => {
     case "UPDATE NEW TURN FROM SERVER":{
       return action.newTurn
     }
+    case "OUT_GAME":
     case "RESET BOARD FOR NEW GAME":{
       return true
     }
@@ -159,6 +162,7 @@ export const isPlayingOnline = (state = true, action) => {
     case IS_PLAYING_ONLINE.START: {
       return true
     }
+    case "OUT_GAME":
     case HANDLE_CLICK.LOG_OUT: {
       return true
     }

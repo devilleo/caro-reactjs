@@ -9,7 +9,7 @@ import {
   TURN_AI,
   IS_PLAYING_ONLINE,
   TURN_ONLINE,
-  CHANGE_PASSWORD,
+  CHANGE_PASSWORD
 } from "./actions/actionType"
 import { changeTurn, stopGame, draw } from "./actions/index"
 import { changeTurnAI, stopGameAI, drawAI } from "./actions/index"
@@ -31,12 +31,11 @@ import {
   setUpdateProfileError,
   setChangePasswordPending,
   setChangePasswordSuccess,
-  setChangePasswordError,
+  setChangePasswordError
 } from "./actions/userProfile_actions"
 // import { square } from "./reducers/allReducers"
 // import { removeState } from "./localStorage/localStorage";
-import {emitToggleSquare, findingRoom} from "./Config/Socket"
-
+import { emitToggleSquare, findingRoom } from "./Config/Socket"
 
 // condition for stop a game
 const isOver = (arr, index, value) => {
@@ -348,12 +347,16 @@ export default store => next => action => {
     case "TOGGLE_SQUARE_AI": {
       const { squareAI, turnAI } = store.getState()
       // if AI still has not toggled
-      if (turnAI === false){
+      if (turnAI === false) {
         return
       }
       if (squareAI[action.id_AI] === 0) {
         store.dispatch(changeTurnAI())
-        const arrDraw_AI = isOver(squareAI, action.id_AI, action.turn_AI ? 1 : 2)
+        const arrDraw_AI = isOver(
+          squareAI,
+          action.id_AI,
+          action.turn_AI ? 1 : 2
+        )
         // console.log(action.turn_AI)
         if (arrDraw_AI) {
           store.dispatch(drawAI(arrDraw_AI, action.turn_AI))
@@ -365,29 +368,31 @@ export default store => next => action => {
           })
           store.dispatch({ type: "RESET_HISTORY_AI" })
           store.dispatch(stopGameAI())
-        }
-        else {
+        } else {
           next(action)
           setTimeout(() => {
-            store.dispatch(
-              {
-                type: "AI_TURN", 
-                turn_AI: !action.turn_AI
-              })
-          }, 1000);
+            store.dispatch({
+              type: "AI_TURN",
+              turn_AI: !action.turn_AI
+            })
+          }, 1000)
         }
-      }      
+      }
       break
     }
-    case "AI_TURN":{
+    case "AI_TURN": {
       const { squareAI } = store.getState()
-      var randomPosition = Math.floor(Math.random() * 400);;
-      while (squareAI[randomPosition] !== 0){
-        randomPosition = Math.floor(Math.random() * 400);
+      var randomPosition = Math.floor(Math.random() * 400)
+      while (squareAI[randomPosition] !== 0) {
+        randomPosition = Math.floor(Math.random() * 400)
       }
       if (squareAI[randomPosition] === 0) {
         store.dispatch(changeTurnAI())
-        const arrDraw_AI = isOver(squareAI, randomPosition, action.turn_AI ? 1 : 2)
+        const arrDraw_AI = isOver(
+          squareAI,
+          randomPosition,
+          action.turn_AI ? 1 : 2
+        )
         // console.log(action.turn_AI)
         if (arrDraw_AI) {
           store.dispatch(drawAI(arrDraw_AI, action.turn_AI))
@@ -399,8 +404,7 @@ export default store => next => action => {
           })
           store.dispatch({ type: "RESET_HISTORY_AI" })
           store.dispatch(stopGameAI())
-        }
-        else {
+        } else {
           store.dispatch({
             type: "TOGGLE_AI_TURN",
             id_AI: randomPosition,
@@ -408,7 +412,7 @@ export default store => next => action => {
           })
         }
       }
-      break;
+      break
     }
     case IS_PLAYING_AI.START: {
       store.dispatch({ type: "RESET_SQUARE_AI" })
@@ -433,60 +437,65 @@ export default store => next => action => {
         turn_AI
       })
       next(action)
-      if (turn_AI === false){
+      if (turn_AI === false) {
         setTimeout(() => {
           store.dispatch({
-            type: "AI_TURN", 
+            type: "AI_TURN",
             turn_AI: turn_AI
           })
-        }, 1000);
+        }, 1000)
       }
       break
     }
 
     // play 1vs1 Online
-    case "UPDATE NEW BOARD FROM SERVER":{
+    case "UPDATE NEW BOARD FROM SERVER": {
       var tempBoard = Array(400).fill(0)
       const length = action.arrSquare.length
-      for (var i = 0; i < length - 1; i+=1){
-        if (i % 2 === 0)
-          tempBoard[action.arrSquare[i]] = 1
-        else 
-          tempBoard[action.arrSquare[i]] = 2
+      for (var i = 0; i < length - 1; i += 1) {
+        if (i % 2 === 0) tempBoard[action.arrSquare[i]] = 1
+        else tempBoard[action.arrSquare[i]] = 2
       }
-      const arrDraw_ONLINE = isOver(tempBoard, action.arrSquare[length-1], (length-1)%2===0? 1:2)
+      const arrDraw_ONLINE = isOver(
+        tempBoard,
+        action.arrSquare[length - 1],
+        (length - 1) % 2 === 0 ? 1 : 2
+      )
       console.log("arrDraw ", arrDraw_ONLINE)
-      if (arrDraw_ONLINE !== false){
+      if (arrDraw_ONLINE !== false) {
         console.log("game over")
         store.dispatch({
           type: "DRAW SQUARE WIN",
           arrSquare: action.arrSquare,
           arrDraw: arrDraw_ONLINE,
-          whoIsWinner: (length-1)%2===0? 1:2,
+          whoIsWinner: (length - 1) % 2 === 0 ? 1 : 2
         })
         store.dispatch({
           type: IS_PLAYING_ONLINE.STOP
         })
         return
-      }
-      else {
+      } else {
         console.log("game continue")
         next(action)
       }
     }
     case "TOGGLE_SQUARE_ONLINE": {
-      const { squareOnline, turnOnline, roomInfo, isPlayingOnline } = store.getState()
-      if (isPlayingOnline === false){
+      const {
+        squareOnline,
+        turnOnline,
+        roomInfo,
+        isPlayingOnline
+      } = store.getState()
+      if (isPlayingOnline === false) {
         console.log("Game is over, can not continue...")
         return
       }
-      if (roomInfo.areYouPlayer1 !== turnOnline){
+      if (roomInfo.areYouPlayer1 !== turnOnline) {
         console.log("this is not your turn")
         return
-      }
-      else{
+      } else {
         console.log("yeahh clickkked")
-        if (squareOnline[action.id_ONLINE] === 0){
+        if (squareOnline[action.id_ONLINE] === 0) {
           emitToggleSquare(action.id_ONLINE, roomInfo.idRoom)
         }
       }
@@ -494,7 +503,11 @@ export default store => next => action => {
       // if Online still has not toggled
       if (squareOnline[action.id_ONLINE] === 0) {
         store.dispatch(changeTurnOnline())
-        const arrDraw_ONLINE = isOver(squareOnline, action.id_ONLINE, action.turn_ONLINE ? 1 : 2)
+        const arrDraw_ONLINE = isOver(
+          squareOnline,
+          action.id_ONLINE,
+          action.turn_ONLINE ? 1 : 2
+        )
         // console.log(action.turn_ONLINE)
         if (arrDraw_ONLINE) {
           store.dispatch(drawOnline(arrDraw_ONLINE, action.turn_ONLINE))
@@ -506,11 +519,10 @@ export default store => next => action => {
           })
           store.dispatch({ type: "RESET_HISTORY_ONLINE" })
           store.dispatch(stopGameOnline())
-        }
-        else {
+        } else {
           next(action)
         }
-      }      
+      }
       break
     }
     case IS_PLAYING_ONLINE.START: {
@@ -520,8 +532,8 @@ export default store => next => action => {
       next(action)
       break
     }
-    case "IS_FINDING_A_GAME":{
-      const {userInfo} = store.getState()
+    case "IS_FINDING_A_GAME": {
+      const { userInfo } = store.getState()
       findingRoom(userInfo)
       next(action)
     }
@@ -544,7 +556,7 @@ export default store => next => action => {
     //   if (turn_ONLINE === false){
     //     setTimeout(() => {
     //       store.dispatch({
-    //         type: "Online_TURN", 
+    //         type: "Online_TURN",
     //         turn_ONLINE: turn_ONLINE
     //       })
     //     }, 1000);
@@ -615,6 +627,69 @@ export default store => next => action => {
       }, 1)
       break
     }
+    case "LOGIN_WITH_GOOGLE":
+    case "LOGIN_WITH_FACEBOOK": {
+      console.log("hello google")
+      store.dispatch(setLoginPending(true))
+      store.dispatch(setLoginSuccess(false))
+      store.dispatch(setLoginError(null))
+
+      // try to register...
+      fetch("https://restful-api-nodejs-1612278.herokuapp.com/users/register", {
+        method: "POST",
+        headers: new Headers({
+          "Content-Type": "application/x-www-form-urlencoded" // <-- Specifying the Content-Type
+        }),
+        body: "email=" + action.response.email + action.typeLogin + "&password=" + "123456"
+        // mode: "no-cors"
+      })
+        .then(response => response.json())
+        .then(response => {
+          // always login after register
+          fetch("https://restful-api-nodejs-1612278.herokuapp.com/users/login", {
+          method: "POST",
+          headers: new Headers({
+            "Content-Type": "application/x-www-form-urlencoded" // <-- Specifying the Content-Type
+          }),
+          body: "email=" + action.response.email + action.typeLogin + "&password=" + "123456"
+          // mode: "no-cors"
+          })
+          .then(response1 => response1.json())
+          .then(response1 => {
+            store.dispatch(setLoginPending(false))
+            var token = response1.token
+            if (response1.user !== false) {
+              store.dispatch(setLoginSuccess(true))
+              getUserInfo(response1.token).then(response1 => {
+                if (response1 !== false) {
+                  store.dispatch({
+                    type: "LOGIN_SUCCESS",
+                    user: Object.assign({}, response1, {
+                      token: token
+                    })
+                  })
+                  store.dispatch(LoginModalClose())
+                  console.log("Login success")
+                } else {
+                  // error of get UserInfo
+                  // TODO
+                }
+              })
+              // console.log(store.getState())
+            } else {
+              // store.dispatch(
+              //   setLoginError(new Error("Incorrect email or password."))
+              // )
+              store.dispatch({
+                type: "LOGIN_FAILED"
+              })
+            }
+          })
+          .catch(error => {})
+        })
+        .catch(error => {})
+      break
+    }
     case HANDLE_CLICK.LOG_OUT: {
       store.dispatch(setLoginSuccess(false))
       store.dispatch(setRegisterSuccess(false))
@@ -664,10 +739,7 @@ export default store => next => action => {
           .then(response => response.json())
           .then(response => {
             store.dispatch(setRegisterPending(false))
-            if (
-              response.message !==
-              "Failed to create new User, Email has been registed before."
-            ) {
+            if (response.message === "User added successfully!!!") {
               store.dispatch(setRegisterSuccess(true))
               console.log("register success")
               store.dispatch(setRegisterError(null))
@@ -800,19 +872,27 @@ export default store => next => action => {
       store.dispatch(setChangePasswordError(null))
 
       // validate inputs
-      const {changePassword, userInfo} = store.getState();
+      const { changePassword, userInfo } = store.getState()
       const validateOldPassword = validatePassword(changePassword.oldPassword)
-      if (validateOldPassword !== ""){
+      if (validateOldPassword !== "") {
         store.dispatch(setChangePasswordPending(false))
         store.dispatch(setChangePasswordSuccess(false))
-        store.dispatch(setChangePasswordError(new Error("(Old password error) " + validateOldPassword)))
+        store.dispatch(
+          setChangePasswordError(
+            new Error("(Old password error) " + validateOldPassword)
+          )
+        )
         return
       }
       const validateNewPassword = validatePassword(changePassword.newPassword)
-      if (validateNewPassword !== ""){
+      if (validateNewPassword !== "") {
         store.dispatch(setChangePasswordPending(false))
         store.dispatch(setChangePasswordSuccess(false))
-        store.dispatch(setChangePasswordError(new Error("(New password error) " + validateNewPassword)))
+        store.dispatch(
+          setChangePasswordError(
+            new Error("(New password error) " + validateNewPassword)
+          )
+        )
         return
       }
       if (changePassword.newPassword !== changePassword.confirmNewPassword) {
@@ -824,19 +904,22 @@ export default store => next => action => {
         return
       }
       // fetching...
-      fetch("https://restful-api-nodejs-1612278.herokuapp.com/me/changePassword", {
-        method: "PUT",
-        headers: new Headers({
-          "Content-Type": "application/x-www-form-urlencoded", // <-- Specifying the Content-Type
-          secret_token: userInfo.token
-        }),
-        body:
-          "oldPassword=" +
-          changePassword.oldPassword +
-          "&newPassword=" +
-          changePassword.newPassword
-        // mode: "no-cors"
-      })
+      fetch(
+        "https://restful-api-nodejs-1612278.herokuapp.com/me/changePassword",
+        {
+          method: "PUT",
+          headers: new Headers({
+            "Content-Type": "application/x-www-form-urlencoded", // <-- Specifying the Content-Type
+            secret_token: userInfo.token
+          }),
+          body:
+            "oldPassword=" +
+            changePassword.oldPassword +
+            "&newPassword=" +
+            changePassword.newPassword
+          // mode: "no-cors"
+        }
+      )
         .then(response => response.json())
         .then(response => {
           store.dispatch(setChangePasswordPending(false))
@@ -844,11 +927,9 @@ export default store => next => action => {
           if (response.message === "Change password complete") {
             store.dispatch(setChangePasswordSuccess(true))
             // console.log(store.getState())
-          }
-          else if (response.message === "Old password was wrong") {
+          } else if (response.message === "Old password was wrong") {
             store.dispatch(setChangePasswordError(new Error(response.message)))
-          }
-          else {
+          } else {
             store.dispatch(
               setChangePasswordError(new Error("Change Password error."))
             )
@@ -856,7 +937,6 @@ export default store => next => action => {
         })
         .catch(error => {})
       break
-
     }
     default:
       next(action)

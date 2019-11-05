@@ -5,7 +5,9 @@ import {
   passwordOnchange,
   logOut,
   LoginModalOpen,
-  LoginModalClose
+  LoginModalClose,
+  LoginWithFacebook,
+  LoginWithGoogle
 } from "../actions/login_actions"
 import {
   registerSubmit,
@@ -50,6 +52,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   loginSubmit: () => dispatch(loginSubmit()),
+  LoginWithFacebook: (response) => dispatch(LoginWithFacebook(response)),
+  LoginWithGoogle: (response) => dispatch(LoginWithGoogle(response)),
   emailOnchange: email => dispatch(emailOnchange(email)),
   passwordOnchange: password => dispatch(passwordOnchange(password)),
   logOut: () => dispatch(logOut()),

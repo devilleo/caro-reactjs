@@ -40,3 +40,15 @@ export const LoginModalOpen = () => ({
 export const LoginModalClose = () => ({
     type: LOGIN_MODAL.CLOSE
 })
+
+export const LoginWithFacebook = (response) => ({
+    type: "LOGIN_WITH_FACEBOOK",
+    response: response,
+    typeLogin: ".facebook"
+})
+
+export const LoginWithGoogle = (response) => ({
+    type: "LOGIN_WITH_GOOGLE",
+    response: response,
+    typeLogin: ".google"
+})

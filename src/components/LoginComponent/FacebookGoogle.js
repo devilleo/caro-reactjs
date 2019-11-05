@@ -1,35 +1,32 @@
-import React, { Component } from 'react';
+import React, { Component } from "react"
 
-import FacebookLogin from 'react-facebook-login';
+import FacebookLogin from "react-facebook-login"
 
-import GoogleLogin from 'react-google-login';
+import GoogleLogin from "react-google-login"
 
-class FacebookGoogle extends Component {
+const FacebookGoogle = ({ props }) => {
+  const { LoginWithFacebook, LoginWithGoogle } = props
 
-  render() {
-
-    const responseFacebook = (response) => {
-      console.log(response);
-      if (response.status === "unknown"){
-          console.log("log in with facebook fail")
-      }
-      else{
-
-      }
+  const responseFacebook = response => {
+    console.log(response)
+    if (response.status === "unknown") {
+      console.log("log in with facebook fail")
+    } else {
+      LoginWithFacebook(response)
     }
+  }
 
-    const responseGoogle = (response) => {
-        if (response.error === "popup_closed_by_user"){
-            console.log("log in with google fail")
-        }
-        else{
-            console.log(response.w3);
-        }
+  const responseGoogle = response => {
+    if (response.error === "popup_closed_by_user") {
+      console.log("log in with google fail")
+    } else {
+      var result = {email: response.w3.U3}
+      LoginWithGoogle(result)
     }
+  }
 
-    return (
-      <div className="App">
-
+  return (
+    <div className="App">
       <FacebookLogin
         appId="2307377392925722" //APP ID NOT CREATED YET
         fields="name,email,picture, gender, birthday"
@@ -42,20 +39,24 @@ class FacebookGoogle extends Component {
       <br />
       <br />
 
-
       <GoogleLogin
         clientId="184251590251-0tfh67fk69sc0ll4bhljgonc44csvfup.apps.googleusercontent.com" //CLIENTID NOT CREATED YET
         buttonText="LOGIN WITH GOOGLE"
         onSuccess={responseGoogle}
         onFailure={responseGoogle}
         render={renderProps => (
-            <button className="my-facebookgoogle-button-class" onClick={renderProps.onClick} disabled={renderProps.disabled}><i className="fa fa-google"></i><span>&nbsp;&nbsp;</span>Login with Google</button>
+          <button
+            className="my-facebookgoogle-button-class"
+            onClick={renderProps.onClick}
+            disabled={renderProps.disabled}
+          >
+            <i className="fa fa-google"></i>
+            <span>&nbsp;&nbsp;</span>Login with Google
+          </button>
         )}
       />
-
-      </div>
-    );
-  }
+    </div>
+  )
 }
 
-export default FacebookGoogle;
+export default FacebookGoogle

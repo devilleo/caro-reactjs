@@ -20,7 +20,7 @@ const Login = ({ props }) => {
     login_state,
     emailOnchange,
     passwordOnchange,
-    loginSubmit
+    loginSubmit,
   } = props
   const { login_modal, LoginModalClose } = props
   return (
@@ -112,7 +112,7 @@ const Login = ({ props }) => {
             <FacebookLoginButton onClick={() => alert("Hello")}>
               <span>Facebook</span>
             </FacebookLoginButton> */}
-            <FacebookGoogle></FacebookGoogle>
+            <FacebookGoogle props={props}></FacebookGoogle>
           </div>
         </Form>
       </Modal.Body>
