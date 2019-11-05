@@ -31,7 +31,10 @@ import {
   turnOnline,
   isPlayingOnline,
   historyOnline,
-  sortTypeHistoryOnline
+  sortTypeHistoryOnline,
+  roomInfo,
+  message,
+  findingAGame_state,
 } from "./GameOnline_Reducers"
 
 export default combineReducers({
@@ -62,4 +65,7 @@ export default combineReducers({
   changePassword_modal,
   changePassword_state,
   changePassword,
+  roomInfo,
+  message,
+  findingAGame_state
 })

@@ -1,6 +1,7 @@
 import React from "react"
 import { Button, Form, Modal } from "react-bootstrap"
 import { FacebookLoginButton, GoogleLoginButton } from "react-social-login-buttons";
+import FacebookGoogle from "./FacebookGoogle";
 
 
 // import GoogleLogin from "react-google-login"
@@ -105,12 +106,13 @@ const Login = ({ props }) => {
             >
               <img alt="" src="facebook.icon.png" className="imgFacebook"></img>
             </button> */}
-            <GoogleLoginButton onClick={() => alert("Hello")}>
+            {/* <GoogleLoginButton onClick={() => alert("Hello")}>
               <span>Google</span>
             </GoogleLoginButton>
             <FacebookLoginButton onClick={() => alert("Hello")}>
               <span>Facebook</span>
-            </FacebookLoginButton>
+            </FacebookLoginButton> */}
+            <FacebookGoogle></FacebookGoogle>
           </div>
         </Form>
       </Modal.Body>

@@ -3,10 +3,11 @@ import SquareOnline from "./SquareOnline";
 
 const BoardOnline = ({props}) => {
   const { squareOnline, turnOnline, toggleSquareOnline, historyOnline } = props;
+  console.log("board component ", squareOnline)
   var isFocus = -1
-  if (historyOnline[0][historyOnline[2]]){
-    isFocus = historyOnline[0][historyOnline[2]][2]
-  }
+  // if (historyOnline[0][historyOnline[2]]){
+  //   isFocus = historyOnline[0][historyOnline[2]][2]
+  // }
   let arrFather = [];
   for (let i = 0; i < 20; i += 1) {
     let arr = [];
@@ -15,7 +16,7 @@ const BoardOnline = ({props}) => {
       arr.push(
         <SquareOnline
           key={index}
-          focus = {isFocus!==-1? isFocus:-1}
+          // focus = {isFocus!==-1? isFocus:-1}
           onClick={() => toggleSquareOnline(index, turnOnline)}
           value={squareOnline[index]}
           id={index}

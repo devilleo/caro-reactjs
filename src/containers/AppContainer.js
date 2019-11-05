@@ -81,7 +81,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(newPasswordOfChangePasswordOnChange(newPassword)),
   confirmNewPasswordOfChangePasswordOnChange: confirmNewPassword =>
     dispatch(confirmNewPasswordOfChangePasswordOnChange(confirmNewPassword)),
-  changePasswordSubmit: () => (dispatch(changePasswordSubmit())),
+  changePasswordSubmit: () => dispatch(changePasswordSubmit()),
 })
 
 export default connect(

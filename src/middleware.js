@@ -35,6 +35,8 @@ import {
 } from "./actions/userProfile_actions"
 // import { square } from "./reducers/allReducers"
 // import { removeState } from "./localStorage/localStorage";
+import {emitToggleSquare, findingRoom} from "./Config/Socket"
+
 
 // condition for stop a game
 const isOver = (arr, index, value) => {
@@ -443,9 +445,52 @@ export default store => next => action => {
     }
 
     // play 1vs1 Online
+    case "UPDATE NEW BOARD FROM SERVER":{
+      var tempBoard = Array(400).fill(0)
+      const length = action.arrSquare.length
+      for (var i = 0; i < length - 1; i+=1){
+        if (i % 2 === 0)
+          tempBoard[action.arrSquare[i]] = 1
+        else 
+          tempBoard[action.arrSquare[i]] = 2
+      }
+      const arrDraw_ONLINE = isOver(tempBoard, action.arrSquare[length-1], (length-1)%2===0? 1:2)
+      console.log("arrDraw ", arrDraw_ONLINE)
+      if (arrDraw_ONLINE !== false){
+        console.log("game over")
+        store.dispatch({
+          type: "DRAW SQUARE WIN",
+          arrSquare: action.arrSquare,
+          arrDraw: arrDraw_ONLINE,
+          whoIsWinner: (length-1)%2===0? 1:2,
+        })
+        store.dispatch({
+          type: IS_PLAYING_ONLINE.STOP
+        })
+        return
+      }
+      else {
+        console.log("game continue")
+        next(action)
+      }
+    }
     case "TOGGLE_SQUARE_ONLINE": {
-      const { squareOnline } = store.getState()
-      console.log("toggled middleware")
+      const { squareOnline, turnOnline, roomInfo, isPlayingOnline } = store.getState()
+      if (isPlayingOnline === false){
+        console.log("Game is over, can not continue...")
+        return
+      }
+      if (roomInfo.areYouPlayer1 !== turnOnline){
+        console.log("this is not your turn")
+        return
+      }
+      else{
+        console.log("yeahh clickkked")
+        if (squareOnline[action.id_ONLINE] === 0){
+          emitToggleSquare(action.id_ONLINE, roomInfo.idRoom)
+        }
+      }
+      return
       // if Online still has not toggled
       if (squareOnline[action.id_ONLINE] === 0) {
         store.dispatch(changeTurnOnline())
@@ -475,32 +520,37 @@ export default store => next => action => {
       next(action)
       break
     }
-    case "TOGGLE_HISTORY_ONLINE": {
-      const { historyOnline } = store.getState()
-      const historyForChange_ONLINE = historyOnline[0][action.idHistory_ONLINE][0].slice()
-      // console.log(action.idHistory)
-      // console.log(historyForChange)
-      store.dispatch({
-        type: "BACK_TO_HISTORY_ONLINE",
-        historyForChange_ONLINE
-      })
-
-      const turn_ONLINE = !historyOnline[0][action.idHistory_ONLINE][1]
-      store.dispatch({
-        type: "TURN_IN_HISTORY_ONLINE",
-        turn_ONLINE
-      })
+    case "IS_FINDING_A_GAME":{
+      const {userInfo} = store.getState()
+      findingRoom(userInfo)
       next(action)
-      if (turn_ONLINE === false){
-        setTimeout(() => {
-          store.dispatch({
-            type: "Online_TURN", 
-            turn_ONLINE: turn_ONLINE
-          })
-        }, 1000);
-      }
-      break
     }
+    // case "TOGGLE_HISTORY_ONLINE": {
+    //   const { historyOnline } = store.getState()
+    //   const historyForChange_ONLINE = historyOnline[0][action.idHistory_ONLINE][0].slice()
+    //   // console.log(action.idHistory)
+    //   // console.log(historyForChange)
+    //   store.dispatch({
+    //     type: "BACK_TO_HISTORY_ONLINE",
+    //     historyForChange_ONLINE
+    //   })
+
+    //   const turn_ONLINE = !historyOnline[0][action.idHistory_ONLINE][1]
+    //   store.dispatch({
+    //     type: "TURN_IN_HISTORY_ONLINE",
+    //     turn_ONLINE
+    //   })
+    //   next(action)
+    //   if (turn_ONLINE === false){
+    //     setTimeout(() => {
+    //       store.dispatch({
+    //         type: "Online_TURN", 
+    //         turn_ONLINE: turn_ONLINE
+    //       })
+    //     }, 1000);
+    //   }
+    //   break
+    // }
 
     case LOGIN.SUBMIT: {
       store.dispatch(setLoginPending(true))

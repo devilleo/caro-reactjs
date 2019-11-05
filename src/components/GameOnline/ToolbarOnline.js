@@ -1,13 +1,15 @@
 import React from "react"
 // import HistoryOnline from "./HistoryOnline";
 import ChatBox from "./ChatBox"
+import { emitRestartGameAfterGameOver , cancelFindingRoom} from "../../Config/Socket"
 
 const ToolbarOnline = ({ props }) => {
   const {
     turnOnline,
     isPlayingOnline,
     clickRestartGameOnline,
-    changeSortHistoryOnline
+    userInfo,
+    roomInfo
   } = props
   return (
     <div className="col-md-4" id="toolbar">
@@ -52,18 +54,20 @@ const ToolbarOnline = ({ props }) => {
       <div style={{ marginTop: "10px", marginBottom: "10px" }}>
         <button
           type="button"
-          className="btn btn-success"
-          onClick={() => clickRestartGameOnline()}
+          className="btn btn-warning"
+          onClick={() => cancelFindingRoom(roomInfo.idRoom)}
         >
-          Chơi lại
+          Out Game
         </button>
         <button
           type="button"
-          className="btn btn-info"
-          onClick={() => changeSortHistoryOnline()}
+          className="btn btn-success"
+          hidden = {isPlayingOnline? true:false}
+          onClick={() => emitRestartGameAfterGameOver(roomInfo.idRoom)}
         >
-          Sắp xếp
+          Chơi lại
         </button>
+        
       </div>
 
       {/* <HistoryOnline props={props} /> */}

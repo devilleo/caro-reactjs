@@ -23,17 +23,17 @@ import ShowGame from "../containers/ShowGame"
 import ShowGameAI from "../containers/ShowGameAI"
 import ShowGameOnline from "../containers/ShowGameOnline"
 import Profile from "./Profile/Profile"
-
-import socketIOClient from "socket.io-client"
-import { serverSocket } from "../Config/Config"
+import FindingAGame from "./GameOnline/FindingAGame"
+import { connect } from "react-redux"
 
 const App = props => {
-  useEffect(() => {
-    console.log("mount it!")
-    // const socket = socketIOClient(serverSocket);
-  }, []) // passing an empty array as second argument triggers the callback in useEffect only after the initial render thus replicating `componentDidMount` lifecycle behaviour
+  const { userInfo, LoginModalOpen, RegisterModalOpen, logOut, roomInfo } = props
 
-  const { userInfo, LoginModalOpen, RegisterModalOpen, logOut } = props
+  useEffect(() => {
+    // console.log("mount it!")
+    // socket.emit("finding room", userInfo)
+  }, [userInfo]) // passing an empty array as second argument triggers the callback in useEffect only after the initial render thus replicating `componentDidMount` lifecycle behaviour
+  console.log("roomInfo: ", roomInfo)
   return (
     <Router>
       <Navbar style={{height:'5vh'}} collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -129,9 +129,16 @@ const App = props => {
           <Route path="/gameOnline">
             {userInfo.email === "" ? (
               <Redirect to="/" />
-            ) : (
+            ) 
+            :
+            
+            (
               <ShowGameOnline props={props} />
-            )}
+            )
+            }
+          </Route>
+          <Route path="/findGame">
+              <FindingAGame props={props}></FindingAGame>
           </Route>
           <Route path="/">
             <Homepage props={props} />
@@ -141,5 +148,7 @@ const App = props => {
     </Router>
   )
 }
-
-export default App
+const mapStateToProps = state => ({
+  roomInfo: state.roomInfo
+})
+export default connect(mapStateToProps)(App)

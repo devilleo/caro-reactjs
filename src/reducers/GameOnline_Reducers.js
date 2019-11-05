@@ -2,36 +2,97 @@ import {
   TURN_ONLINE,
   IS_PLAYING_ONLINE,
   HISTORY_SORT_ONLINE,
-  HANDLE_CLICK
+  HANDLE_CLICK,
+  MESSAGE_CHAT,
 } from "../actions/actionType"
+
+export const roomInfo = (state = {idRoom: -1, enemy: {}, areYouPlayer1: true, message: []}, action) =>{
+  switch (action.type){
+    case "RESPONSE FINDING ROOM":{
+      return Object.assign({}, state, {
+        idRoom: action.idRoom,
+        areYouPlayer1: action.isPlayer1
+      })
+    }
+    case "RESPONSE ROOM INFO":{
+      console.log(state)
+      var enemyUpdate
+      var areYouPlayer1Update
+      if (state.areYouPlayer1 === true){
+        enemyUpdate = action.room.player2
+      }
+      else {
+        enemyUpdate = action.room.player1
+      }
+      return Object.assign({},state, {
+        enemy: enemyUpdate,
+        message: action.room.message
+      })
+    }
+    case "REPONSE NEWEST MESSAGE LIST":{ 
+      console.log(Object.assign({}, state, {
+        message: action.message
+      }))
+      return Object.assign({}, state, {
+        message: action.message
+      })
+    }
+    case "OUT_GAME":{
+      return {idRoom: -1, enemy: {}, areYouPlayer1: true, message: []}
+    }
+    default: return state 
+  }
+}
+
+export const message = (state = '', action) => {
+  switch (action.type){
+    case MESSAGE_CHAT.ON_CHANGE:{
+      return action.message
+    }
+    case "removeMessageInBoxAfterSend":{
+      return ''
+    }
+    default: return state
+  }
+}
 
 export const squareOnline = (state = Array(400).fill(0), action) => {
   switch (action.type) {
-    case "TOGGLE_SQUARE_ONLINE":
-    case "TOGGLE_ONLINE_TURN": {
-      console.log("toggled")
-      let stateClone = state.slice()
-      stateClone[action.id_ONLINE] = action.turn_ONLINE ? 1 : 2
+    case "UPDATE NEW BOARD FROM SERVER":{
+      console.log("new board: ", action.arrSquare)
+      console.log("length: ", action.arrSquare.length)
+      const length = action.arrSquare.length
+      var stateClone = Array(400).fill(0);
+      for (var i = 0; i<length; i+=1){
+        if (i%2===0){
+          stateClone[action.arrSquare[i]]= 1 
+        }
+        else {
+          stateClone[action.arrSquare[i]] = 2
+        }
+      }
+      console.log("State Clone: ", stateClone)
       return stateClone
     }
-    case "RESET_SQUARE_ONLINE": {
-      console.log("reset toggled")
-      let stateReset = Array(400).fill(0)
-      return stateReset
-    }
-    case "DRAW_ONLINE": {
-      let stateClone = state.slice()
-      // console.log(action.arrDraw_ONLINE + " and " + action.turn_ONLINE)
-      action.arrDraw_ONLINE.forEach(element => {
-        stateClone[element] = action.turn_ONLINE ? 3 : 4
-      })
+    case "DRAW SQUARE WIN":{
+      const length = action.arrSquare.length
+      var stateClone = Array(400).fill(0);
+      for (var i = 0; i<length; i+=1){
+        if (i%2===0){
+          stateClone[action.arrSquare[i]]= 1 
+        }
+        else {
+          stateClone[action.arrSquare[i]] = 2
+        }
+      }
+      console.log("winner is: ", action.whoIsWinner)
+      for (var i = 0; i< action.arrDraw.length; i+=1){
+        stateClone[action.arrDraw[i]] = action.whoIsWinner===1? 3 : 4
+      }
+      console.log("state clone: ", stateClone)
       return stateClone
     }
-    case "BACK_TO_HISTORY_ONLINE": {
-      let newStateChangedByHistory = action.historyForChange_ONLINE.slice()
-      return newStateChangedByHistory
-    }
-    case HANDLE_CLICK.LOG_OUT: {
+    case "RESET BOARD FOR NEW GAME":{
       return Array(400).fill(0)
     }
     default:
@@ -39,18 +100,37 @@ export const squareOnline = (state = Array(400).fill(0), action) => {
   }
 }
 
+export const findingAGame_state = (state = {isFinding: false, foundAGame: false}, action) => {
+  switch (action.type){
+    case "IS_FINDING_A_GAME":{
+      return Object.assign({},state,{
+        isFinding: true,
+        foundAGame: false
+      })
+    }
+    case "CANCEL_FINDING_A_GAME":{
+      return Object.assign({},state,{
+        isFinding: false,
+        foundAGame: false
+      })
+    }
+    case "FOUND_A_GAME":{
+      return Object.assign({},state,
+        {
+          isFinding:false,
+          foundAGame: true
+        })
+    }
+    default: return state
+  }
+}
+
 export const turnOnline = (state = true, action) => {
   switch (action.type) {
-    case TURN_ONLINE.CHANGE: {
-      return !state
+    case "UPDATE NEW TURN FROM SERVER":{
+      return action.newTurn
     }
-    case TURN_ONLINE.RESET: {
-      return true
-    }
-    case "TURN_IN_HISTORY_ONLINE": {
-      return action.turn_ONLINE
-    }
-    case HANDLE_CLICK.LOG_OUT: {
+    case "RESET BOARD FOR NEW GAME":{
       return true
     }
     default:
@@ -61,7 +141,6 @@ export const turnOnline = (state = true, action) => {
 export const sortTypeHistoryOnline = (state = true, action) => {
   switch (action.type) {
     case HISTORY_SORT_ONLINE.CHANGE: {
-      console.log("sort change toggled")
       return !state
     }
     case HANDLE_CLICK.LOG_OUT: {

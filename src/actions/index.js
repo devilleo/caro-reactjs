@@ -7,7 +7,8 @@ import {
   HISTORY_SORT_AI,
   TURN_ONLINE,
   IS_PLAYING_ONLINE,
-  HISTORY_SORT_ONLINE
+  HISTORY_SORT_ONLINE,
+  MESSAGE_CHAT,
 } from "./actionType"
 export const toggleSquare = (id, turn) => ({
   type: "TOGGLE_SQUARE",
@@ -77,6 +78,15 @@ export const toggleHistoryAI = idHistory_AI => ({
 })
 
 // actions play 1vs1 online.
+export const messageOnchange = message => ({
+  type: MESSAGE_CHAT.ON_CHANGE,
+  message
+})
+
+export const removeMessageInBoxAfterSend = () => ({
+  type: "removeMessageInBoxAfterSend"
+})
+
 export const toggleSquareOnline = (id_ONLINE, turn_ONLINE) => ({
   type: "TOGGLE_SQUARE_ONLINE",
   id_ONLINE,
@@ -108,4 +118,8 @@ export const drawOnline = (arrDraw_ONLINE, turn_ONLINE) => ({
 export const toggleHistoryOnline = idHistory_ONLINE => ({
   type: "TOGGLE_HISTORY_ONLINE",
   idHistory_ONLINE
+})
+
+export const clickFindingAGame = () => ({
+  type: "IS_FINDING_A_GAME",
 })

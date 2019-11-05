@@ -23,6 +23,8 @@ import { loadState, saveState } from "./localStorage/localStorage";
 // import App from './components/App'
 import AppContainer from "./containers/AppContainer";
 
+import configureSocket from "./Config/Socket"
+
 const persistedState = loadState();
 
 const store = createStore(
@@ -30,6 +32,9 @@ const store = createStore(
   persistedState,
   applyMiddleware(middleware, thunk)
 );
+
+// setup socket connection
+export const socket = configureSocket(store.dispatch);
 
 store.subscribe(() => {
   saveState(store.getState());

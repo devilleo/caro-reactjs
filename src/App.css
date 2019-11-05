@@ -183,3 +183,10 @@ ul.kha > li {
 h4 {
   color: tomato;
 }
+
+.my-facebookgoogle-button-class
+{
+  width: 60%;
+  border-color: lightgreen !important;
+}
+
