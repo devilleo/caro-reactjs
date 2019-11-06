@@ -5,7 +5,7 @@ import { emitResponseUndoRequest } from "../../Config/Socket"
 const ModalRequestUndo = ({props}) =>{
     const {modalRequestUndo, closeModalRequestUndo, roomInfo} = props
     return (
-        <Modal show={modalRequestUndo} onHide={modalRequestUndo}>
+        <Modal show={modalRequestUndo} onHide={!modalRequestUndo}>
         <Modal.Header>
           <Modal.Title>Request from your enemy</Modal.Title>
         </Modal.Header>
@@ -17,7 +17,7 @@ const ModalRequestUndo = ({props}) =>{
           }}>
             No
           </Button>
-          <Button variant="success" onClick="" onClick={()=> {
+          <Button variant="success" onClick={()=> {
               closeModalRequestUndo()
               emitResponseUndoRequest(roomInfo.idRoom, roomInfo.areYouPlayer1, true)
           }}>

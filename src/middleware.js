@@ -13,7 +13,6 @@ import {
 } from "./actions/actionType"
 import { changeTurn, stopGame, draw } from "./actions/index"
 import { changeTurnAI, stopGameAI, drawAI } from "./actions/index"
-import { changeTurnOnline, stopGameOnline, drawOnline } from "./actions/index"
 import {
   setLoginPending,
   setLoginSuccess,
@@ -35,7 +34,7 @@ import {
 } from "./actions/userProfile_actions"
 // import { square } from "./reducers/allReducers"
 // import { removeState } from "./localStorage/localStorage";
-import { emitToggleSquare, findingRoom, emitRequestUndo, emitRequestTie } from "./Config/Socket"
+import { emitToggleSquare, findingRoom, emitRequestUndo, emitRequestTie, emitRequestLose } from "./Config/Socket"
 
 // condition for stop a game
 const isOver = (arr, index, value) => {
@@ -486,6 +485,7 @@ export default store => next => action => {
         console.log("game continue")
         next(action)
       }
+      break
     }
     case "TOGGLE_SQUARE_ONLINE": {
       const {
@@ -508,30 +508,6 @@ export default store => next => action => {
         }
       }
       return
-      // if Online still has not toggled
-      if (squareOnline[action.id_ONLINE] === 0) {
-        store.dispatch(changeTurnOnline())
-        const arrDraw_ONLINE = isOver(
-          squareOnline,
-          action.id_ONLINE,
-          action.turn_ONLINE ? 1 : 2
-        )
-        // console.log(action.turn_ONLINE)
-        if (arrDraw_ONLINE) {
-          store.dispatch(drawOnline(arrDraw_ONLINE, action.turn_ONLINE))
-          store.dispatch({
-            type: "THE_LAST_UPDATE_IN_HISTORY_BEFORE_END_GAME_ONLINE",
-            id_ONLINE: action.id_ONLINE,
-            turn_ONLINE: action.turn_ONLINE,
-            arrDraw_ONLINE: arrDraw_ONLINE
-          })
-          store.dispatch({ type: "RESET_HISTORY_ONLINE" })
-          store.dispatch(stopGameOnline())
-        } else {
-          next(action)
-        }
-      }
-      break
     }
     case IS_PLAYING_ONLINE.START: {
       store.dispatch({ type: "RESET_SQUARE_ONLINE" })
@@ -544,6 +520,7 @@ export default store => next => action => {
       const { userInfo } = store.getState()
       findingRoom(userInfo)
       next(action)
+      break
     }
     case "SEND_REQUEST_UNDO": {
       const {historyOnline, roomInfo} = store.getState()
@@ -555,11 +532,28 @@ export default store => next => action => {
       else{
         emitRequestUndo(roomInfo.idRoom, roomInfo.areYouPlayer1)
       }
+      break;
     }
     case "SEND_REQUEST_TIE": {
       const {roomInfo} = store.getState()
       console.log("you set a tie request")
       emitRequestTie(roomInfo.idRoom, roomInfo.areYouPlayer1)
+      break;
+    }
+    case "SEND_REQUEST_LOSE": {
+      const {roomInfo} = store.getState()
+      console.log("you set a lose request")
+      emitRequestLose(roomInfo.idRoom, roomInfo.areYouPlayer1)
+      break;
+    }
+    case "UPDATE AFTER YOUR LOSE REQUEST ACCEPT":{
+      const {roomInfo} = store.getState();
+      const isPlayer1Lose = roomInfo.areYouPlayer1? true:false
+      store.dispatch({
+        type: "UPDATE NOTIFICATION AFTER YOUR LOSE REQUEST ACCEPT",
+        isPlayer1Lose: isPlayer1Lose
+      })
+      break;
     }
     // case "TOGGLE_HISTORY_ONLINE": {
     //   const { historyOnline } = store.getState()

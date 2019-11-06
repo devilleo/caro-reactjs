@@ -1,6 +1,5 @@
 import React from "react"
 import { Button, Form, Modal } from "react-bootstrap"
-import { FacebookLoginButton, GoogleLoginButton } from "react-social-login-buttons";
 import FacebookGoogle from "./FacebookGoogle";
 
 

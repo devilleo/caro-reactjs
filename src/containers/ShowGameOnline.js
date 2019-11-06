@@ -10,12 +10,15 @@ import {
   closeModalRequestUndo,
   sendRequestUndo,
   closeModalRequestTie,
+  closeModalRequestLose,
   sendRequestTie,
   setGameTie,
-  stopGameOnline
+  stopGameOnline,
+  sendRequestLose,
+  setYouWinGame
 } from "../actions"
 import GameOnline from "../components/GameOnline/GameOnline"
-import App from "../components/App"
+
 const mapStateToProps = state => ({
   userInfo: state.userInfo,
   squareOnline: state.squareOnline,
@@ -28,6 +31,7 @@ const mapStateToProps = state => ({
   findingAGame_state: state.findingAGame_state,
   modalRequestUndo: state.modalRequestUndo,
   modalRequestTie: state.modalRequestTie,
+  modalRequestLose: state.modalRequestLose,
   statusOfGame: state.statusOfGame
 })
 
@@ -44,8 +48,11 @@ const mapDispatchToProps = dispatch => ({
   closeModalRequestUndo: () => dispatch(closeModalRequestUndo()),
   sendRequestUndo: () => dispatch(sendRequestUndo()),
   closeModalRequestTie: () => dispatch(closeModalRequestTie()),
+  closeModalRequestLose: () => dispatch(closeModalRequestLose()),
   sendRequestTie: () => dispatch(sendRequestTie()),
   setGameTie: () => dispatch(setGameTie()),
+  sendRequestLose: () => dispatch(sendRequestLose()),
+  setYouWinGame: (areYouPlayer1) => dispatch(setYouWinGame(areYouPlayer1)),
   stopGameOnline: () => dispatch(stopGameOnline())
 })
 

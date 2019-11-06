@@ -143,3 +143,16 @@ export const sendRequestTie = () => ({
 export const setGameTie = () => ({
   type: "SET_GAME_TIE"
 })
+
+export const closeModalRequestLose = () => ({
+  type: "CLOSE_MODALREQUESTLOSE"
+})
+
+export const sendRequestLose = () => ({
+  type: "SEND_REQUEST_LOSE"
+})
+
+export const setYouWinGame = (areYouPlayer1) => ({
+  type: "SET_YOU_WIN_GAME",
+  areYouPlayer1: areYouPlayer1
+})

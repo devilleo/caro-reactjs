@@ -1,7 +1,7 @@
 import io from "socket.io-client"
 import {IS_PLAYING_ONLINE} from "../actions/actionType"
 
-const socket = io("http://localhost:5000/")
+const socket = io("https://restful-api-nodejs-1612278.herokuapp.com/")
 
 
 const configureSocket = dispatch => {
@@ -114,6 +114,7 @@ const configureSocket = dispatch => {
     })
   })
 
+  // tie
   socket.on("enemy request a tie", () => {
     console.log("nhan duoc request xin hoa` tu enemy")
     dispatch({
@@ -136,16 +137,50 @@ const configureSocket = dispatch => {
         newTurn: roomInfo.currentTurn
       })
       dispatch({
-        type: "UPDATE NORTIFICATION AFTER TIE REQUEST ACCEPT"
+        type: "UPDATE NOTIFICATION AFTER YOUR TIE REQUEST ACCEPT"
       })
     }
   })
 
-  socket.on("response reset game after accept tie", () => {
+  // socket.on("response reset game after accept tie", () => {
+  //   dispatch({
+  //     type: "response reset game after accept tie",
+  //   })
+  // })
+
+  // lose
+  socket.on("enemy request a lose", () => {
+    console.log("nhan duoc request xin thua tu enemy")
     dispatch({
-      type: "response reset game after accept tie",
+      type: "OPEN_MODALREQUESTLOSE"
     })
   })
+
+  socket.on("response lose request", (isAccepted,roomInfo) =>{
+    console.log("did enemy accept your lose: ", isAccepted)
+    if (isAccepted === true){
+      dispatch({
+        type: IS_PLAYING_ONLINE.STOP
+      })
+      dispatch({
+        type: "UPDATE NEW BOARD FROM SERVER",
+        arrSquare: roomInfo.listSquareTogged
+      })
+      dispatch({
+        type: "UPDATE NEW TURN FROM SERVER", 
+        newTurn: roomInfo.currentTurn
+      })
+      dispatch({
+        type: "UPDATE AFTER YOUR LOSE REQUEST ACCEPT"
+      })
+    }
+  })
+
+  // socket.on("response reset game after accept lose", () => {
+  //   dispatch({
+  //     type: "response reset game after accept lose",
+  //   })
+  // })
   
   return socket
 }
@@ -194,6 +229,15 @@ export const emitResponseUndoRequest = (idRoom, isPlayer1SendThisRequest, isAcce
 
 export const emitResponseTieRequest = (idRoom, isPlayer1SendThisRequest, isAccepted) => {
   socket.emit("emit response tie request", idRoom, isPlayer1SendThisRequest, isAccepted)
+ }
+
+ // lose
+ export const emitRequestLose = (idRoom, isPlayer1SendThisRequest) =>{
+  socket.emit("emit request lose", idRoom, isPlayer1SendThisRequest)
+}
+
+export const emitResponseLoseRequest = (idRoom, isPlayer1SendThisRequest, isAccepted) => {
+  socket.emit("emit response lose request", idRoom, isPlayer1SendThisRequest, isAccepted)
  }
 
  

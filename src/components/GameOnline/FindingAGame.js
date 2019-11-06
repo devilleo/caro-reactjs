@@ -2,7 +2,7 @@ import React from "react"
 import { cancelFindingRoom } from "../../Config/Socket"
 
 const FindingAGame = ({ props }) => {
-  const {userInfo, roomInfo, findingAGame_state, clickFindingAGame} = props
+  const { roomInfo, findingAGame_state, clickFindingAGame} = props
   console.log()
   return (
     <div style={{ display: "table", height: "90vh", width: "100vw" }}>
@@ -29,9 +29,9 @@ const FindingAGame = ({ props }) => {
           Find a battle
         </button>
         :
-        <button class="btn btn-info" type="button" disabled>
+        <button className="btn btn-info" type="button" disabled>
           <span
-            class="spinner-border spinner-border-sm"
+            className="spinner-border spinner-border-sm"
             role="status"
             aria-hidden="true"
           ></span>

@@ -1,5 +1,4 @@
 import {
-  TURN_ONLINE,
   IS_PLAYING_ONLINE,
   HISTORY_SORT_ONLINE,
   HANDLE_CLICK,
@@ -17,7 +16,6 @@ export const roomInfo = (state = {idRoom: -1, enemy: {}, areYouPlayer1: true, me
     case "RESPONSE ROOM INFO":{
       console.log(state)
       var enemyUpdate
-      var areYouPlayer1Update
       if (state.areYouPlayer1 === true){
         enemyUpdate = action.room.player2
       }
@@ -65,6 +63,21 @@ export const modalRequestTie = (state = false, action) => {
       return true
     }
     case "CLOSE_MODALREQUESTTIE":{
+      return false
+    }
+    case "OUT_GAME":{
+      return false
+    }
+    default: return state
+  }
+}
+
+export const modalRequestLose = (state = false, action) => {
+  switch (action.type){
+    case "OPEN_MODALREQUESTLOSE":{
+      return true
+    }
+    case "CLOSE_MODALREQUESTLOSE":{
       return false
     }
     case "OUT_GAME":{
@@ -227,6 +240,7 @@ export const historyOnline = (state = [], action) => {
       console.log("history: ", action.history)
       return action.history
     }
+    case "RESET BOARD FOR NEW GAME":
     case "OUT_GAME":
     case HANDLE_CLICK.LOG_OUT: {
       return []
@@ -253,8 +267,14 @@ export const statusOfGame = (state = -1, action) => {
       return -1
     }
     case "SET_GAME_TIE":
-    case "UPDATE NORTIFICATION AFTER TIE REQUEST ACCEPT":{
+    case "UPDATE NOTIFICATION AFTER YOUR TIE REQUEST ACCEPT":{
       return 0
+    }
+    case "UPDATE NOTIFICATION AFTER YOUR LOSE REQUEST ACCEPT":{
+      return action.isPlayer1Lose? 2:1
+    }
+    case "SET_YOU_WIN_GAME":{
+      return action.areYouPlayer1? 1:2
     }
     default: return state
   }

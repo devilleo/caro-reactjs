@@ -7,13 +7,18 @@ const ToolbarOnline = ({ props }) => {
   const {
     turnOnline,
     isPlayingOnline,
-    clickRestartGameOnline,
-    userInfo,
     roomInfo,
     sendRequestUndo,
     sendRequestTie,
-    statusOfGame
+    sendRequestLose,
+    statusOfGame,
+    historyOnline
   } = props
+  var theLastSquareToggled = {
+    toadoX: historyOnline[historyOnline.length-1] % 20,
+    toadoY: parseInt(historyOnline[historyOnline.length-1] / 20, 10),
+    isPlayer1Toggled: turnOnline? "You":"Your enemy"
+  }
   var whoWin
   if (statusOfGame === 1){
     if (roomInfo.areYouPlayer1 === true)
@@ -35,7 +40,7 @@ const ToolbarOnline = ({ props }) => {
             <img id="imgCaroOnline" src="caroImg.jpg" alt="ảnh nền" />
           </div>
           <div className="col-md-6">
-            <h1>1vs1 Online</h1>
+            <h3>1vs1 Online</h3>
             <div className="btn-group-vertical groupButtonWinDrawLose">
               <button
                 type="button"
@@ -47,6 +52,7 @@ const ToolbarOnline = ({ props }) => {
               <button
                 type="button"
                 className="btn btn-danger"
+                onClick={() => sendRequestLose()}
               >
                 Im' lose!
               </button>
@@ -69,7 +75,7 @@ const ToolbarOnline = ({ props }) => {
         <div>You: {roomInfo.areYouPlayer1? "X":"O"}</div>
         <div>Your enemy: {roomInfo.areYouPlayer1? "O":"X"}</div>
       </div>
-      <br />
+      <div hidden={historyOnline.length===0}>The last played: {theLastSquareToggled.isPlayer1Toggled} ({theLastSquareToggled.toadoY},{theLastSquareToggled.toadoX})</div>
       <div style={{ marginTop: "10px", marginBottom: "10px" }}>
         <button
           type="button"
@@ -88,9 +94,8 @@ const ToolbarOnline = ({ props }) => {
         </button>
         
       </div>
-
-      {/* <HistoryOnline props={props} /> */}
       <ChatBox props={props}></ChatBox>
+      {/* <HistoryOnline props={props} /> */}
     </div>
   )
 }

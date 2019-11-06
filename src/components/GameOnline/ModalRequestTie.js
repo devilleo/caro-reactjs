@@ -5,7 +5,7 @@ import { emitResponseTieRequest } from "../../Config/Socket"
 const ModalRequestTie = ({props}) =>{
     const {modalRequestTie, closeModalRequestTie, roomInfo, setGameTie, stopGameOnline} = props
     return (
-        <Modal show={modalRequestTie} onHide={modalRequestTie}>
+        <Modal show={modalRequestTie} onHide={!modalRequestTie}>
         <Modal.Header>
           <Modal.Title>Request from your enemy</Modal.Title>
         </Modal.Header>
@@ -17,7 +17,7 @@ const ModalRequestTie = ({props}) =>{
           }}>
             No
           </Button>
-          <Button variant="success" onClick="" onClick={()=> {
+          <Button variant="success" onClick={()=> {
               closeModalRequestTie()
               setGameTie()
               stopGameOnline()
