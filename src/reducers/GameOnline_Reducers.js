@@ -216,7 +216,27 @@ export const historyOnline = (state = [], action) => {
     case HANDLE_CLICK.LOG_OUT: {
       return []
     }
+    case "response update square and current turn after accept undo":{
+      return action.roomInfo.listSquareTogged
+    }
     default:
       return state
   }
 }
+
+// -1 : don't diplay
+// 0: game tie
+// 1: player1 win
+// 2: player2 win
+export const statusOfGame = (state = -1, action) => {
+  switch (action.type){
+    case "HAVE_A_WINNER":{
+      return action.whoWin
+    }
+    case "RESET BOARD FOR NEW GAME":{
+      return -1
+    }
+    default: return state
+  }
+}
+

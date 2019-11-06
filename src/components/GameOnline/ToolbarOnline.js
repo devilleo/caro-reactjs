@@ -11,8 +11,21 @@ const ToolbarOnline = ({ props }) => {
     userInfo,
     roomInfo,
     sendRequestUndo,
-
+    statusOfGame
   } = props
+  var whoWin
+  if (statusOfGame === 1){
+    if (roomInfo.areYouPlayer1 === true)
+      whoWin = 'You win'
+    else 
+      whoWin = 'Your enemy win'
+  }
+  else if (statusOfGame === 2){
+    if (roomInfo.areYouPlayer1 === true)
+      whoWin = 'Your enemy win'
+    else 
+      whoWin = 'You win'
+  }
   return (
     <div className="col-md-4" id="toolbar">
       <div id="divImgCaro">
@@ -47,11 +60,8 @@ const ToolbarOnline = ({ props }) => {
         </div>
       </div>
       <div>
-        {isPlayingOnline ? (
-          <h3>Current turn: {turnOnline ? "X" : "O"}</h3>
-        ) : (
-          <h3>{!turnOnline ? "X win" : "O win"}</h3>
-        )}
+          <h3 hidden={isPlayingOnline === false}>Current turn: {turnOnline ? "X" : "O"}</h3>
+          <h3 hidden={statusOfGame===-1}>{statusOfGame===0? "Game Tie": whoWin}</h3>
       </div>
       <div>
         <div>You: {roomInfo.areYouPlayer1? "X":"O"}</div>

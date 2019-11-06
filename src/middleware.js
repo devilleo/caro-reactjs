@@ -469,6 +469,10 @@ export default store => next => action => {
       if (arrDraw_ONLINE !== false) {
         console.log("game over")
         store.dispatch({
+          type: "HAVE_A_WINNER",
+          whoWin: (length - 1) % 2 === 0 ? 1 : 2
+        })
+        store.dispatch({
           type: "DRAW SQUARE WIN",
           arrSquare: action.arrSquare,
           arrDraw: arrDraw_ONLINE,

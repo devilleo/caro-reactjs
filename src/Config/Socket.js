@@ -151,4 +151,6 @@ export const emitResponseUndoRequest = (idRoom, isPlayer1SendThisRequest, isAcce
   socket.emit("emit response undo request", idRoom, isPlayer1SendThisRequest, isAccepted)
  }
 
+ 
+
 export default configureSocket

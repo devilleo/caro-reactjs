@@ -22,7 +22,8 @@ const mapStateToProps = state => ({
   roomInfo: state.roomInfo,
   message: state.message,
   findingAGame_state: state.findingAGame_state,
-  modalRequestUndo: state.modalRequestUndo
+  modalRequestUndo: state.modalRequestUndo,
+  statusOfGame: state.statusOfGame
 })
 
 const mapDispatchToProps = dispatch => ({
