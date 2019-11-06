@@ -4,6 +4,7 @@ import ToolbarOnline from "./ToolbarOnline"
 import FindingAGame from "./FindingAGame"
 import { enterRoomAgainAfterRefreshPage, findingRoom } from "../../Config/Socket"
 import ModalRequestUndo from "./ModalRequestUndo"
+import ModalRequestTie from "./ModalRequestTie"
 const GameOnline = props => {
   const { isPlayingOnline, roomInfo, squareOnline, userInfo } = props
   useEffect(() => {
@@ -24,6 +25,7 @@ const GameOnline = props => {
     :
     <div className="container-fluid">
       <ModalRequestUndo props={props}></ModalRequestUndo>
+      <ModalRequestTie props={props}></ModalRequestTie>
       <div className="row">
         <div
           id={isPlayingOnline ? "" : "disabledbutton"}

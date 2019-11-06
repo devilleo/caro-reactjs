@@ -8,7 +8,11 @@ import {
   removeMessageInBoxAfterSend,
   clickFindingAGame,
   closeModalRequestUndo,
-  sendRequestUndo
+  sendRequestUndo,
+  closeModalRequestTie,
+  sendRequestTie,
+  setGameTie,
+  stopGameOnline
 } from "../actions"
 import GameOnline from "../components/GameOnline/GameOnline"
 import App from "../components/App"
@@ -23,6 +27,7 @@ const mapStateToProps = state => ({
   message: state.message,
   findingAGame_state: state.findingAGame_state,
   modalRequestUndo: state.modalRequestUndo,
+  modalRequestTie: state.modalRequestTie,
   statusOfGame: state.statusOfGame
 })
 
@@ -38,7 +43,10 @@ const mapDispatchToProps = dispatch => ({
   clickFindingAGame: () => dispatch(clickFindingAGame()),
   closeModalRequestUndo: () => dispatch(closeModalRequestUndo()),
   sendRequestUndo: () => dispatch(sendRequestUndo()),
-  
+  closeModalRequestTie: () => dispatch(closeModalRequestTie()),
+  sendRequestTie: () => dispatch(sendRequestTie()),
+  setGameTie: () => dispatch(setGameTie()),
+  stopGameOnline: () => dispatch(stopGameOnline())
 })
 
 export default connect(

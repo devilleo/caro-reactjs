@@ -131,3 +131,15 @@ export const closeModalRequestUndo = () => ({
 export const sendRequestUndo = () => ({
   type: "SEND_REQUEST_UNDO"
 })
+
+export const closeModalRequestTie = () => ({
+  type: "CLOSE_MODALREQUESTTIE"
+})
+
+export const sendRequestTie = () => ({
+  type: "SEND_REQUEST_TIE"
+})
+
+export const setGameTie = () => ({
+  type: "SET_GAME_TIE"
+})

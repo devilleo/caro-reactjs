@@ -35,7 +35,7 @@ import {
 } from "./actions/userProfile_actions"
 // import { square } from "./reducers/allReducers"
 // import { removeState } from "./localStorage/localStorage";
-import { emitToggleSquare, findingRoom, emitRequestUndo } from "./Config/Socket"
+import { emitToggleSquare, findingRoom, emitRequestUndo, emitRequestTie } from "./Config/Socket"
 
 // condition for stop a game
 const isOver = (arr, index, value) => {
@@ -555,6 +555,11 @@ export default store => next => action => {
       else{
         emitRequestUndo(roomInfo.idRoom, roomInfo.areYouPlayer1)
       }
+    }
+    case "SEND_REQUEST_TIE": {
+      const {roomInfo} = store.getState()
+      console.log("you set a tie request")
+      emitRequestTie(roomInfo.idRoom, roomInfo.areYouPlayer1)
     }
     // case "TOGGLE_HISTORY_ONLINE": {
     //   const { historyOnline } = store.getState()

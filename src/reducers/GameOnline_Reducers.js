@@ -59,6 +59,21 @@ export const modalRequestUndo = (state = false, action) => {
   }
 }
 
+export const modalRequestTie = (state = false, action) => {
+  switch (action.type){
+    case "OPEN_MODALREQUESTTIE":{
+      return true
+    }
+    case "CLOSE_MODALREQUESTTIE":{
+      return false
+    }
+    case "OUT_GAME":{
+      return false
+    }
+    default: return state
+  }
+}
+
 export const message = (state = '', action) => {
   switch (action.type){
     case MESSAGE_CHAT.ON_CHANGE:{
@@ -233,8 +248,13 @@ export const statusOfGame = (state = -1, action) => {
     case "HAVE_A_WINNER":{
       return action.whoWin
     }
+    case "OUT_GAME":
     case "RESET BOARD FOR NEW GAME":{
       return -1
+    }
+    case "SET_GAME_TIE":
+    case "UPDATE NORTIFICATION AFTER TIE REQUEST ACCEPT":{
+      return 0
     }
     default: return state
   }

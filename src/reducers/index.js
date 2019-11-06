@@ -36,6 +36,7 @@ import {
   message,
   findingAGame_state,
   modalRequestUndo,
+  modalRequestTie,
   statusOfGame
 } from "./GameOnline_Reducers"
 
@@ -71,5 +72,6 @@ export default combineReducers({
   message,
   findingAGame_state,
   modalRequestUndo,
+  modalRequestTie,
   statusOfGame
 })

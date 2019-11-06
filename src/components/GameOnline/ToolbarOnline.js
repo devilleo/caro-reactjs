@@ -11,6 +11,7 @@ const ToolbarOnline = ({ props }) => {
     userInfo,
     roomInfo,
     sendRequestUndo,
+    sendRequestTie,
     statusOfGame
   } = props
   var whoWin
@@ -39,6 +40,7 @@ const ToolbarOnline = ({ props }) => {
               <button
                 type="button"
                 className="btn btn-warning"
+                onClick={() => sendRequestTie()}
               >
                 Tie Please!
               </button>

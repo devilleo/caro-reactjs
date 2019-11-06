@@ -87,7 +87,7 @@ const configureSocket = dispatch => {
   })
 
   socket.on("enemy request a undo", () => {
-    ("nhan duoc response tu enemy")
+    console.log("nhan duoc response tu enemy")
     dispatch({
       type: "OPEN_MODALREQUESTUNDO"
     })
@@ -111,6 +111,39 @@ const configureSocket = dispatch => {
     dispatch({
       type: "response update square and current turn after accept undo",
       roomInfo: roomInfo
+    })
+  })
+
+  socket.on("enemy request a tie", () => {
+    console.log("nhan duoc request xin hoa` tu enemy")
+    dispatch({
+      type: "OPEN_MODALREQUESTTIE"
+    })
+  })
+
+  socket.on("response tie request", (isAccepted,roomInfo) =>{
+    console.log("did enemy accept tie: ", isAccepted)
+    if (isAccepted === true){
+      dispatch({
+        type: IS_PLAYING_ONLINE.STOP
+      })
+      dispatch({
+        type: "UPDATE NEW BOARD FROM SERVER",
+        arrSquare: roomInfo.listSquareTogged
+      })
+      dispatch({
+        type: "UPDATE NEW TURN FROM SERVER", 
+        newTurn: roomInfo.currentTurn
+      })
+      dispatch({
+        type: "UPDATE NORTIFICATION AFTER TIE REQUEST ACCEPT"
+      })
+    }
+  })
+
+  socket.on("response reset game after accept tie", () => {
+    dispatch({
+      type: "response reset game after accept tie",
     })
   })
   
@@ -143,12 +176,24 @@ export const emitRestartGameAfterGameOver = (idRoom) => {
   socket.emit("emit restart game after game over", idRoom)
 }
 
+
+// undo
 export const emitRequestUndo = (idRoom, isPlayer1SendThisRequest) =>{
   socket.emit("emit request undo", idRoom, isPlayer1SendThisRequest)
 }
 
 export const emitResponseUndoRequest = (idRoom, isPlayer1SendThisRequest, isAccepted) => {
   socket.emit("emit response undo request", idRoom, isPlayer1SendThisRequest, isAccepted)
+ }
+
+
+// tie
+ export const emitRequestTie = (idRoom, isPlayer1SendThisRequest) =>{
+  socket.emit("emit request tie", idRoom, isPlayer1SendThisRequest)
+}
+
+export const emitResponseTieRequest = (idRoom, isPlayer1SendThisRequest, isAccepted) => {
+  socket.emit("emit response tie request", idRoom, isPlayer1SendThisRequest, isAccepted)
  }
 
  
