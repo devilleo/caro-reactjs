@@ -4,7 +4,6 @@ import "../App.css"
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css"
 // import '../../node_modules/font-awesome/css/font-awesome.min.css'; 
 import '../../node_modules/@fortawesome/fontawesome-free/css/all.css'
-
 import Navbar from "react-bootstrap/Navbar"
 import Nav from "react-bootstrap/Nav"
 import NavDropdown from "react-bootstrap/NavDropdown"
