@@ -35,6 +35,7 @@ import {
   roomInfo,
   message,
   findingAGame_state,
+  modalRequestUndo
 } from "./GameOnline_Reducers"
 
 export default combineReducers({
@@ -67,5 +68,6 @@ export default combineReducers({
   changePassword,
   roomInfo,
   message,
-  findingAGame_state
+  findingAGame_state,
+  modalRequestUndo
 })

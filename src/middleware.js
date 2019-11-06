@@ -35,7 +35,7 @@ import {
 } from "./actions/userProfile_actions"
 // import { square } from "./reducers/allReducers"
 // import { removeState } from "./localStorage/localStorage";
-import { emitToggleSquare, findingRoom } from "./Config/Socket"
+import { emitToggleSquare, findingRoom, emitRequestUndo } from "./Config/Socket"
 
 // condition for stop a game
 const isOver = (arr, index, value) => {
@@ -452,6 +452,10 @@ export default store => next => action => {
     case "UPDATE NEW BOARD FROM SERVER": {
       var tempBoard = Array(400).fill(0)
       const length = action.arrSquare.length
+      store.dispatch({
+        type: "UPDATE_HISTORY_TOGGLED",
+        history: action.arrSquare
+      })
       for (var i = 0; i < length - 1; i += 1) {
         if (i % 2 === 0) tempBoard[action.arrSquare[i]] = 1
         else tempBoard[action.arrSquare[i]] = 2
@@ -536,6 +540,17 @@ export default store => next => action => {
       const { userInfo } = store.getState()
       findingRoom(userInfo)
       next(action)
+    }
+    case "SEND_REQUEST_UNDO": {
+      const {historyOnline, roomInfo} = store.getState()
+      console.log("history online: ", historyOnline)
+      if (historyOnline.length < 2){
+        console.log("Now can not undo")
+        return
+      }
+      else{
+        emitRequestUndo(roomInfo.idRoom, roomInfo.areYouPlayer1)
+      }
     }
     // case "TOGGLE_HISTORY_ONLINE": {
     //   const { historyOnline } = store.getState()

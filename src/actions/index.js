@@ -123,3 +123,11 @@ export const toggleHistoryOnline = idHistory_ONLINE => ({
 export const clickFindingAGame = () => ({
   type: "IS_FINDING_A_GAME",
 })
+
+export const closeModalRequestUndo = () => ({
+  type: "CLOSE_MODALREQUESTUNDO"
+})
+
+export const sendRequestUndo = () => ({
+  type: "SEND_REQUEST_UNDO"
+})

@@ -49,7 +49,7 @@ const configureSocket = dispatch => {
     })
   })
   socket.on("response newest board", arrSquare => {
-    console.log(arrSquare)
+    console.log("kha: newest board: ", arrSquare)
     dispatch({
       type: "UPDATE NEW BOARD FROM SERVER",
       arrSquare: arrSquare
@@ -57,6 +57,7 @@ const configureSocket = dispatch => {
   })
   
   socket.on("response newest turn", newTurn => {
+    console.log("kha: newest turn:", newTurn)
     dispatch({
       type: "UPDATE NEW TURN FROM SERVER", 
       newTurn: newTurn
@@ -83,6 +84,34 @@ const configureSocket = dispatch => {
       type: "OUT_GAME"
     })
     console.log("cancel finding game...")
+  })
+
+  socket.on("enemy request a undo", () => {
+    ("nhan duoc response tu enemy")
+    dispatch({
+      type: "OPEN_MODALREQUESTUNDO"
+    })
+  })
+
+  socket.on("response undo request", (isAccepted,roomInfo) =>{
+    console.log("did enemy accept undo: ", isAccepted)
+    if (isAccepted === true){
+      dispatch({
+        type: "UPDATE NEW BOARD FROM SERVER",
+        arrSquare: roomInfo.listSquareTogged
+      })
+      dispatch({
+        type: "UPDATE NEW TURN FROM SERVER", 
+        newTurn: roomInfo.currentTurn
+      })
+    }
+  })
+
+  socket.on("response update square and current turn after accept undo", roomInfo => {
+    dispatch({
+      type: "response update square and current turn after accept undo",
+      roomInfo: roomInfo
+    })
   })
   
   return socket
@@ -113,5 +142,13 @@ export const emitWinner = (isPlayer1, idRoom) => {
 export const emitRestartGameAfterGameOver = (idRoom) => {
   socket.emit("emit restart game after game over", idRoom)
 }
+
+export const emitRequestUndo = (idRoom, isPlayer1SendThisRequest) =>{
+  socket.emit("emit request undo", idRoom, isPlayer1SendThisRequest)
+}
+
+export const emitResponseUndoRequest = (idRoom, isPlayer1SendThisRequest, isAccepted) => {
+  socket.emit("emit response undo request", idRoom, isPlayer1SendThisRequest, isAccepted)
+ }
 
 export default configureSocket

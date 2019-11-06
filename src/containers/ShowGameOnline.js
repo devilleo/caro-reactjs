@@ -6,7 +6,9 @@ import {
   changeSortHistoryOnline,
   messageOnchange,
   removeMessageInBoxAfterSend,
-  clickFindingAGame
+  clickFindingAGame,
+  closeModalRequestUndo,
+  sendRequestUndo
 } from "../actions"
 import GameOnline from "../components/GameOnline/GameOnline"
 import App from "../components/App"
@@ -19,7 +21,8 @@ const mapStateToProps = state => ({
   sortTypeHistoryOnline: state.sortTypeHistoryOnline,
   roomInfo: state.roomInfo,
   message: state.message,
-  findingAGame_state: state.findingAGame_state
+  findingAGame_state: state.findingAGame_state,
+  modalRequestUndo: state.modalRequestUndo
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -32,6 +35,9 @@ const mapDispatchToProps = dispatch => ({
   messageOnchange: message => dispatch(messageOnchange(message)),
   removeMessageInBoxAfterSend: () => dispatch(removeMessageInBoxAfterSend()),
   clickFindingAGame: () => dispatch(clickFindingAGame()),
+  closeModalRequestUndo: () => dispatch(closeModalRequestUndo()),
+  sendRequestUndo: () => dispatch(sendRequestUndo()),
+  
 })
 
 export default connect(

@@ -44,12 +44,30 @@ export const roomInfo = (state = {idRoom: -1, enemy: {}, areYouPlayer1: true, me
   }
 }
 
+export const modalRequestUndo = (state = false, action) => {
+  switch (action.type){
+    case "OPEN_MODALREQUESTUNDO":{
+      return true
+    }
+    case "CLOSE_MODALREQUESTUNDO":{
+      return false
+    }
+    case "OUT_GAME":{
+      return false
+    }
+    default: return state
+  }
+}
+
 export const message = (state = '', action) => {
   switch (action.type){
     case MESSAGE_CHAT.ON_CHANGE:{
       return action.message
     }
     case "removeMessageInBoxAfterSend":{
+      return ''
+    }
+    case "OUT_GAME":{
       return ''
     }
     default: return state
@@ -90,6 +108,20 @@ export const squareOnline = (state = Array(400).fill(0), action) => {
         stateClone[action.arrDraw[i]] = action.whoIsWinner===1? 3 : 4
       }
       console.log("state clone: ", stateClone)
+      return stateClone
+    }
+    case "response update square and current turn after accept undo":{
+      const length = action.roomInfo.listSquareTogged.length
+      var stateClone = Array(400).fill(0);
+      for (var i = 0; i<length; i+=1){
+        if (i%2===0){
+          stateClone[action.roomInfo.listSquareTogged[i]]= 1 
+        }
+        else {
+          stateClone[action.roomInfo.listSquareTogged[i]] = 2
+        }
+      }
+      console.log("State Clone: ", stateClone)
       return stateClone
     }
     case "OUT_GAME":
@@ -136,6 +168,9 @@ export const turnOnline = (state = true, action) => {
     case "RESET BOARD FOR NEW GAME":{
       return true
     }
+    case "response update square and current turn after accept undo":{
+      return action.roomInfo.currentTurn
+    }
     default:
       return state
   }
@@ -171,52 +206,15 @@ export const isPlayingOnline = (state = true, action) => {
   }
 }
 
-/* state historyOnline inclues:
-        I. [,,]
-          first param: list of history
-          second param: turn at that time
-          third param: the position was just toggled 
-        II. Array(400).fill(0)
-          param: the current board
-        III. 0
-          param: posision in history for focusing item history
-    */
-export const historyOnline = (state = [[], Array(400).fill(0), 0], action) => {
+export const historyOnline = (state = [], action) => {
   switch (action.type) {
-    case "TOGGLE_SQUARE_ONLINE":
-    case "TOGGLE_ONLINE_TURN": {
-      let stateClone = state.slice()
-      stateClone[1][action.id_ONLINE] = action.turn_ONLINE ? 1 : 2
-      let newHistory = [stateClone[1].slice(), action.turn_ONLINE, action.id_ONLINE]
-      stateClone[0].push(newHistory)
-      stateClone[2] = stateClone[0].length - 1
-      return stateClone
+    case "UPDATE_HISTORY_TOGGLED":{
+      console.log("history: ", action.history)
+      return action.history
     }
-
-    case "TOGGLE_HISTORY_ONLINE": {
-      const stateClone = state.slice()
-      stateClone[1] = []
-      stateClone[1] = stateClone[0][action.idHistory_ONLINE][0].slice()
-      stateClone[2] = action.idHistory_ONLINE
-      return stateClone
-    }
-    case "RESET_HISTORY_ONLINE": {
-      return [[], Array(400).fill(0), 0]
-    }
-    case "THE_LAST_UPDATE_IN_HISTORY_BEFORE_END_GAME_ONLINE": {
-      let stateClone = state.slice()
-      stateClone[1][action.id_ONLINE] = action.turn_ONLINE ? 3 : 4
-      action.arrDraw_ONLINE.forEach(element => {
-        stateClone[1][element] = action.turn_ONLINE ? 3 : 4
-      })
-      let newHistory = [stateClone[1].slice(), action.turn_ONLINE, action.id_ONLINE]
-      stateClone[0].push(newHistory)
-      stateClone[2] = stateClone[0].length - 1
-      // console.log(stateClone)
-      return stateClone
-    }
+    case "OUT_GAME":
     case HANDLE_CLICK.LOG_OUT: {
-      return [[], Array(400).fill(0), 0]
+      return []
     }
     default:
       return state

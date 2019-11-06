@@ -9,7 +9,9 @@ const ToolbarOnline = ({ props }) => {
     isPlayingOnline,
     clickRestartGameOnline,
     userInfo,
-    roomInfo
+    roomInfo,
+    sendRequestUndo,
+
   } = props
   return (
     <div className="col-md-4" id="toolbar">
@@ -36,8 +38,9 @@ const ToolbarOnline = ({ props }) => {
               <button
                 type="button"
                 className="btn btn-success"
+                onClick={() => sendRequestUndo()}
               >
-                Let me win!
+                Undo!
               </button>
             </div>
           </div>
@@ -45,10 +48,14 @@ const ToolbarOnline = ({ props }) => {
       </div>
       <div>
         {isPlayingOnline ? (
-          <h2>Lượt chơi: {turnOnline ? "X" : "O"}</h2>
+          <h3>Current turn: {turnOnline ? "X" : "O"}</h3>
         ) : (
-          <h2>{!turnOnline ? "X win" : "O win"}</h2>
+          <h3>{!turnOnline ? "X win" : "O win"}</h3>
         )}
+      </div>
+      <div>
+        <div>You: {roomInfo.areYouPlayer1? "X":"O"}</div>
+        <div>Your enemy: {roomInfo.areYouPlayer1? "O":"X"}</div>
       </div>
       <br />
       <div style={{ marginTop: "10px", marginBottom: "10px" }}>
